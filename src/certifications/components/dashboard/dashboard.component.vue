@@ -8,12 +8,22 @@ import footerContentComponent from '../../../public/components/footer-content.co
 </script>
 
 <template>
-    
+    <!--Toolbar-->
     <toolbarComponent/>
+
+    <!--Search Bar-->
     <searchFiltersComponent/>
+    
+    <!--New Certi Cars-->
     <newCertiCarsComponent/>
+
+    <!--Create Certificate-->
     <createCertificateComponent/>
+
+    <!--Brand Search-->
     <brandSearchComponent/>
+
+    <!--Footer-->
     <footerContentComponent/>
 </template>
 
