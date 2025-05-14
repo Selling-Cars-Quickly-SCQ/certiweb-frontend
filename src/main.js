@@ -2,9 +2,15 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 import PrimeVue from 'primevue/config';
-import 'primeicons/primeicons.css';
+
 import router from "./router/index.js";
-import Button from 'primevue/button'
+import InputText from 'primevue/inputtext';
+import Password from 'primevue/password';
+import Button from 'primevue/button';
+import SelectButton from 'primevue/selectbutton';
+import Message from 'primevue/message';
+import Card from 'primevue/card';
+import Steps from 'primevue/steps';
 import Toolbar from 'primevue/toolbar'
 import Avatar from 'primevue/avatar'
 import Select from 'primevue/select';
@@ -24,7 +30,13 @@ const i18n = createI18n({
 });
 
 const app = createApp(App);
-app.use(PrimeVue, { ripple: true });
+app.use(PrimeVue);
+app.component('pv-inputText', InputText);
+app.component('pv-password', Password);
+app.component('pv-selectButton', SelectButton);
+app.component('pv-message', Message);
+app.component('pv-card', Card);
+app.component('pv-steps', Steps);
 app.use(i18n);
 app.use(router);
 app.component('pv-button', Button);
