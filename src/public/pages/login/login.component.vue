@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 const router = useRouter();
 
@@ -9,6 +10,37 @@ const password = ref('');
 const errorMessage = ref('');
 const successMessage = ref('');
 const rememberMe = ref(false);
+
+const loadUsersFromDB = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/users');
+    const dbUsers = response.data;
+    
+    const localUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    
+    const emails = new Set(localUsers.map(user => user.email));
+    const combinedUsers = [...localUsers];
+    
+    dbUsers.forEach(dbUser => {
+      if (!emails.has(dbUser.email)) {
+        combinedUsers.push(dbUser);
+        emails.add(dbUser.email);
+      }
+    });
+    
+    // Actualizar localStorage
+    localStorage.setItem('users', JSON.stringify(combinedUsers));
+    
+    return combinedUsers;
+  } catch (error) {
+    console.error('Error al cargar usuarios desde db.json:', error);
+    return JSON.parse(localStorage.getItem('users') || '[]');
+  }
+};
+
+onMounted(async () => {
+  await loadUsersFromDB();
+});
 
 const validateForm = () => {
   if (!email.value || !password.value) {
@@ -26,7 +58,7 @@ const validateForm = () => {
   return true;
 };
 
-const handleLogin = () => {
+const handleLogin = async () => {
   errorMessage.value = '';
   successMessage.value = '';
   
@@ -34,7 +66,8 @@ const handleLogin = () => {
     return;
   }
   
-  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const users = await loadUsersFromDB();
+  
   const user = users.find(u => u.email === email.value);
   
   if (!user || user.password !== password.value) {
@@ -56,7 +89,7 @@ const handleLogin = () => {
   localStorage.setItem('currentSession', JSON.stringify(sessionData));
   
   setTimeout(() => {
-    router.push('/dashboard');
+    router.push('/');
   }, 1500);
 };
 
