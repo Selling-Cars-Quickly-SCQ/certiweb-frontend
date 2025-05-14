@@ -14,6 +14,8 @@ import Steps from 'primevue/steps';
 import Toolbar from 'primevue/toolbar'
 import Avatar from 'primevue/avatar'
 import Select from 'primevue/select';
+import Checkbox from 'primevue/checkbox';
+import CheckboxGroup from 'primevue/checkboxgroup';
 
 
 import { createI18n } from 'vue-i18n';
@@ -37,6 +39,8 @@ app.component('pv-selectButton', SelectButton);
 app.component('pv-message', Message);
 app.component('pv-card', Card);
 app.component('pv-steps', Steps);
+app.component('pv-checkbox', Checkbox);
+app.component('pv-checkboxgroup', CheckboxGroup);
 app.use(i18n);
 app.use(router);
 app.component('pv-button', Button);
