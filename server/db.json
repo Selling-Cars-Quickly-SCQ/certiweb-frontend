@@ -47,6 +47,13 @@
       "password": "123",
       "plan": "Mensual",
       "id": 3
+    },
+    {
+      "name": "Eric",
+      "email": "testo@gmail.com",
+      "password": "ddd",
+      "plan": "Free",
+      "id": 4
     }
   ]
 }
