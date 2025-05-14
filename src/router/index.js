@@ -8,9 +8,12 @@ import LoginComponent from '../public/pages/login/login.component.vue';
 const routes = [
   {
     path: '/',
-    path: '/dashboard',
     name: 'Dashboard',
     component: dashboardComponent
+  },
+  {
+    path: '/dashboard',
+    redirect: '/' 
   },
   {
     path: '/toolbar',
@@ -33,5 +36,26 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  const hasSession = !!localStorage.getItem('currentSession');
+
+  const publicPages = ['/register', '/login'];
+  const isPublicPage = publicPages.includes(to.path);
+
+  if (!hasSession) { 
+    if (isPublicPage) {
+      next();
+    } else {
+      next('/register');
+    }
+  } else {
+    if (to.path === '/register' || to.path === '/login') {
+      next('/');
+    } else {
+      next();
+    }
+  }
+});
 
 export default router
