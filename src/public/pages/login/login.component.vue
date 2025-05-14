@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { environment } from '@/environments/environment.development';
 
 const router = useRouter();
 
@@ -13,7 +14,7 @@ const rememberMe = ref(false);
 
 const loadUsersFromDB = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/users');
+    const response = await axios.get(`${environment.serverBasePath}/users`);
     const dbUsers = response.data;
     
     const localUsers = JSON.parse(localStorage.getItem('users') || '[]');
@@ -28,7 +29,6 @@ const loadUsersFromDB = async () => {
       }
     });
     
-    // Actualizar localStorage
     localStorage.setItem('users', JSON.stringify(combinedUsers));
     
     return combinedUsers;
