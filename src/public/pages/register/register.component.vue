@@ -22,6 +22,7 @@ const email = ref('');
 const password = ref('');
 
 const planOptions = ref([
+    { name: 'Free', value: 'Free' },
     { name: 'Mensual', value: 'Mensual' },
     { name: 'Anual', value: 'Anual' }
 ]);
@@ -85,7 +86,7 @@ const handleRegistration = async () => {
   errorMessage.value = '';
   successMessage.value = '';
 
-  if (!cardNumber.value || !expiryDate.value || !cvv.value) {
+  if (selectedPlan.value !== 'Free' && (!cardNumber.value || !expiryDate.value || !cvv.value)) {
     errorMessage.value = 'Por favor, completa los datos de pago (simulación).';
     return;
   }
@@ -184,6 +185,26 @@ const handleRegistration = async () => {
                 <div class="plans-container">
                   <div 
                     class="plan-card" 
+                    :class="{ 'selected': selectedPlan === 'Free' }"
+                    @click="selectedPlan = 'Free'"
+                  >
+                    <div class="plan-header">
+                      <i class="pi pi-users plan-icon"></i>
+                      <h3>Plan Free</h3>
+                    </div>
+                    <div class="plan-content">
+                      <p class="plan-price">$0.00<span>/siempre</span></p>
+                      <ul class="plan-features">
+                        <li><i class="pi pi-check"></i> Contacto con compradores</li>
+                        <li><i class="pi pi-check"></i> Visualización de catálogo</li>
+                        <li><i class="pi pi-times"></i> No permite reservas de autos</li>
+                        <li><i class="pi pi-times"></i> Funcionalidades limitadas</li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  <div 
+                    class="plan-card" 
                     :class="{ 'selected': selectedPlan === 'Mensual' }"
                     @click="selectedPlan = 'Mensual'"
                   >
@@ -228,8 +249,10 @@ const handleRegistration = async () => {
               <!-- Step 3: Payment Information -->
               <div v-if="currentStep === 2" class="step-content">
                 <h2 class="step-title">Información de Pago</h2>
-                <p class="payment-note">Esta es una simulación. No se procesará ningún pago real.</p>
+                <p class="payment-note" v-if="selectedPlan !== 'Free'">Esta es una simulación. No se procesará ningún pago real.</p>
+                <p class="payment-note" v-if="selectedPlan === 'Free'">Has seleccionado el plan gratuito. No se requiere información de pago.</p>
                 
+                <div v-if="selectedPlan !== 'Free'">
                 <div class="form-field">
                   <label for="cardNumber">Número de Tarjeta</label>
                   <span class="p-input-icon-left w-full">
@@ -261,9 +284,14 @@ const handleRegistration = async () => {
                   </div>
                   <div class="summary-row total">
                     <span>Total a pagar:</span>
-                    <span>{{ selectedPlan === 'Mensual' ? '$19.99' : '$199.99' }}</span>
+                    <span v-if="selectedPlan === 'Free'">$0.00</span>
+                    <span v-else-if="selectedPlan === 'Mensual'">$19.99</span>
+                    <span v-else-if="selectedPlan === 'Anual'">$199.99</span>
                   </div>
                 </div>
+
+              </div>
+                
               </div>
               
               <!-- Message Error or Correct -->
