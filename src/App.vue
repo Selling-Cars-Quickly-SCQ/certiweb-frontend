@@ -1,10 +1,10 @@
 <script setup>
-import dashboardComponent from './certifications/components/dashboard/dashboard.component.vue';
+
 </script>
 
 <template>
   <div id="app-container">
-    <dashboardComponent/>
+    <router-view/>
   </div>
 </template>
 

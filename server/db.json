@@ -1,13 +1,52 @@
 {
-    "posts": [
-        { "id": "1", "title": "a title", "views": 100 },
-        { "id": "2", "title": "another title", "views": 200 }
-    ],
-    "comments": [
-        { "id": "1", "text": "a comment about post 1", "postId": "1" },
-        { "id": "2", "text": "another comment about post 1", "postId": "1" }
-    ],
-    "profile": {
-        "name": "typicode"
+  "posts": [
+    {
+      "id": "1",
+      "title": "a title",
+      "views": 100
+    },
+    {
+      "id": "2",
+      "title": "another title",
+      "views": 200
     }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "text": "a comment about post 1",
+      "postId": "1"
+    },
+    {
+      "id": "2",
+      "text": "another comment about post 1",
+      "postId": "1"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "users": [
+    {
+      "name": "dd",
+      "email": "dd@gmail.com",
+      "password": "dddd",
+      "plan": "Anual",
+      "id": 1
+    },
+    {
+      "name": "TRIKITRAKATELAS",
+      "email": "xahid43956@uforks.com",
+      "password": "123",
+      "plan": "Anual",
+      "id": 2
+    },
+    {
+      "name": "Test",
+      "email": "test@gmail.com",
+      "password": "123",
+      "plan": "Mensual",
+      "id": 3
+    }
+  ]
 }
