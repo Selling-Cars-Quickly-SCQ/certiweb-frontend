@@ -85,7 +85,6 @@ const handleRegistration = async () => {
   errorMessage.value = '';
   successMessage.value = '';
 
-  // Payment simulation
   if (!cardNumber.value || !expiryDate.value || !cvv.value) {
     errorMessage.value = 'Por favor, completa los datos de pago (simulación).';
     return;
@@ -100,6 +99,20 @@ const handleRegistration = async () => {
 
   try {
     await registerService.registerUser(userData);
+    
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    
+    if (users.some(user => user.email === userData.email)) {
+      const updatedUsers = users.map(user => 
+        user.email === userData.email ? { ...user, ...userData, id: user.id } : user
+      );
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
+    } else {
+      const newUser = { ...userData, id: Date.now() };
+      users.push(newUser);
+      localStorage.setItem('users', JSON.stringify(users));
+    }
+    
     successMessage.value = '¡Registro exitoso! Serás redirigido al login.';
     name.value = '';
     email.value = '';
@@ -110,13 +123,12 @@ const handleRegistration = async () => {
     cvv.value = '';
     currentStep.value = 0;
     setTimeout(() => {
-      // router.push('/login');
+      router.push('/login'); 
     }, 3000);
   } catch (error) {
     errorMessage.value = 'Error al registrar. El correo podría ya estar en uso o el servidor no está disponible.';
   }
 };
-
 </script>
 
 <template>
