@@ -130,6 +130,10 @@ const handleRegistration = async () => {
     errorMessage.value = 'Error al registrar. El correo podría ya estar en uso o el servidor no está disponible.';
   }
 };
+
+const goToLogin = () => {
+  router.push('/login');
+};
 </script>
 
 <template>
@@ -324,6 +328,17 @@ const handleRegistration = async () => {
                   class="p-button-primary" 
                 />
               </div>
+              
+              <!-- Login redirect -->
+              <div class="login-prompt">
+                <p>¿Ya tienes una cuenta?</p>
+                <pv-button 
+                  type="button" 
+                  label="Inicia sesión" 
+                  class="p-button-text login-link" 
+                  @click="goToLogin"
+                />
+              </div>
             </form>
           </template>
         </pv-card>
@@ -432,6 +447,30 @@ const handleRegistration = async () => {
   .step-content {
     padding: 2rem;
     animation: fadeIn 0.5s ease;
+  }
+  /* Login prompt */
+  .login-prompt {
+    margin-top: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 2rem 2rem;
+  }
+  
+  .login-prompt p {
+    color: #64748b;
+    margin-bottom: 0.5rem;
+  }
+  
+  :deep(.login-link) {
+    color: #1e4d2b;
+    font-weight: 600;
+  }
+  
+  :deep(.login-link:hover) {
+    background-color: rgba(30, 77, 43, 0.1);
+    color: #1e4d2b;
   }
   
   @keyframes fadeIn {
