@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 import PrimeVue from 'primevue/config';
-
+import 'primeicons/primeicons.css';
 import router from "./router/index.js";
 import InputText from 'primevue/inputtext';
 import Password from 'primevue/password';
@@ -16,7 +16,7 @@ import Avatar from 'primevue/avatar'
 import Select from 'primevue/select';
 import Checkbox from 'primevue/checkbox';
 import CheckboxGroup from 'primevue/checkboxgroup';
-
+import Dialog from 'primevue/dialog';
 
 import { createI18n } from 'vue-i18n';
 import englishMessages from './assets/i18n/en.json'; 
@@ -41,6 +41,7 @@ app.component('pv-card', Card);
 app.component('pv-steps', Steps);
 app.component('pv-checkbox', Checkbox);
 app.component('pv-checkboxgroup', CheckboxGroup);
+app.component('pv-dialog', Dialog);
 app.use(i18n);
 app.use(router);
 app.component('pv-button', Button);
