@@ -89,7 +89,7 @@ const navigateTo = (route) => {
           <i class="pi pi-user"></i>
           <span>Perfil</span>
         </div>
-        <div class="menu-option" @click="navigateTo('/historial')">
+        <div class="menu-option" @click="navigateTo('/history')">
           <i class="pi pi-history"></i>
           <span>Historial</span>
         </div>
