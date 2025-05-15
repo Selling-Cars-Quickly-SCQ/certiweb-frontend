@@ -39,21 +39,24 @@ const navigateTo = (route) => {
   router.push(route);
   visible.value = false;
 };
+
+const navigateToHome = () => {
+  router.push('/');
+};
 </script>
 
 <template>
   <div class="toolbar-container">
     <pv-toolbar class="custom-toolbar">
-      <!-- Left side - Logo and Navigation Links -->
       <template #start>
         <div class="left-container">
-          <div class="logo-container">
+          <div class="logo-container" @click="navigateToHome" style="cursor: pointer;">
             <img :src="certiwebLogo" alt="CertiWeb Logo" class="logo">
           </div>
           <div class="nav-links">
             <pv-button label="Nuevos autos" class="p-button-text nav-link" />
             <pv-button label="Autos Certificados en venta" class="p-button-text nav-link" />
-            <pv-button label="Certifica tu auto" class="p-button-text nav-link" />
+            <pv-button label="Certifica tu auto" class="p-button-text nav-link" @click="navigateTo('/reservation')" />
             <pv-button label="Guardados" class="p-button-text nav-link" />
           </div>
         </div>

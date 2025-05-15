@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const certificationRoute = '/certificacion';
+const certificationRoute = '/reservation';
 
 const bannerData = ref({
   title: 'Sabemos que tu carro es importante',
