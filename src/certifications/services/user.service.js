@@ -10,8 +10,23 @@ export const userService = {
         throw new Error('No hay sesión activa');
       }
       
-      const response = await axios.get(`${environment.serverBasePath}/users/${sessionData.userId}`);
-      return response.data;
+      try {
+        const response = await axios.get(`${environment.serverBasePath}/users/${sessionData.userId}`);
+        return response.data;
+      } catch (error) {
+        
+        if (sessionData.email) {
+          const usersResponse = await axios.get(`${environment.serverBasePath}/users?email=${sessionData.email}`);
+          if (usersResponse.data && usersResponse.data.length > 0) {
+            const user = usersResponse.data[0];
+    
+            sessionData.userId = user.id;
+            localStorage.setItem('currentSession', JSON.stringify(sessionData));
+            return user;
+          }
+        }
+        throw error;
+      }
     } catch (error) {
       console.error("Error al obtener el usuario actual:", error.response ? error.response.data : error.message);
       
