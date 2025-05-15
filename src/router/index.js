@@ -5,6 +5,8 @@ import dashboardComponent from '../certifications/components/dashboard/dashboard
 import RegisterComponent from '../public/pages/register/register.component.vue';
 import LoginComponent from '../public/pages/login/login.component.vue';
 import profileComponent from '../public/pages/profile/profile.component.vue';
+import reservationComponent from '../certifications/components/reservation/reservation.component.vue';
+import historyComponent from '../public/pages/history/history.component.vue';
 
 const routes = [
   {
@@ -35,6 +37,16 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: profileComponent
+  },
+  {
+    path: '/reservation',
+    name: 'Reservation',
+    component: reservationComponent
+  },
+  {
+    path: '/history',
+    name: 'History',
+    component: historyComponent
   }
 ]
 
