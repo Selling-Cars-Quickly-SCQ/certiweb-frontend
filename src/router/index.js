@@ -4,6 +4,7 @@ import toolbarComponent from '../certifications/components/dashboard/toolbar/too
 import dashboardComponent from '../certifications/components/dashboard/dashboard.component.vue';
 import RegisterComponent from '../public/pages/register/register.component.vue';
 import LoginComponent from '../public/pages/login/login.component.vue';
+import profileComponent from '../public/pages/profile/profile.component.vue';
 
 const routes = [
   {
@@ -29,6 +30,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: LoginComponent
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: profileComponent
   }
 ]
 
