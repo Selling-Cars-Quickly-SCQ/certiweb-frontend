@@ -39,7 +39,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory("/certiweb-app/"),
+  history: createWebHistory("/certiweb-frontend/"),
   routes
 })
 
