@@ -4,9 +4,9 @@ import axios from "axios";
 export class ImgbbApiService {
     
     /**
-     * Sube una imagen a ImgBB
-     * @param {File} imageFile - Archivo de imagen a subir
-     * @returns {Promise<Object>} - Respuesta de la API con la URL de la imagen
+     * Upload an image to ImgBB
+     * @param {File} imageFile - Image file to upload
+     * @returns {Promise<Object>} - API response with the image URL
      */
     async uploadImage(imageFile) {
         try {
@@ -23,8 +23,8 @@ export class ImgbbApiService {
                 throw new Error(`Error al subir imagen: ${response.statusText}`);
             }
             
-            const data = await response.json(); // Aquí se convierte la respuesta de ImgBB a un objeto JavaScript (JSON parseado)
-            return data.data; // Devuelve la parte "data" del JSON de ImgBB, que contiene las URLs
+            const data = await response.json(); 
+            return data.data;
         } catch (error) {
             console.error('Error en la carga de imagen:', error);
             throw error;
@@ -32,5 +32,4 @@ export class ImgbbApiService {
     }
 }
 
-// Crear una instancia para exportar
 export const imgbbApiService = new ImgbbApiService();
