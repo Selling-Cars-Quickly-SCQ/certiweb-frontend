@@ -22,6 +22,9 @@ import DatePicker from 'primevue/datepicker';
 import ToastService from 'primevue/toastservice';
 import Toast from 'primevue/toast';
 import ProgressSpinner from 'primevue/progressspinner';
+import Carousel from 'primevue/carousel';
+import InputNumber from 'primevue/inputnumber';
+import Textarea from 'primevue/textarea';
 
 import { createI18n } from 'vue-i18n';
 import englishMessages from './assets/i18n/en.json'; 
@@ -60,5 +63,8 @@ app.component('pv-toolbar', Toolbar);
 app.component('pv-avatar', Avatar);
 app.component('pv-select', Select);
 app.component('pv-progress-spinner', ProgressSpinner);
+app.component('pv-carousel', Carousel);
+app.component('pv-input-number', InputNumber);
+app.component('pv-textarea', Textarea);
 
 app.mount('#app');
