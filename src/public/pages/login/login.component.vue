@@ -14,10 +14,13 @@ const rememberMe = ref(false);
 
 const loadUsersFromDB = async () => {
   try {
-    const response = await axios.get(`${environment.serverBasePath}/users`);
-    const dbUsers = response.data;
+    const responseUsers = await axios.get(`${environment.serverBasePath}/users`);
+    const responseAdminUsers = await axios.get(`${environment.serverBasePath}/admin_user`);
+    const dbUsers = responseUsers.data;
+    const dbAdminUsers = responseAdminUsers.data;
     
     const localUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    const localAdminUsers = JSON.parse(localStorage.getItem('admin_users') || '[]');
     
     const emails = new Set(localUsers.map(user => user.email));
     const combinedUsers = [...localUsers];
@@ -28,13 +31,25 @@ const loadUsersFromDB = async () => {
         emails.add(dbUser.email);
       }
     });
-    
     localStorage.setItem('users', JSON.stringify(combinedUsers));
+
+    const adminEmails = new Set(localAdminUsers.map(user => user.email));
+    const combinedAdminUsers = [...localAdminUsers];
+    dbAdminUsers.forEach(dbAdminUser => {
+      if (!adminEmails.has(dbAdminUser.email)) {
+        combinedAdminUsers.push(dbAdminUser);
+        adminEmails.add(dbAdminUser.email);
+      }
+    });
+    localStorage.setItem('admin_users', JSON.stringify(combinedAdminUsers));
     
-    return combinedUsers;
+    return { users: combinedUsers, admins: combinedAdminUsers };
   } catch (error) {
     console.error('Error al cargar usuarios desde db.json:', error);
-    return JSON.parse(localStorage.getItem('users') || '[]');
+    return {
+      users: JSON.parse(localStorage.getItem('users') || '[]'),
+      admins: JSON.parse(localStorage.getItem('admin_users') || '[]')
+    };
   }
 };
 
@@ -66,13 +81,21 @@ const handleLogin = async () => {
     return;
   }
   
-  const users = await loadUsersFromDB();
+  const { users, admins } = await loadUsersFromDB();
   
-  const user = users.find(u => u.email === email.value);
-  
-  if (!user || user.password !== password.value) {
-    errorMessage.value = 'Credenciales incorrectas. Por favor, verifica tu correo y contraseña.';
-    return;
+  let user = users.find(u => u.email === email.value);
+  let isAdmin = false;
+
+  if (user && user.password === password.value) {
+    isAdmin = false;
+  } else {
+    user = admins.find(u => u.email === email.value);
+    if (user && user.password === password.value) {
+      isAdmin = true;
+    } else {
+      errorMessage.value = 'Credenciales incorrectas. Por favor, verifica tu correo y contraseña.';
+      return;
+    }
   }
   
   successMessage.value = '¡Inicio de sesión exitoso! Redirigiendo...';
@@ -83,13 +106,18 @@ const handleLogin = async () => {
     name: user.name,
     plan: user.plan,
     isLoggedIn: true,
+    isAdmin: isAdmin,
     lastLogin: new Date().toISOString()
   };
   
   localStorage.setItem('currentSession', JSON.stringify(sessionData));
   
   setTimeout(() => {
-    router.push('/');
+    if (isAdmin) {
+      router.push('/admin-certification');
+    } else {
+      router.push('/');
+    }
   }, 1500);
 };
 
