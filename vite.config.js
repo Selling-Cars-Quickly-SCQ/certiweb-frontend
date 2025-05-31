@@ -6,7 +6,7 @@ import { resolve } from 'path'
 export default defineConfig({
   base: '/certiweb-frontend/',
   server: {
-    port: 3000 
+    port: 5173 
   },
   plugins: [vue()],
   resolve: {
