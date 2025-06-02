@@ -40,7 +40,6 @@
   };
   
   const formatCurrency = (value) => {
-    
     const numValue = typeof value === 'string' ? parseFloat(value) : value;
     if (typeof numValue !== 'number' || isNaN(numValue)) {
       return value;
@@ -55,125 +54,133 @@
 
 <template>
     <div class="car-list-container p-d-flex p-flex-column p-ai-center">
-      <h2 class="p-mb-4">Autos Certificados</h2>
+      <h2 class="p-mb-4">Certified Cars</h2>
       <div v-if="loading" class="p-d-flex p-jc-center p-ai-center" style="height: 200px;">
         <pv-progress-spinner />
       </div>
       <div v-else-if="error" class="p-error p-text-center">
-        <p>Error al cargar los autos: {{ error.message }}</p>
+        <p>Error loading cars: {{ error.message }}</p>
       </div>
       <div v-else-if="cars.length === 0" class="p-text-center">
-        <p>No hay autos certificados disponibles en este momento.</p>
+        <p>No certified cars available at the moment.</p>
       </div>
-      <div v-else class="p-grid p-justify-center">
-        <div v-for="car in cars" :key="car.id" class="p-col-12 p-md-6 p-lg-4 p-xl-3">
-          <pv-card class="car-card p-mb-3" @click="navigateToCarDetail(car.id)" style="cursor: pointer;">
-            <template #header>
-              <img :alt="car.marca + ' ' + car.modelo" :src="getPhotoUrl(car)" class="car-image" />
-            </template>
-            <template #title>
-              {{ car.marca }} {{ car.modelo }}
-            </template>
-            <template #subtitle>
-              Año: {{ car.ano }}
-            </template>
-            <template #content>
-              <p><strong>Precio:</strong> {{ formatCurrency(car.price) }}</p>
-              <p><strong>Propietario:</strong> {{ car.propietario }}</p>
-            </template>
-          </pv-card>
-        </div>
+      <div v-else class="car-grid">
+        <pv-card v-for="car in cars" :key="car.id" class="car-card" @click="navigateToCarDetail(car.id)">
+          <template #header>
+            <img :src="getPhotoUrl(car)" :alt="car.model" class="car-image" />
+          </template>
+          <template #title>
+            <div class="car-title">{{ car.title }}</div>
+          </template>
+          <template #subtitle>
+            <div class="car-brand-model">{{ car.brand }} - {{ car.model }}</div>
+            <div class="car-year">Year: {{ car.year }}</div>
+          </template>
+          <template #content>
+            <p class="car-description">{{ car.description ? car.description.substring(0, 100) + '...' : 'No description available' }}</p>
+            <div class="car-owner">Owner: {{ car.owner }}</div>
+          </template>
+          <template #footer>
+            <div class="car-price">{{ formatCurrency(car.price) }}</div>
+            <pv-button label="View Details" icon="pi pi-search" class="p-button-sm" />
+          </template>
+        </pv-card>
       </div>
     </div>
 </template>
-  
+
 <style scoped>
 .car-list-container {
   padding: 2rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  min-height: 100vh;
 }
 
-.car-list-container h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #2c3e50;
-  text-align: center;
-  margin-bottom: 3rem;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.car-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  
 }
 
 .car-card {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 16px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
   overflow: hidden;
-  background: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
+  background-color: #eaeaea;
 }
 
 .car-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  border-color: #3498db;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .car-image {
   width: 100%;
-  height: 220px;
+  height: 200px;
   object-fit: cover;
-  transition: transform 0.3s ease;
 }
 
-.car-card:hover .car-image {
-  transform: scale(1.05);
+.car-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #333;
 }
 
-.car-card .p-card-title {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #2c3e50;
+.car-brand-model {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.25rem;
+}
+
+.car-year {
+  font-size: 0.9rem;
+  color: #777;
   margin-bottom: 0.5rem;
 }
 
-.car-card .p-card-subtitle {
-  color: #7f8c8d;
-  font-weight: 500;
+.car-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+  min-height: 40px;
+}
+
+.car-owner {
+  font-size: 0.85rem;
+  color: #888;
+  font-style: italic;
   margin-bottom: 1rem;
 }
 
-.car-card .p-card-content p {
-  margin: 0.5rem 0;
-  color: #34495e;
-  font-size: 0.95rem;
+.car-price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 0.5rem;
 }
 
-.car-card .p-card-content strong {
-  color: #2c3e50;
-  font-weight: 600;
+:deep(.p-card-body) {
+  padding: 1rem;
 }
 
-/* Grid improvements */
-.p-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-  margin: 0;
-  padding: 0;
+:deep(.p-card-title) {
+  font-size: 1.2rem;
 }
 
-.p-col-12, .p-col-md-6, .p-col-lg-4, .p-col-xl-3 {
-  padding: 0;
+:deep(.p-card-subtitle) {
+  margin-bottom: 0.5rem;
 }
 
-/* Loading and error states */
-.p-error {
-  background: #fee;
-  border: 1px solid #fcc;
-  border-radius: 12px;
-  padding: 2rem;
-  color: #c33;
-  font-weight: 500;
+:deep(.p-card-content) {
+  padding-top: 0;
+  padding-bottom: 0.5rem;
+}
+
+:deep(.p-card-footer) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.5rem;
 }
 </style>
