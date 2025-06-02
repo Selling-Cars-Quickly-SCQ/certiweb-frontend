@@ -55,7 +55,7 @@ const navigateToHome = () => {
           </div>
           <div class="nav-links">
             <pv-button label="Nuevos autos" class="p-button-text nav-link" />
-            <pv-button label="Autos Certificados en venta" class="p-button-text nav-link" />
+            <pv-button label="Autos Certificados en venta" class="p-button-text nav-link" @click="navigateTo('/cars')"/>
             <pv-button label="Certifica tu auto" class="p-button-text nav-link" @click="navigateTo('/reservation')" />
             <pv-button label="Guardados" class="p-button-text nav-link" />
           </div>
@@ -96,11 +96,11 @@ const navigateToHome = () => {
           <i class="pi pi-history"></i>
           <span>Historial</span>
         </div>
-        <div class="menu-option" @click="navigateTo('/soporte')">
+        <div class="menu-option" @click="navigateTo('/support')">
           <i class="pi pi-question-circle"></i>
           <span>Soporte</span>
         </div>
-        <div class="menu-option" @click="navigateTo('/terminos')">
+        <div class="menu-option" @click="navigateTo('/terms-and-conditions')">
           <i class="pi pi-file"></i>
           <span>Términos de uso</span>
         </div>
