@@ -1,71 +1,145 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
+
+const hoveredBrand = ref(null)
 
 const popularBrands = ref([
   {
     id: 1,
     name: 'Audi',
-    logo: '/assets/brands/audi-logo.png', 
-    searchRoute: '/busqueda/marca/audi'
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/9/92/Audi-Logo_2016.svg',
+    searchRoute: '/busqueda/marca/audi',
+    color: '#BB0A30'
   },
   {
     id: 2,
     name: 'Mercedes-Benz',
-    logo: '/assets/brands/mercedes-logo.png', 
-    searchRoute: '/busqueda/marca/mercedes'
+    logo: 'https://www.pngarts.com/files/3/Mercedes-Benz-Logo-PNG-Photo.png',
+    searchRoute: '/busqueda/marca/mercedes',
+    color: '#00ADEF'
   },
   {
     id: 3,
     name: 'BMW',
-    logo: '/assets/brands/bmw-logo.png',
-    searchRoute: '/busqueda/marca/bmw'
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg',
+    searchRoute: '/busqueda/marca/bmw',
+    color: '#0066B2'
   },
   {
     id: 4,
     name: 'Volkswagen',
-    logo: '/assets/brands/volkswagen-logo.png', 
-    searchRoute: '/busqueda/marca/volkswagen'
+    logo: 'https://cdn.worldvectorlogo.com/logos/volkswagen-10.svg',
+    searchRoute: '/busqueda/marca/volkswagen',
+    color: '#001E50'
   }
-]);
+])
 
 const navigateToBrandSearch = (route) => {
-  router.push(route);
-};
+  router.push(route)
+}
 
 const goToHome = () => {
-  router.push('/');
-};
+  router.push('/')
+}
+
+const setHoveredBrand = (brandId) => {
+  hoveredBrand.value = brandId
+}
+
+const clearHoveredBrand = () => {
+  hoveredBrand.value = null
+}
 </script>
 
 <template>
-  <section class="popular-brands-section">
-    <div class="popular-brands-container">
-      <h2 class="section-title">Marcas mas buscadas por los usuarios</h2>
-      
-      <div class="brands-grid">
-        <div 
-          v-for="brand in popularBrands" 
-          :key="brand.id" 
-          class="brand-item"
-          @click="navigateToBrandSearch(brand.searchRoute)"
-        >
-          <div class="brand-logo-container">
-            <img 
-              :src="brand.logo" 
-              :alt="`Logo de ${brand.name}`" 
-              class="brand-logo"
-              @error="$event.target.src = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=100&width=100'"
-            />
-          </div>
-          <span class="brand-name" v-if="brand.name === 'Audi'">{{ brand.name }}</span>
-        </div>
+  <section class="brand-search-section">
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h2 class="title">Marcas más buscadas</h2>
+        <p class="subtitle">
+          Descubre los vehículos de las marcas más populares entre nuestros usuarios
+        </p>
       </div>
-      
-      <div class="back-to-home">
-        <pv-button class="home-button" @click="goToHome">
+
+      <!-- Brands Grid -->
+      <div class="brands-grid">
+        <pv-card
+          v-for="brand in popularBrands"
+          :key="brand.id"
+          class="brand-card"
+          @click="navigateToBrandSearch(brand.searchRoute)"
+          @mouseenter="setHoveredBrand(brand.id)"
+          @mouseleave="clearHoveredBrand"
+        >
+          <template #content>
+            <div class="brand-content">
+              <!-- Logo Container -->
+              <div class="logo-container">
+                <div 
+                  class="logo-circle"
+                  :style="{
+                    background: hoveredBrand === brand.id
+                      ? `linear-gradient(135deg, ${brand.color}15, ${brand.color}25)`
+                      : 'linear-gradient(135deg, #f8fafc, #e2e8f0)'
+                  }"
+                >
+                  <img
+                    :src="brand.logo"
+                    :alt="`Logo de ${brand.name}`"
+                    class="brand-logo"
+                    @error="$event.target.src = '/placeholder.svg?height=80&width=80'"
+                  />
+                </div>
+
+                <!-- Decorative ring -->
+                <div
+                  class="decorative-ring"
+                  :class="{ active: hoveredBrand === brand.id }"
+                  :style="{ borderColor: brand.color }"
+                />
+              </div>
+
+              <!-- Brand Name -->
+              <div class="brand-info">
+                <h3
+                  class="brand-name"
+                  :style="{
+                    color: hoveredBrand === brand.id ? brand.color : '#1e293b'
+                  }"
+                >
+                  {{ brand.name }}
+                </h3>
+
+                <!-- Search indicator -->
+                <div class="search-indicator">
+                  <i class="pi pi-search"></i>
+                  <span>Ver vehículos</span>
+                </div>
+              </div>
+
+              <!-- Hover effect bar -->
+              <div
+                class="hover-bar"
+                :class="{ active: hoveredBrand === brand.id }"
+                :style="{ backgroundColor: brand.color }"
+              />
+            </div>
+          </template>
+        </pv-card>
+      </div>
+
+      <!-- Back to Home Button -->
+      <div class="back-home">
+        <pv-button
+          @click="goToHome"
+          class="home-button"
+          outlined
+          size="large"
+        >
           <i class="pi pi-chevron-up"></i>
           <span>Volver al inicio</span>
         </pv-button>
@@ -75,121 +149,190 @@ const goToHome = () => {
 </template>
 
 <style scoped>
-.popular-brands-section {
+.brand-search-section {
   width: 100%;
-  background-color: #f5f0e1;
-  padding: 3rem 1rem;
+  padding: 4rem 1rem;
+  min-height: 60vh;
 }
 
-.popular-brands-container {
-  max-width: 1280px;
+.container {
+  max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-.section-title {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #1b4332;
-  margin-bottom: 2.5rem;
+/* Header Styles */
+.header {
   text-align: center;
+  margin-bottom: 3rem;
 }
 
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #1e293b, #475569);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: #64748b;
+  max-width: 32rem;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Brands Grid */
 .brands-grid {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 2.5rem;
-  width: 100%;
-  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
 }
 
-.brand-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.brand-card {
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: none;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.brand-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.brand-content {
+  padding: 2rem;
+  text-align: center;
   position: relative;
 }
 
-.brand-item:hover {
-  transform: translateY(-5px);
+/* Logo Styles */
+.logo-container {
+  position: relative;
+  margin-bottom: 1.5rem;
 }
 
-.brand-item::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%) scaleX(0);
-  width: 80%;
-  height: 3px;
-  background-color: #1b4332;
-  transition: transform 0.3s ease;
-  border-radius: 2px;
-}
-
-.brand-item:hover::after {
-  transform: translateX(-50%) scaleX(1);
-}
-
-.brand-logo-container {
-  width: 120px;
-  height: 120px;
+.logo-circle {
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto;
+  border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-bottom: 0.5rem;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.brand-card:hover .logo-circle {
+  transform: scale(1.1);
 }
 
 .brand-logo {
-  max-width: 100%;
-  max-height: 100%;
+  width: 5rem;
+  height: 5rem;
   object-fit: contain;
-  transition: filter 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.brand-item:hover .brand-logo {
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+.brand-card:hover .brand-logo {
+  transform: scale(1.1);
+}
+
+.decorative-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.decorative-ring.active {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Brand Info */
+.brand-info {
+  margin-bottom: 1rem;
 }
 
 .brand-name {
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: #c41e3a;
-  margin-top: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
 }
 
-.back-to-home {
-  margin-top: 2rem;
+.search-indicator {
   display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #64748b;
+  transition: color 0.3s ease;
+}
+
+.brand-card:hover .search-indicator {
+  color: #475569;
+}
+
+.search-indicator i {
+  font-size: 1rem;
+}
+
+/* Hover Bar */
+.hover-bar {
+  height: 4px;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform: scaleX(0);
+  transform-origin: center;
+}
+
+.hover-bar.active {
+  transform: scaleX(1);
+}
+
+/* Back Home Button */
+.back-home {
+  text-align: center;
 }
 
 .home-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: none;
-  border: none;
-  color: #1b4332;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid #e2e8f0 !important;
+  color: #1e293b !important;
+  padding: 0.75rem 1.5rem !important;
+  font-size: 1rem !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  margin-left: 500px;
 }
 
 .home-button:hover {
-  background-color: rgba(27, 67, 50, 0.1);
+  background: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+  transform: translateY(-2px) !important;
 }
 
 .home-button i {
-  font-size: 1.2rem;
-  margin-bottom: 0.25rem;
+  font-size: 1.25rem;
   transition: transform 0.3s ease;
 }
 
@@ -197,44 +340,71 @@ const goToHome = () => {
   transform: translateY(-3px);
 }
 
-/* Responsive adjustments */
+/* Responsive Design */
 @media (max-width: 768px) {
-  .brands-grid {
-    gap: 1.5rem;
-  }
-  
-  .brand-logo-container {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .section-title {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .popular-brands-section {
+  .brand-search-section {
     padding: 2rem 1rem;
   }
   
-  .brands-grid {
-    gap: 1rem;
+  .title {
+    font-size: 2rem;
   }
   
-  .brand-logo-container {
-    width: 80px;
-    height: 80px;
-  }
-  
-  .brand-name {
+  .subtitle {
     font-size: 1rem;
   }
   
-  .section-title {
-    font-size: 1.3rem;
-    margin-bottom: 1.5rem;
+  .brands-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
   }
+  
+  .brand-content {
+    padding: 1.5rem;
+  }
+  
+  .logo-circle {
+    width: 6rem;
+    height: 6rem;
+  }
+  
+  .brand-logo {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .brands-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .brand-content {
+    padding: 1rem;
+  }
+  
+  .logo-circle {
+    width: 5rem;
+    height: 5rem;
+  }
+  
+  .brand-logo {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+  }
+}
+
+/* PrimeVue Card Override */
+:deep(.p-card-content) {
+  padding: 0 !important;
+}
+
+:deep(.p-card-body) {
+  padding: 0 !important;
 }
 </style>
