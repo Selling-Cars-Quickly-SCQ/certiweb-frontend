@@ -10,7 +10,7 @@ const bannerData = ref({
   title: 'Sabemos que tu carro es importante',
   description: 'Certifica tu auto y obten una inspeccion que pondra mas valor y confiansa a la hora de venderlo.',
   buttonText: 'Obten tu certificado!',
-  carImage: '/assets/kia-rio-red.jpg'
+  carImage: 'https://img.freepik.com/foto-gratis/coche-lujoso-estacionado-carretera-faro-iluminado-al-atardecer_181624-60607.jpg?semt=ais_hybrid&w=740'
 });
 
 const navigateToCertification = () => {
@@ -26,7 +26,6 @@ const navigateToCertification = () => {
           :src="bannerData.carImage" 
           alt="Kia Rio Rojo" 
           class="car-image"
-          @error="$event.target.src = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=450'"
         />
       </div>
       
