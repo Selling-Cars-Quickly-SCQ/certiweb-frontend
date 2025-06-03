@@ -1,12 +1,13 @@
 <script setup>
   import { ref, onMounted } from 'vue';
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
   import { carService } from '../../../certifications/services/car.service';
   
   const cars = ref([]);
   const loading = ref(true);
   const error = ref(null);
   const router = useRouter();
+  const route = useRoute();
   
   const fetchCars = async () => {
     try {
@@ -16,8 +17,30 @@
       const carsData = await carService.getAllCars();
       
       if (Array.isArray(carsData)) {
-        cars.value = carsData;
-        console.log('Cars loaded:', carsData);
+        const brandQuery = route.query.brand ? route.query.brand.toLowerCase() : null;
+        const modelQuery = route.query.model ? route.query.model.toLowerCase() : null;
+
+        if (brandQuery || modelQuery) {
+          cars.value = carsData.filter(car => {
+            const carBrand = car.brand ? car.brand.toLowerCase() : '';
+            const carModel = car.model ? car.model.toLowerCase() : '';
+
+            let matchesBrand = true;
+            if (brandQuery) {
+              matchesBrand = carBrand === brandQuery;
+            }
+
+            let matchesModel = true;
+            if (modelQuery) {
+              matchesModel = carModel === modelQuery;
+            }
+            return matchesBrand && matchesModel;
+          });
+          console.log('Cars filtered by query:', cars.value);
+        } else {
+          cars.value = carsData;
+          console.log('All cars loaded:', carsData);
+        }
       } else {
         console.warn('Fetched data is not an array:', carsData);
         cars.value = [];
