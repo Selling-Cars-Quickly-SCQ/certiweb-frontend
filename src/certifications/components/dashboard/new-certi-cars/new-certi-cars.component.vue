@@ -8,7 +8,7 @@ const certifiedCars = ref([
   {
     id: 1,
     name: 'BMW Serie 4',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=450',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYVcLx4pGvnOpKwlHUU49s8jkRkJDGVxaiDw&s',
     color: 'Azul Metálico',
     price: '45.900€',
     route: '/car/bmw-serie-4'
@@ -16,15 +16,15 @@ const certifiedCars = ref([
   {
     id: 2,
     name: 'Ford Mustang GT',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=450',
-    color: 'Naranja',
+    image: 'https://www.vdm.ford.com/content/dam/na/ford/en_us/images/mustang/2025/jellybeans/Ford_Mustang_2025_200A_PJS_883_89W_13B_COU_64F_99H_44U_EBST_YZTAC_DEFAULT_EXT_4.png',
+    color: 'Gris',
     price: '52.500€',
     route: '/car/ford-mustang'
   },
   {
     id: 3,
     name: 'Kia Niro',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=450',
+    image: 'https://cdn.motor1.com/images/mgl/ojyBzq/s3/kia-niro-2025.jpg',
     color: 'Rojo',
     price: '32.750€',
     route: '/car/kia-niro'
@@ -32,7 +32,7 @@ const certifiedCars = ref([
   {
     id: 4,
     name: 'Kia Sportage',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=450',
+    image: 'https://s3.amazonaws.com/kia-greccomotors/Sportage_blanca_01_9a1ad740c7.png',
     color: 'Blanco Perlado',
     price: '38.200€',
     route: '/car/kia-sportage'
@@ -40,7 +40,7 @@ const certifiedCars = ref([
   {
     id: 5,
     name: 'Audi A5 Sportback',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=450',
+    image: 'https://hips.hearstapps.com/hmg-prod/images/2025-audi-a5-137-669583e0eda6e.jpg?crop=0.638xw:0.479xh;0.207xw,0.312xh&resize=1200:*',
     color: 'Gris Quantum',
     price: '49.800€',
     route: '/car/audi-a5'
@@ -48,7 +48,7 @@ const certifiedCars = ref([
   {
     id: 6,
     name: 'Mercedes Clase C',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/placeholder-ob7miW3mUreePYfXdVwkpFWHthzoR5.svg?height=300&width=450',
+    image: 'https://images.coches.com/_vn_/mercedes/Clase-C/0b325a581bbefb9994d94efc91277ba9.jpg?w=1920&ar=16:9',
     color: 'Plata Iridio',
     price: '51.300€',
     route: '/car/mercedes-c'
@@ -277,7 +277,7 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   height: 0;
-  padding-bottom: 66.67%; /* Aspect ratio 3:2 */
+  padding-bottom: 66.67%;
 }
 
 .car-image {
