@@ -1,25 +1,15 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import brandPhrase from '@/assets/brandPhrase.png';
+import { carService } from '@/certifications/services/car.service.js';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const certificateOptions = ref([
   { name: 'Certificado Premium', code: 'CP1', color: '#4ade80', description: 'Garantía extendida y revisión completa' },
   { name: 'Certificado Estándar', code: 'CE1', color: '#60a5fa', description: 'Revisión básica certificada' },
   { name: 'Sin Certificado', code: 'SC1', color: '#94a3b8', description: 'Sin revisión certificada' }
-]);
-
-const brandOptions = ref([
-  { name: 'BMW', code: 'BMW', logo: 'pi pi-circle-fill' },
-  { name: 'Mercedes', code: 'MER', logo: 'pi pi-star-fill' },
-  { name: 'Audi', code: 'AUD', logo: 'pi pi-circle' },
-  { name: 'Toyota', code: 'TOY', logo: 'pi pi-car' }
-]);
-
-const modelOptions = ref([
-  { name: 'Serie 3', code: 'S3', category: 'Sedán' },
-  { name: 'Serie 5', code: 'S5', category: 'Sedán' },
-  { name: 'X5', code: 'X5', category: 'SUV' },
-  { name: 'X3', code: 'X3', category: 'SUV' }
 ]);
 
 const distanceOptions = ref([
@@ -29,44 +19,106 @@ const distanceOptions = ref([
   { name: '100 km', code: '100', value: 100 }
 ]);
 
+const carsData = ref([]);
+const loading = ref(false);
 const selectedCertificate = ref(null);
 const selectedBrand = ref(null);
 const selectedModel = ref(null);
 const selectedDistance = ref(null);
 
-
-const filteredModels = computed(() => {
-  if (!selectedBrand.value) return modelOptions.value;
+const brandOptions = computed(() => {
+  const brands = [...new Set(carsData.value.map(car => car.brand))];
+  const predefinedBrands = ['Toyota', 'Nissan', 'Hyundai', 'Kia', 'Chevrolet', 'Suzuki', 'Mitsubishi', 'Honda', 'Volkswagen', 'Ford'];
   
-  if (selectedBrand.value.code === 'BMW') {
-    return modelOptions.value.filter(model => model.code === 'S3' || model.code === 'S5' || model.code === 'X3');
-  } else if (selectedBrand.value.code === 'MER') {
-    return modelOptions.value.filter(model => model.code === 'X5' || model.code === 'X3');
-  }
-  return modelOptions.value;
+  const allBrands = [...new Set([...predefinedBrands, ...brands])];
+  
+  return allBrands.map(brand => ({
+    name: brand.charAt(0).toUpperCase() + brand.slice(1).toLowerCase(),
+    code: brand.toUpperCase(),
+    logo: getBrandIcon(brand)
+  }));
 });
 
-const loading = ref(false);
+const modelOptions = computed(() => {
+  if (!selectedBrand.value) return [];
+  
+  const selectedBrandName = selectedBrand.value.name.toLowerCase();
+  const models = carsData.value
+    .filter(car => car.brand.toLowerCase() === selectedBrandName)
+    .map(car => car.model)
+    .filter((model, index, self) => self.indexOf(model) === index);
+  
+  return models.map(model => ({
+    name: model,
+    code: model.replace(/\s+/g, '_').toUpperCase(),
+    category: getModelCategory(model)
+  }));
+});
+
+const filteredModels = computed(() => {
+  return modelOptions.value;
+});
 
 const isFormValid = computed(() => {
   return selectedBrand.value !== null;
 });
 
+const getBrandIcon = (brand) => {
+  const iconMap = {
+    'toyota': 'pi pi-circle-fill',
+    'nissan': 'pi pi-star-fill',
+    'hyundai': 'pi pi-circle',
+    'kia': 'pi pi-car',
+    'chevrolet': 'pi pi-bolt',
+    'suzuki': 'pi pi-circle-fill',
+    'mitsubishi': 'pi pi-star',
+    'honda': 'pi pi-circle',
+    'volkswagen': 'pi pi-car',
+    'ford': 'pi pi-circle-fill'
+  };
+  return iconMap[brand.toLowerCase()] || 'pi pi-car';
+};
+
+const getModelCategory = (model) => {
+  if (model.toLowerCase().includes('suv') || model.toLowerCase().includes('x')) {
+    return 'SUV';
+  } else if (model.toLowerCase().includes('sedan') || model.toLowerCase().includes('series')) {
+    return 'Sedán';
+  } else if (model.toLowerCase().includes('hatch')) {
+    return 'Hatchback';
+  }
+  return 'Sedán';
+};
+
+const loadCarsData = async () => {
+  try {
+    loading.value = true;
+    const cars = await carService.getAllCars();
+    carsData.value = cars;
+  } catch (error) {
+    console.error('Error loading cars data:', error);
+    carsData.value = [];
+  } finally {
+    loading.value = false;
+  }
+};
 
 const search = () => {
   if (!isFormValid.value) return;
   
   loading.value = true;
   
-  setTimeout(() => {
-    loading.value = false;
-    console.log('Búsqueda realizada con:', {
-      certificado: selectedCertificate.value,
-      marca: selectedBrand.value,
-      modelo: selectedModel.value,
-      distancia: selectedDistance.value,
-    });
-  }, 1500);
+  const queryParams = {};
+  if (selectedBrand.value) {
+    queryParams.brand = selectedBrand.value.name;
+  }
+  if (selectedModel.value) {
+    queryParams.model = selectedModel.value.name;
+  }
+
+  router.push({ path: '/cars', query: queryParams });
+
+  loading.value = false;
 };
 
 const clearFilters = () => {
@@ -76,7 +128,12 @@ const clearFilters = () => {
   selectedDistance.value = null;
 };
 
-onMounted(() => {
+const resetModelOnBrandChange = () => {
+  selectedModel.value = null;
+};
+
+onMounted(async () => {
+  await loadCarsData();
   document.querySelector('.search-container').classList.add('fade-in');
 });
 </script>
@@ -142,6 +199,7 @@ onMounted(() => {
               optionLabel="name" 
               placeholder="Selecciona marca" 
               class="filter-select"
+              @change="resetModelOnBrandChange"
             >
               <template #value="slotProps">
                 <div v-if="slotProps.value" class="brand-value">
@@ -231,7 +289,7 @@ onMounted(() => {
           </div>
         </div>
         
-        <!-- Botones de acción -->
+        <!-- Action Button -->
         <div class="button-container">
           <pv-button 
             type="button" 
@@ -290,9 +348,10 @@ onMounted(() => {
   max-width: 100%;
   height: auto;
   object-fit: contain;
-  width: 60%;
-  max-height: 120px;
+  width: 80%;
+  max-height: 180px; 
   transition: transform 0.3s ease;
+  filter: contrast(1.1) brightness(1.05);
 }
 
 .brand-phrase-image:hover {
@@ -416,7 +475,6 @@ onMounted(() => {
   margin-left: 0.5rem;
 }
 
-
 /* Botones */
 .button-container {
   display: flex;
@@ -435,247 +493,99 @@ onMounted(() => {
   border: none;
   color: white;
   transition: all 0.3s ease;
-  box-shadow: 
-    0 4px 12px rgba(37, 99, 235, 0.2),
-    0 2px 4px rgba(37, 99, 235, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
 }
 
-:deep(.search-button:hover:not(:disabled)) {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 6px 20px rgba(37, 99, 235, 0.25),
-    0 4px 8px rgba(37, 99, 235, 0.15);
+:deep(.search-button:hover) {
   background: linear-gradient(to right, #2563eb, #1d4ed8);
-}
-
-:deep(.search-button:active:not(:disabled)) {
-  transform: translateY(1px);
-  box-shadow: 
-    0 2px 8px rgba(37, 99, 235, 0.2),
-    0 1px 3px rgba(37, 99, 235, 0.1);
-}
-
-:deep(.search-button:disabled) {
-  opacity: 0.7;
-  cursor: not-allowed;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
 :deep(.clear-button) {
   min-width: 120px;
+  padding: 0.85rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
   border-radius: 10px;
+  border: 2px solid #e2e8f0;
+  color: #64748b;
+  background: white;
   transition: all 0.3s ease;
 }
 
 :deep(.clear-button:hover) {
-  background-color: #fee2e2;
-  border-color: #ef4444;
-  color: #ef4444;
-}
-
-/* Estilos para los componentes PrimeVue */
-:deep(.p-select),
-:deep(.pv-select) {
-  width: 100%;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
-  background-color: #f8fafc;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-:deep(.p-select:hover:not(:disabled)),
-:deep(.pv-select:hover:not(:disabled)) {
   border-color: #cbd5e1;
-  background-color: #ffffff;
+  color: #475569;
+  transform: translateY(-1px);
 }
 
-:deep(.p-select:focus),
-:deep(.pv-select:focus) {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-  border-color: #3b82f6;
-  background-color: #ffffff;
-}
-
-:deep(.p-select:disabled),
-:deep(.pv-select:disabled) {
-  opacity: 0.6;
-  cursor: not-allowed;
-  background-color: #f1f5f9;
-}
-
-:deep(.p-select-label),
-:deep(.pv-select-label) {
-  padding: 0.85rem 1rem;
-  font-size: 0.95rem;
-  color: #334155;
-}
-
-:deep(.p-select-trigger),
-:deep(.pv-select-trigger) {
-  width: 3rem;
-  background-color: rgba(0, 0, 0, 0.02);
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-
-:deep(.p-select-panel),
-:deep(.pv-select-panel) {
-  border-radius: 12px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1);
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  padding: 0.5rem;
-  margin-top: 5px;
-  overflow: hidden;
-}
-
-:deep(.p-select-items-wrapper),
-:deep(.pv-select-items-wrapper) {
-  max-height: 250px;
-  scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 #f1f5f9;
-}
-
-:deep(.p-select-items-wrapper::-webkit-scrollbar),
-:deep(.pv-select-items-wrapper::-webkit-scrollbar) {
-  width: 6px;
-}
-
-:deep(.p-select-items-wrapper::-webkit-scrollbar-track),
-:deep(.pv-select-items-wrapper::-webkit-scrollbar-track) {
-  background: #f1f5f9;
-  border-radius: 10px;
-}
-
-:deep(.p-select-items-wrapper::-webkit-scrollbar-thumb),
-:deep(.pv-select-items-wrapper::-webkit-scrollbar-thumb) {
-  background-color: #cbd5e1;
-  border-radius: 10px;
-}
-
-:deep(.p-select-items),
-:deep(.pv-select-items) {
-  padding: 0.25rem;
-  background: #ffffff;
-}
-
-:deep(.p-select-item),
-:deep(.pv-select-item) {
-  padding: 0.75rem 1rem;
-  transition: all 0.2s ease;
-  color: #334155;
-  font-size: 0.95rem;
+/* PrimeVue Select Styling */
+:deep(.p-select) {
+  width: 100%;
   border-radius: 8px;
-  margin: 0.2rem 0;
-  display: flex;
-  align-items: center;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
 }
 
-:deep(.p-select-item:hover),
-:deep(.pv-select-item:hover) {
-  background-color: #eff6ff !important;
-  color: #3b82f6 !important;
-  transform: translateX(2px);
+:deep(.p-select:hover) {
+  border-color: #cbd5e1;
 }
 
-:deep(.p-select-item.p-highlight),
-:deep(.pv-select-item.p-highlight) {
-  background-color: #3b82f6 !important;
-  color: #ffffff !important;
-  font-weight: 500;
-  box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3);
+:deep(.p-select.p-focus) {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-:deep(.p-select-empty-message),
-:deep(.pv-select-empty-message) {
+:deep(.p-select .p-select-label) {
   padding: 0.75rem 1rem;
-  color: #94a3b8;
-  font-style: italic;
-  text-align: center;
+  font-size: 0.95rem;
 }
 
-:deep(.p-select-trigger-icon),
-:deep(.pv-select-trigger-icon) {
-  transition: transform 0.3s ease;
+:deep(.p-select-overlay) {
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
 }
 
-:deep(.p-select.p-select-open .p-select-trigger-icon),
-:deep(.pv-select.p-select-open .pv-select-trigger-icon) {
-  transform: rotate(180deg);
-}
-
-:deep(.p-select-panel),
-:deep(.pv-select-panel) {
-  transform-origin: top;
-  animation: selectFadeIn 0.2s ease-out;
-}
-
-:deep(.p-slider) {
-  margin: 1rem 0.5rem;
-}
-
-:deep(.p-slider .p-slider-handle) {
-  background: #3b82f6;
-  border: 2px solid #3b82f6;
+:deep(.p-select-option) {
+  padding: 0.75rem 1rem;
   transition: all 0.2s ease;
 }
 
-:deep(.p-slider .p-slider-handle:hover) {
-  background: #2563eb;
-  border-color: #2563eb;
-  transform: scale(1.1);
+:deep(.p-select-option:hover) {
+  background-color: #f8fafc;
 }
 
-:deep(.p-slider .p-slider-range) {
-  background: #3b82f6;
+:deep(.p-select-option.p-selected) {
+  background-color: #eff6ff;
+  color: #1d4ed8;
 }
 
-@keyframes selectFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Responsive adjustments */
+/* Responsive Design */
 @media (max-width: 768px) {
-  .filter-row {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
+  .search-page-container {
+    padding: 1rem 0.5rem;
   }
   
-  .filter-section {
-    padding: 1.5rem;
+  .brand-phrase-image {
+    width: 90%;
+    max-height: 140px;
+  }
+  
+  .filter-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
   
   .button-container {
     flex-direction: column;
-    gap: 0.75rem;
+    align-items: center;
   }
   
   :deep(.search-button),
   :deep(.clear-button) {
     width: 100%;
-  }
-  
-  .brand-phrase-image {
-    width: 80%;
-  }
-  
-  .search-header {
-    padding: 1.25rem 1.5rem;
-  }
-  
-  .search-header h2 {
-    font-size: 1.25rem;
+    max-width: 300px;
   }
 }
 </style>
