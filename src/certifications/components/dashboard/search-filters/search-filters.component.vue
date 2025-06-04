@@ -28,7 +28,7 @@ const selectedDistance = ref(null);
 
 const brandOptions = computed(() => {
   const brands = [...new Set(carsData.value.map(car => car.brand))];
-  const predefinedBrands = ['Toyota', 'Nissan', 'Hyundai', 'Kia', 'Chevrolet', 'Suzuki', 'Mitsubishi', 'Honda', 'Volkswagen', 'Ford'];
+  const predefinedBrands = ['Toyota', 'Nissan', 'Hyundai', 'Kia', 'Chevrolet', 'Suzuki', 'Mitsubishi', 'Honda', 'Volkswagen', 'Ford','Mercedes-Benz','BMW','Audi'];
   
   const allBrands = [...new Set([...predefinedBrands, ...brands])];
   
@@ -74,7 +74,10 @@ const getBrandIcon = (brand) => {
     'mitsubishi': 'pi pi-star',
     'honda': 'pi pi-circle',
     'volkswagen': 'pi pi-car',
-    'ford': 'pi pi-circle-fill'
+    'ford': 'pi pi-circle-fill',
+    'mercedes-benz': 'pi pi-car',
+   'bmw': 'pi pi-car',
+   'audi': 'pi pi-car'
   };
   return iconMap[brand.toLowerCase()] || 'pi pi-car';
 };
@@ -475,7 +478,7 @@ onMounted(async () => {
   margin-left: 0.5rem;
 }
 
-/* Botones */
+/* Buttons */
 .button-container {
   display: flex;
   justify-content: center;
