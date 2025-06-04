@@ -38,7 +38,10 @@ const marcas = ref([
   { nombre: 'Mitsubishi', codigo: 'mitsubishi' },
   { nombre: 'Honda', codigo: 'honda' },
   { nombre: 'Volkswagen', codigo: 'volkswagen' },
-  { nombre: 'Ford', codigo: 'ford' }
+  { nombre: 'Ford', codigo: 'ford' },
+  { nombre: 'Mercedes-Benz', codigo: 'mercedes' },
+  { nombre: 'Audi', codigo: 'audi' },
+  { nombre: 'BMW', codigo: 'bmw' },
 ]);
 
 const upload = () => {
