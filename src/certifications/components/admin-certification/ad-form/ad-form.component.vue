@@ -1,9 +1,5 @@
 <script setup>
 import { ref, computed, watch, defineProps, defineEmits } from 'vue';
-import InputText from 'primevue/inputtext';
-import InputNumber from 'primevue/inputnumber';
-import Textarea from 'primevue/textarea';
-import Button from 'primevue/button';
 
 const props = defineProps({
   initialData: {
@@ -18,69 +14,62 @@ const props = defineProps({
 
 const emit = defineEmits(['update:formData', 'saveCar']);
 
-// Datos del formulario
 const formData = ref({
-  titulo: '',
-  propietario: '',
-  ano: null,
-  marca: '',
-  modelo: '',
-  descripcion: '',
-  pdfCertification: {}, // Campo vacío para el PDF
+  title: '',
+  owner: '',
+  year: null,
+  brand: '',
+  model: '',
+  description: '',
+  pdfCertification: {},
   imageUrl: '',
   price: '',
   licensePlate: ''
 });
 
-// Watch for changes in initialData to pre-fill the form
 watch(() => props.initialData, (newData) => {
   if (newData) {
-    formData.value.propietario = newData.reservationName || '';
-    formData.value.marca = newData.brand || '';
-    formData.value.modelo = newData.model || '';
+    formData.value.owner = newData.reservationName || '';
+    formData.value.brand = newData.brand || '';
+    formData.value.model = newData.model || '';
     formData.value.imageUrl = newData.imageUrl || '';
     formData.value.price = newData.price || '';
     formData.value.licensePlate = newData.licensePlate || '';
   }
 }, { immediate: true });
 
-// Watch for changes in formData and emit to parent
 watch(formData, (newData) => {
   emit('update:formData', newData);
 }, { deep: true });
 
-// Validación del formulario
 const isFormValid = computed(() => {
-  return formData.value.titulo &&
-         formData.value.propietario &&
-         formData.value.ano !== null &&
-         formData.value.marca &&
-         formData.value.modelo &&
-         formData.value.descripcion;
+  return formData.value.title &&
+         formData.value.owner &&
+         formData.value.year !== null &&
+         formData.value.brand &&
+         formData.value.model &&
+         formData.value.description;
 });
 
-// Progress calculation
 const formProgress = computed(() => {
   const fields = [
-    formData.value.titulo,
-    formData.value.propietario,
-    formData.value.ano !== null ? 'filled' : '',
-    formData.value.marca,
-    formData.value.modelo,
-    formData.value.descripcion
+    formData.value.title,
+    formData.value.owner,
+    formData.value.year !== null ? 'filled' : '',
+    formData.value.brand,
+    formData.value.model,
+    formData.value.description
   ];
   const filledFields = fields.filter(field => field && field.toString().trim()).length;
   return Math.round((filledFields / fields.length) * 100);
 });
 
-// Function to handle saving the car data
 const handleSaveCar = () => {
   if (isFormValid.value) {
     emit('saveCar', formData.value);
   }
 };
 
-// Expose formData and isFormValid to the parent component
 defineExpose({
   formData,
   isFormValid
@@ -127,7 +116,7 @@ defineExpose({
         <!-- Título del anuncio -->
         <div class="field-group full-width">
           <div class="field-header">
-            <label for="titulo" class="field-label">
+            <label for="title" class="field-label">
               <i class="pi pi-tag label-icon"></i>
               Título del Anuncio
             </label>
@@ -135,8 +124,8 @@ defineExpose({
           </div>
           <div class="input-wrapper">
             <pv-inputText
-              id="titulo"
-              v-model="formData.titulo"
+              id="title"
+              v-model="formData.title"
               class="form-input editable-input"
               placeholder="Ej: Toyota Corolla 2020 - Excelente estado"
             />
@@ -147,21 +136,21 @@ defineExpose({
           </div>
         </div>
 
-        <!-- Propietario -->
+        <!-- owner -->
         <div class="field-group">
           <div class="field-header">
-            <label for="propietario" class="field-label">
+            <label for="owner" class="field-label">
               <i class="pi pi-user label-icon"></i>
-              Propietario
+              owner
             </label>
             <span class="field-badge readonly">Auto-completado</span>
           </div>
           <div class="input-wrapper">
             <pv-inputText
-              id="propietario"
-              v-model="formData.propietario"
+              id="owner"
+              v-model="formData.owner"
               class="form-input readonly-input"
-              placeholder="Nombre del propietario"
+              placeholder="Nombre del owner"
               readonly
             />
             <div class="readonly-indicator">
@@ -173,7 +162,7 @@ defineExpose({
         <!-- Año -->
         <div class="field-group">
           <div class="field-header">
-            <label for="ano" class="field-label">
+            <label for="year" class="field-label">
               <i class="pi pi-calendar label-icon"></i>
               Año
             </label>
@@ -181,8 +170,8 @@ defineExpose({
           </div>
           <div class="input-wrapper">
             <pv-input-number
-              id="ano"
-              v-model="formData.ano"
+              id="year"
+              v-model="formData.year"
               class="form-input editable-input"
               placeholder="Año del vehículo"
               :useGrouping="false"
@@ -198,21 +187,21 @@ defineExpose({
           </div>
         </div>
 
-        <!-- Marca -->
+        <!-- brand -->
         <div class="field-group">
           <div class="field-header">
-            <label for="marca" class="field-label">
+            <label for="brand" class="field-label">
               <i class="pi pi-bookmark label-icon"></i>
-              Marca
+              brand
             </label>
             <span class="field-badge readonly">Auto-completado</span>
           </div>
           <div class="input-wrapper">
             <pv-inputText
-              id="marca"
-              v-model="formData.marca"
+              id="brand"
+              v-model="formData.brand"
               class="form-input readonly-input"
-              placeholder="Marca del vehículo"
+              placeholder="brand del vehículo"
               readonly
             />
             <div class="readonly-indicator">
@@ -221,21 +210,21 @@ defineExpose({
           </div>
         </div>
 
-        <!-- Modelo -->
+        <!-- model -->
         <div class="field-group">
           <div class="field-header">
-            <label for="modelo" class="field-label">
+            <label for="model" class="field-label">
               <i class="pi pi-cog label-icon"></i>
-              Modelo
+              model
             </label>
             <span class="field-badge readonly">Auto-completado</span>
           </div>
           <div class="input-wrapper">
             <pv-inputText
-              id="modelo"
-              v-model="formData.modelo"
+              id="model"
+              v-model="formData.model"
               class="form-input readonly-input"
-              placeholder="Modelo del vehículo"
+              placeholder="model del vehículo"
               readonly
             />
             <div class="readonly-indicator">
@@ -247,7 +236,7 @@ defineExpose({
         <!-- Descripción -->
         <div class="field-group full-width">
           <div class="field-header">
-            <label for="descripcion" class="field-label">
+            <label for="description" class="field-label">
               <i class="pi pi-file-edit label-icon"></i>
               Descripción Detallada
             </label>
@@ -255,14 +244,14 @@ defineExpose({
           </div>
           <div class="input-wrapper">
             <pv-textarea
-              id="descripcion"
-              v-model="formData.descripcion"
+              id="description"
+              v-model="formData.description"
               class="form-textarea editable-input"
               rows="5"
               placeholder="Describa las características, estado, equipamiento y cualquier detalle relevante del vehículo..."
             />
             <div class="textarea-counter">
-              <span>{{ formData.descripcion?.length || 0 }} caracteres</span>
+              <span>{{ formData.description?.length || 0 }} caracteres</span>
             </div>
             <div class="input-hint">
               <i class="pi pi-lightbulb"></i>
