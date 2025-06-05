@@ -54,10 +54,10 @@ const navigateToHome = () => {
             <img :src="certiwebLogo" alt="CertiWeb Logo" class="logo">
           </div>
           <div class="nav-links">
-            <pv-button label="Nuevos autos" class="p-button-text nav-link" />
+            
             <pv-button label="Autos Certificados en venta" class="p-button-text nav-link" @click="navigateTo('/cars')"/>
             <pv-button label="Certifica tu auto" class="p-button-text nav-link" @click="navigateTo('/reservation')" />
-            <pv-button label="Guardados" class="p-button-text nav-link" />
+            
           </div>
         </div>
       </template>
