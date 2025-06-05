@@ -11,28 +11,28 @@ const popularBrands = ref([
     id: 1,
     name: 'Audi',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/9/92/Audi-Logo_2016.svg',
-    searchRoute: '/busqueda/marca/audi',
+    searchRoute: '/cars?brand=Audi',
     color: '#BB0A30'
   },
   {
     id: 2,
     name: 'Mercedes-Benz',
     logo: 'https://www.pngarts.com/files/3/Mercedes-Benz-Logo-PNG-Photo.png',
-    searchRoute: '/busqueda/marca/mercedes',
+    searchRoute: '/cars?brand=Mercedes-Benz',
     color: '#00ADEF'
   },
   {
     id: 3,
     name: 'BMW',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg',
-    searchRoute: '/busqueda/marca/bmw',
+    searchRoute: '/cars?brand=BMW',
     color: '#0066B2'
   },
   {
     id: 4,
     name: 'Volkswagen',
     logo: 'https://cdn.worldvectorlogo.com/logos/volkswagen-10.svg',
-    searchRoute: '/busqueda/marca/volkswagen',
+    searchRoute: '/cars?brand=Volkswagen',
     color: '#001E50'
   }
 ])
