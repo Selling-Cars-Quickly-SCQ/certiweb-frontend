@@ -100,7 +100,7 @@ const navigateToHome = () => {
           <i class="pi pi-question-circle"></i>
           <span>Soporte</span>
         </div>
-        <div class="menu-option" @click="navigateTo('/terms-and-conditions')">
+        <div class="menu-option" @click="navigateTo('/terms-of-use')">
           <i class="pi pi-file"></i>
           <span>Términos de uso</span>
         </div>
