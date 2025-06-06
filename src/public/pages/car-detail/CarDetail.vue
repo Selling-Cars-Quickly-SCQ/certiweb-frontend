@@ -2,7 +2,9 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { carService } from '../../../certifications/services/car.service';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const car = ref(null);
@@ -76,83 +78,99 @@ onMounted(() => {
 
 <template>
   <div class="car-detail-container">
-    <pv-button icon="pi pi-arrow-left" label="Back to List" @click="goBack" class="p-button-text back-button" />
+    <pv-button 
+      icon="pi pi-arrow-left" 
+      :label="t('carDetail.backButton')" 
+      @click="goBack" 
+      class="p-button-text back-button" 
+    />
 
     <div v-if="loading" class="loading-spinner">
       <pv-progress-spinner />
-      <p>Loading car details...</p>
+      <p>{{ t('carDetail.loading') }}</p>
     </div>
 
     <div v-else-if="error" class="error-message">
       <i class="pi pi-exclamation-triangle"></i>
-      <p>Error loading car details: {{ error.message }}</p>
-      <pv-button label="Try Again" @click="fetchCarDetails" icon="pi pi-refresh" class="p-button-outlined" />
+      <p>{{ t('carDetail.error') }} {{ error.message }}</p>
+      <pv-button 
+        :label="t('carDetail.tryAgain')" 
+        @click="fetchCarDetails" 
+        icon="pi pi-refresh" 
+        class="p-button-outlined" 
+      />
     </div>
 
     <div v-else-if="car" class="car-content-grid">
       <!-- Image Gallery Section -->
       <div class="image-gallery">
-        <img :src="car.imageUrl || 'https://via.placeholder.com/600x400?text=No+Image'" 
-             :alt="car.model" 
-             class="main-car-image" />
+        <img 
+          :src="car.imageUrl || 'https://via.placeholder.com/600x400?text=No+Image'" 
+          :alt="car.model" 
+          class="main-car-image" 
+        />
       </div>
 
       <!-- Details Section -->
       <div class="details-section">
         <h1 class="car-main-title">{{ car.title }}</h1>
         <div class="car-meta">
-          <span><i class="pi pi-tag"></i> Brand: {{ car.brand }}</span>
-          <span><i class="pi pi-car"></i> Model: {{ car.model }}</span>
-          <span><i class="pi pi-calendar"></i> Year: {{ car.year }}</span>
+          <span><i class="pi pi-tag"></i> {{ t('carDetail.brand') }} {{ car.brand }}</span>
+          <span><i class="pi pi-car"></i> {{ t('carDetail.model') }} {{ car.model }}</span>
+          <span><i class="pi pi-calendar"></i> {{ t('carDetail.year') }} {{ car.year }}</span>
         </div>
 
         <div class="price-tag">{{ formatCurrency(car.price) }}</div>
 
         <div class="section-block">
-          <h3 class="section-title"><i class="pi pi-user"></i> Owner Information</h3>
-          <p><strong>Owner:</strong> {{ car.owner }}</p>
-          <p><strong>License Plate:</strong> {{ car.licensePlate }}</p>
+          <h3 class="section-title"><i class="pi pi-user"></i> {{ t('carDetail.ownerInfo') }}</h3>
+          <p><strong>{{ t('carDetail.owner') }}</strong> {{ car.owner }}</p>
+          <p><strong>{{ t('carDetail.licensePlate') }}</strong> {{ car.licensePlate }}</p>
         </div>
 
         <div class="section-block">
-          <h3 class="section-title"><i class="pi pi-align-left"></i> Description</h3>
-          <p class="car-full-description">{{ car.description || 'No detailed description available.' }}</p>
+          <h3 class="section-title"><i class="pi pi-align-left"></i> {{ t('carDetail.description') }}</h3>
+          <p class="car-full-description">{{ car.description || t('carDetail.noDescription') }}</p>
         </div>
 
         <div class="section-block technical-report-section" v-if="car.pdfCertification">
-          <h3 class="section-title"><i class="pi pi-file-pdf"></i> Technical Certification</h3>
+          <h3 class="section-title"><i class="pi pi-file-pdf"></i> {{ t('carDetail.techCert') }}</h3>
           <div class="pdf-actions">
             <pv-button 
-              label="View Certification"
+              :label="t('carDetail.viewCert')"
               icon="pi pi-eye"
               @click="openReportInNewTab(car.pdfCertification)"
               class="p-button-info p-mr-2" 
             />
             <pv-button 
-              label="Download Certification"
+              :label="t('carDetail.downloadCert')"
               icon="pi pi-download"
               @click="downloadReport(car.pdfCertification)"
               class="p-button-success" 
             />
           </div>
           <div class="pdf-preview-container">
-            <iframe :src="car.pdfCertification" class="pdf-iframe" title="Technical Certification Preview"></iframe>
+            <iframe :src="car.pdfCertification" class="pdf-iframe" :title="t('carDetail.techCert')"></iframe>
           </div>
         </div>
         <div v-else class="section-block">
-            <h3 class="section-title"><i class="pi pi-file-excel"></i> Technical Certification</h3>
-            <p>No certification PDF available for this vehicle.</p>
+            <h3 class="section-title"><i class="pi pi-file-excel"></i> {{ t('carDetail.techCert') }}</h3>
+            <p>{{ t('carDetail.noCert') }}</p>
         </div>
 
         <div class="actions-footer">
-          <pv-button label="Contact Seller" icon="pi pi-envelope" class="p-button-raised p-button-primary" />
+          <pv-button 
+            :label="t('carDetail.contactSeller')" 
+            icon="pi pi-envelope" 
+            class="p-button-raised p-button-primary" 
+          />
         </div>
       </div>
     </div>
     
     <div v-else class="no-car-found">
       <i class="pi pi-car"></i>
-      <p>Car details not found.</p>
+      <p>{{ t('carDetail.notFound') }}</p>
     </div>
   </div>
 </template>
