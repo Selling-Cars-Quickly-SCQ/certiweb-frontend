@@ -6,29 +6,14 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const certificateOptions = ref([
-  { name: 'Certificado Premium', code: 'CP1', color: '#4ade80', description: 'Garantía extendida y revisión completa' },
-  { name: 'Certificado Estándar', code: 'CE1', color: '#60a5fa', description: 'Revisión básica certificada' },
-  { name: 'Sin Certificado', code: 'SC1', color: '#94a3b8', description: 'Sin revisión certificada' }
-]);
-
-const distanceOptions = ref([
-  { name: '10 km', code: '10', value: 10 },
-  { name: '25 km', code: '25', value: 25 },
-  { name: '50 km', code: '50', value: 50 },
-  { name: '100 km', code: '100', value: 100 }
-]);
-
 const carsData = ref([]);
 const loading = ref(false);
-const selectedCertificate = ref(null);
 const selectedBrand = ref(null);
 const selectedModel = ref(null);
-const selectedDistance = ref(null);
 
 const brandOptions = computed(() => {
   const brands = [...new Set(carsData.value.map(car => car.brand))];
-  const predefinedBrands = ['Toyota', 'Nissan', 'Hyundai', 'Kia', 'Chevrolet', 'Suzuki', 'Mitsubishi', 'Honda', 'Volkswagen', 'Ford','Mercedes-Benz','BMW','Audi'];
+  const predefinedBrands = ['Toyota', 'Hyundai', 'Kia', 'Chevrolet', 'Suzuki', 'Mitsubishi', 'Honda', 'Volkswagen', 'Ford','Mercedes-Benz','BMW','Audi'];
   
   const allBrands = [...new Set([...predefinedBrands, ...brands])];
   
@@ -42,7 +27,7 @@ const brandOptions = computed(() => {
 const modelOptions = computed(() => {
   if (!selectedBrand.value) return [];
   
-  const selectedBrandName = selectedBrand.value.name.toLowerCase();
+  const selectedBrandName = selectedBrand.value.toLowerCase();
   const models = carsData.value
     .filter(car => car.brand.toLowerCase() === selectedBrandName)
     .map(car => car.model)
@@ -66,7 +51,6 @@ const isFormValid = computed(() => {
 const getBrandIcon = (brand) => {
   const iconMap = {
     'toyota': 'pi pi-circle-fill',
-    'nissan': 'pi pi-star-fill',
     'hyundai': 'pi pi-circle',
     'kia': 'pi pi-car',
     'chevrolet': 'pi pi-bolt',
@@ -113,10 +97,10 @@ const search = () => {
   
   const queryParams = {};
   if (selectedBrand.value) {
-    queryParams.brand = selectedBrand.value.name;
+    queryParams.brand = selectedBrand.value;
   }
   if (selectedModel.value) {
-    queryParams.model = selectedModel.value.name;
+    queryParams.model = selectedModel.value; 
   }
 
   router.push({ path: '/cars', query: queryParams });
@@ -125,10 +109,8 @@ const search = () => {
 };
 
 const clearFilters = () => {
-  selectedCertificate.value = null;
   selectedBrand.value = null;
   selectedModel.value = null;
-  selectedDistance.value = null;
 };
 
 const resetModelOnBrandChange = () => {
@@ -155,74 +137,26 @@ onMounted(async () => {
       
       <div class="filter-section">
         <div class="filter-row">
-          <div class="filter-item">
-            <label class="filter-label">
-              <i class="pi pi-certificate"></i>
-              <span>Certificado</span>
-            </label>
-            <pv-select 
-              v-model="selectedCertificate" 
-              :options="certificateOptions" 
-              optionLabel="name" 
-              placeholder="Selecciona certificado" 
-              class="filter-select"
-            >
-              <template #value="slotProps">
-                <div v-if="slotProps.value" class="certificate-value">
-                  <span class="certificate-dot" :style="{ backgroundColor: slotProps.value.color }"></span>
-                  <span>{{ slotProps.value.name }}</span>
-                </div>
-                <span v-else>{{ slotProps.placeholder }}</span>
-              </template>
-              
-              <template #option="slotProps">
-                <div class="certificate-option">
-                  <span class="certificate-dot" :style="{ backgroundColor: slotProps.option.color }"></span>
-                  <div>
-                    <div>{{ slotProps.option.name }}</div>
-                    <small>{{ slotProps.option.description }}</small>
-                  </div>
-                </div>
-              </template>
-              
-              <template #indicator>
-                <i class="pi pi-chevron-down"></i>
-              </template>
-            </pv-select>
-          </div>
           
           <div class="filter-item">
             <label class="filter-label">
               <i class="pi pi-tag"></i>
               <span>Marca</span>
             </label>
-            <pv-select 
+            <select 
               v-model="selectedBrand" 
-              :options="brandOptions" 
-              optionLabel="name" 
-              placeholder="Selecciona marca" 
               class="filter-select"
               @change="resetModelOnBrandChange"
             >
-              <template #value="slotProps">
-                <div v-if="slotProps.value" class="brand-value">
-                  <i :class="slotProps.value.logo"></i>
-                  <span>{{ slotProps.value.name }}</span>
-                </div>
-                <span v-else>{{ slotProps.placeholder }}</span>
-              </template>
-              
-              <template #option="slotProps">
-                <div class="brand-option">
-                  <i :class="slotProps.option.logo"></i>
-                  <span>{{ slotProps.option.name }}</span>
-                </div>
-              </template>
-              
-              <template #indicator>
-                <i class="pi pi-chevron-down"></i>
-              </template>
-            </pv-select>
+              <option :value="null" disabled>Selecciona marca</option>
+              <option 
+                v-for="brand in brandOptions" 
+                :key="brand.code" 
+                :value="brand.name"
+              >
+                {{ brand.name }}
+              </option>
+            </select>
           </div>
           
           <div class="filter-item">
@@ -230,69 +164,22 @@ onMounted(async () => {
               <i class="pi pi-car"></i>
               <span>Modelo</span>
             </label>
-            <pv-select 
+            <select 
               v-model="selectedModel" 
-              :options="filteredModels" 
-              optionLabel="name" 
-              placeholder="Selecciona modelo" 
               class="filter-select"
               :disabled="!selectedBrand"
             >
-              <template #value="slotProps">
-                <div v-if="slotProps.value" class="model-value">
-                  <span>{{ slotProps.value.name }}</span>
-                  <span class="model-category">{{ slotProps.value.category }}</span>
-                </div>
-                <span v-else>{{ slotProps.placeholder }}</span>
-              </template>
-              
-              <template #option="slotProps">
-                <div class="model-option">
-                  <span>{{ slotProps.option.name }}</span>
-                  <span class="model-category">{{ slotProps.option.category }}</span>
-                </div>
-              </template>
-              
-              <template #indicator>
-                <i class="pi pi-chevron-down"></i>
-              </template>
-            </pv-select>
-          </div>
-          
-          <div class="filter-item">
-            <label class="filter-label">
-              <i class="pi pi-map-marker"></i>
-              <span>Distancia</span>
-            </label>
-            <pv-select 
-              v-model="selectedDistance" 
-              :options="distanceOptions" 
-              optionLabel="name" 
-              placeholder="Selecciona distancia" 
-              class="filter-select"
-            >
-              <template #value="slotProps">
-                <div v-if="slotProps.value" class="distance-value">
-                  <i class="pi pi-map-marker"></i>
-                  <span>{{ slotProps.value.name }}</span>
-                </div>
-                <span v-else>{{ slotProps.placeholder }}</span>
-              </template>
-              
-              <template #option="slotProps">
-                <div class="distance-option">
-                  <span>{{ slotProps.option.name }}</span>
-                </div>
-              </template>
-              
-              <template #indicator>
-                <i class="pi pi-chevron-down"></i>
-              </template>
-            </pv-select>
+              <option :value="null" disabled>Selecciona modelo</option>
+              <option 
+                v-for="model in filteredModels" 
+                :key="model.code" 
+                :value="model.name"
+              >
+                {{ model.name }}
+              </option>
+            </select>
           </div>
         </div>
-        
-        <!-- Action Button -->
         <div class="button-container">
           <pv-button 
             type="button" 
@@ -522,46 +409,41 @@ onMounted(async () => {
   transform: translateY(-1px);
 }
 
-/* PrimeVue Select Styling */
-:deep(.p-select) {
+/* PrimeVue Select Styling  */
+.filter-select {
   width: 100%;
+  padding: 0.75rem 1rem;
   border-radius: 8px;
   border: 2px solid #e2e8f0;
   transition: all 0.3s ease;
+  font-size: 0.95rem;
+  color: #334155;
+  background-color: white;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.2em;
 }
 
-:deep(.p-select:hover) {
+.filter-select:hover {
   border-color: #cbd5e1;
 }
 
-:deep(.p-select.p-focus) {
+.filter-select:focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
 }
 
-:deep(.p-select .p-select-label) {
-  padding: 0.75rem 1rem;
-  font-size: 0.95rem;
+.filter-select option {
+  color: #334155;
+  background-color: white;
 }
 
-:deep(.p-select-overlay) {
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e2e8f0;
-}
-
-:deep(.p-select-option) {
-  padding: 0.75rem 1rem;
-  transition: all 0.2s ease;
-}
-
-:deep(.p-select-option:hover) {
-  background-color: #f8fafc;
-}
-
-:deep(.p-select-option.p-selected) {
-  background-color: #eff6ff;
-  color: #1d4ed8;
+.filter-select:disabled {
+  background-color: #f1f5f9;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 /* Responsive Design */
