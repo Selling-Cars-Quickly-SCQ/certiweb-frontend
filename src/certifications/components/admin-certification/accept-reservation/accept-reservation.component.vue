@@ -1,7 +1,10 @@
 <script setup>
 import { ref, onMounted, defineEmits } from 'vue';
 import { reservationService } from '@/certifications/services/reservation.service.js';
+import { useI18n } from 'vue-i18n';
+import languageSwitcherComponent from '../../../../public/components/language-switcher/language-switcher.component.vue';
 
+const { t } = useI18n();
 const pendingReservations = ref([]);
 const isLoading = ref(true);
 const error = ref(null);
@@ -54,12 +57,13 @@ const responsiveOptions = ref([
 </script>
 
 <template>
+  <language-switcher-component/>
   <div class="reservation-container">
     <!-- Header Section -->
     <div class="header-section">
       <h2 class="main-title">
         <i class="pi pi-calendar-clock title-icon"></i>
-        Pending Reservations
+        {{ t('acceptReservation.pendingReservations') }}
       </h2>
       <div class="title-underline"></div>
     </div>
@@ -69,7 +73,7 @@ const responsiveOptions = ref([
       <div class="loading-spinner">
         <i class="pi pi-spin pi-spinner"></i>
       </div>
-      <p class="loading-text">Loading reservations...</p>
+      <p class="loading-text">{{ t('acceptReservation.loadingReservations') }}</p>
     </div>
 
     <!-- Error State -->
@@ -78,7 +82,7 @@ const responsiveOptions = ref([
         <i class="pi pi-exclamation-triangle error-icon"></i>
         <p class="error-message">{{ error }}</p>
         <pv-button 
-          label="Retry" 
+          :label="t('acceptReservation.retry')" 
           icon="pi pi-refresh" 
           class="retry-button"
           @click="loadPendingReservations"
@@ -90,8 +94,8 @@ const responsiveOptions = ref([
     <div v-if="!isLoading && !error && pendingReservations.length === 0" class="empty-container">
       <div class="empty-content">
         <i class="pi pi-calendar-times empty-icon"></i>
-        <h3 class="empty-title">No Pending Reservations</h3>
-        <p class="empty-description">All reservations have been processed or no new reservations are available.</p>
+        <h3 class="empty-title">{{ t('acceptReservation.noPendingReservations') }}</h3>
+        <p class="empty-description">{{ t('acceptReservation.allProcessed') }}</p>
       </div>
     </div>
 
@@ -110,23 +114,23 @@ const responsiveOptions = ref([
               <template #title>
                 <div class="card-title">
                   <i class="pi pi-car title-car-icon"></i>
-                  {{ slotProps.data.reservationName || 'N/A' }}
+                  {{ slotProps.data.reservationName || t('acceptReservation.notAvailable') }}
                 </div>
               </template>
               
               <template #subtitle>
                 <div class="vehicle-info">
                   <div class="info-row">
-                    <span class="info-label">Brand:</span>
-                    <span class="info-value">{{ slotProps.data.brand || 'N/A' }}</span>
+                    <span class="info-label">{{ t('acceptReservation.brand') }}:</span>
+                    <span class="info-value">{{ slotProps.data.brand || t('acceptReservation.notAvailable') }}</span>
                   </div>
                   <div class="info-row">
-                    <span class="info-label">Model:</span>
-                    <span class="info-value">{{ slotProps.data.model || 'N/A' }}</span>
+                    <span class="info-label">{{ t('acceptReservation.model') }}:</span>
+                    <span class="info-value">{{ slotProps.data.model || t('acceptReservation.notAvailable') }}</span>
                   </div>
                   <div class="info-row">
-                    <span class="info-label">License:</span>
-                    <span class="info-value license-plate">{{ slotProps.data.licensePlate || 'N/A' }}</span>
+                    <span class="info-label">{{ t('acceptReservation.license') }}:</span>
+                    <span class="info-value license-plate">{{ slotProps.data.licensePlate || t('acceptReservation.notAvailable') }}</span>
                   </div>
                 </div>
               </template>
@@ -136,10 +140,10 @@ const responsiveOptions = ref([
                   <div class="detail-item">
                     <i class="pi pi-calendar detail-icon"></i>
                     <div class="detail-content">
-                      <span class="detail-label">Date & Time</span>
+                      <span class="detail-label">{{ t('acceptReservation.dateTime') }}</span>
                       <span class="detail-value">
                         {{ slotProps.data.inspectionDateTime ? 
-                           new Date(slotProps.data.inspectionDateTime).toLocaleString() : 'N/A' }}
+                           new Date(slotProps.data.inspectionDateTime).toLocaleString() : t('acceptReservation.notAvailable') }}
                       </span>
                     </div>
                   </div>
@@ -147,7 +151,7 @@ const responsiveOptions = ref([
                   <div class="detail-item">
                     <i class="pi pi-dollar detail-icon"></i>
                     <div class="detail-content">
-                      <span class="detail-label">Price</span>
+                      <span class="detail-label">{{ t('acceptReservation.price') }}</span>
                       <span class="detail-value price">S/ {{ slotProps.data.price || '0.00' }}</span>
                     </div>
                   </div>
@@ -155,7 +159,7 @@ const responsiveOptions = ref([
                   <div class="detail-item">
                     <i class="pi pi-info-circle detail-icon"></i>
                     <div class="detail-content">
-                      <span class="detail-label">Status</span>
+                      <span class="detail-label">{{ t('acceptReservation.status') }}</span>
                       <span class="status-badge status-pending">
                         <i class="pi pi-clock status-icon"></i>
                         {{ slotProps.data.status }}
@@ -167,7 +171,7 @@ const responsiveOptions = ref([
               
               <template #footer>
                 <pv-button 
-                  label="Accept Reservation" 
+                  :label="t('acceptReservation.acceptReservation')" 
                   icon="pi pi-check" 
                   class="accept-button"
                   @click="acceptReservation(slotProps.data)" 
