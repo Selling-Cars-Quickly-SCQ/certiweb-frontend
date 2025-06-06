@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const router = useRouter()
 
 const hoveredBrand = ref(null)
@@ -62,9 +64,9 @@ const clearHoveredBrand = () => {
     <div class="container">
       <!-- Header -->
       <div class="header">
-        <h2 class="title">Marcas más buscadas</h2>
+        <h2 class="title">{{ t('brandSearch.title') }}</h2>
         <p class="subtitle">
-          Descubre los vehículos de las marcas más populares entre nuestros usuarios
+          {{ t('brandSearch.subtitle') }}
         </p>
       </div>
 
@@ -92,7 +94,7 @@ const clearHoveredBrand = () => {
                 >
                   <img
                     :src="brand.logo"
-                    :alt="`Logo de ${brand.name}`"
+                    :alt="t('brandCard.logoAlt', { brand: brand.name })"
                     class="brand-logo"
                     @error="$event.target.src = '/placeholder.svg?height=80&width=80'"
                   />
@@ -120,7 +122,7 @@ const clearHoveredBrand = () => {
                 <!-- Search indicator -->
                 <div class="search-indicator">
                   <i class="pi pi-search"></i>
-                  <span>Ver vehículos</span>
+                  <span>{{ t('brandCard.viewVehicles') }}</span>
                 </div>
               </div>
 
@@ -144,7 +146,7 @@ const clearHoveredBrand = () => {
           size="large"
         >
           <i class="pi pi-chevron-up"></i>
-          <span>Volver al inicio</span>
+          <span>{{ t('navigation.backToHome') }}</span>
         </pv-button>
       </div>
     </div>
