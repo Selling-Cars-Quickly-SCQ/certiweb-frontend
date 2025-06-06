@@ -42,7 +42,10 @@ const navigateToBrandSearch = (route) => {
 }
 
 const goToHome = () => {
-  router.push('/')
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
 }
 
 const setHoveredBrand = (brandId) => {
@@ -135,7 +138,7 @@ const clearHoveredBrand = () => {
       <!-- Back to Home Button -->
       <div class="back-home">
         <pv-button
-          @click="goToHome"
+          @click="goToHome" 
           class="home-button"
           outlined
           size="large"
@@ -334,10 +337,11 @@ const clearHoveredBrand = () => {
 .home-button i {
   font-size: 1.25rem;
   transition: transform 0.3s ease;
+  transform: rotate(-90deg);
 }
 
 .home-button:hover i {
-  transform: translateY(-3px);
+  transform: translateY(-3px) rotate(-90deg);
 }
 
 /* Responsive Design */
