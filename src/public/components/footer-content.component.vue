@@ -1,7 +1,9 @@
 <script setup>
 import certiwebLogo from '@/assets/certiweb.png'
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const router = useRouter();
 const navigateToTerms = () => {
     router.push(`/terms-of-use`);
@@ -15,11 +17,11 @@ const navigateToTerms = () => {
         <img :src="certiwebLogo" alt="CertiWeb Logo" class="logo" />
       </div>
       <div class="footer-text">
-        © 2025 Certiweb.com. Reservados todos los derechos.
+        {{ t('footer.copyright') }}
       </div>
       <div class="footer-link" @click="navigateToTerms('/terms-of-use')">
         <a class="footer-terms">
-          Términos y Condiciones
+          {{ t('footer.terms') }}
         </a>
       </div>
     </div>
