@@ -4,7 +4,9 @@ import { reservationService } from '@/certifications/services/reservation.servic
 import { userService } from '@/certifications/services/user.service.js';
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const toast = useToast();
 const router = useRouter();
 
@@ -187,12 +189,12 @@ const handleConfirmReservation = async () => {
 
 <template>
   <div class="calendar-container">
-    <h2 class="subtitulo-formulario">RESERVE LA HORA DE INSPECCIÓN</h2>
+    <h2 class="subtitulo-formulario">{{ t('calendar.title') }}</h2>
     
     <div class="calendar-layout">
       <div class="calendar-section">
-        <h3 class="calendar-subtitle">Seleccione una fecha</h3>
-      <pv-datePicker 
+        <h3 class="calendar-subtitle">{{ t('calendar.selectDate') }}</h3>
+        <pv-datePicker 
           v-model="fechaHora" 
           :inline="true"
           :showTime="false"
@@ -202,12 +204,12 @@ const handleConfirmReservation = async () => {
           selectionMode="single"
           @date-select="handleDateSelect"
         />
-        <small class="calendar-note">Solo días laborables (Lunes a Viernes)</small>
+        <small class="calendar-note">{{ t('calendar.weekdaysNote') }}</small>
       </div>
       
       <!-- Time -->
       <div class="time-section">
-        <h3 class="calendar-subtitle">Seleccione una hora</h3>
+        <h3 class="calendar-subtitle">{{ t('calendar.selectTime') }}</h3>
         <div class="time-slots">
           <div 
             v-for="(horario, index) in horariosDisponibles" 
@@ -221,12 +223,12 @@ const handleConfirmReservation = async () => {
             {{ horario.display }}
           </div>
         </div>
-        <small class="calendar-note">Horarios disponibles de Lunes a Viernes</small>
+        <small class="calendar-note">{{ t('calendar.timeSlotsNote') }}</small>
       </div>
     </div>
     
     <div class="selected-datetime" v-if="fechaHora && fechaHora instanceof Date && !isNaN(fechaHora.getTime())">
-      <h3 class="calendar-subtitle">Fecha y hora seleccionada:</h3>
+      <h3 class="calendar-subtitle">{{ t('calendar.selectedDateTime') }}</h3>
       <div class="datetime-preview">
         <i class="pi pi-calendar"></i>
         <span>{{ fechaHora.toLocaleDateString('es-ES', { 
@@ -245,7 +247,7 @@ const handleConfirmReservation = async () => {
     
     <div class="confirm-reservation-section" style="text-align: center; margin-top: 20px;">
       <pv-button 
-        label="Confirmar Reserva" 
+        :label="t('calendar.confirmButton')" 
         icon="pi pi-check" 
         class="p-button-success" 
         @click="handleConfirmReservation"
