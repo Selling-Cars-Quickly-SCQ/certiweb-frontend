@@ -2,7 +2,9 @@
 import { ref, reactive } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import { imgbbApiService } from '@/shared/services/imgbb-api.service';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const toast = useToast();
 const emit = defineEmits(['update:vehicleData']);
 
@@ -140,10 +142,10 @@ const updateFormData = () => {
 <template>
   <div class="vehicle-spec-container">
     <div class="seccion">
-      <h2 class="subtitulo-formulario">SUBIR FOTO DEL VEHÍCULO</h2>
+      <h2 class="subtitulo-formulario">{{ t('vehicleSpec.uploadPhoto') }}</h2>
       <div class="fotos-container">
         <div class="foto-upload" :class="{ 'foto-uploaded': imagenCargada1 }">
-          <div class="upload-header">Foto del Vehículo</div>
+          <div class="upload-header">{{ t('vehicleSpec.vehiclePhoto') }}</div>
           <div class="upload-content">
             <pv-fileupload
               ref="fileupload1"
@@ -155,28 +157,33 @@ const updateFormData = () => {
               @uploader="handleCustomUpload($event)"
               :class="{ 'imagen-cargada': imagenCargada1 }"
               :disabled="cargandoImagen"
-              chooseLabel="Seleccionar"
+              :chooseLabel="t('vehicleSpec.selectFile')"
               :auto="false"
             />
-            <pv-button label="Enviar imagen" @click="upload" severity="secondary" :disabled="cargandoImagen" />
+            <pv-button 
+              :label="t('vehicleSpec.uploadImage')" 
+              @click="upload" 
+              severity="secondary" 
+              :disabled="cargandoImagen" 
+            />
           </div>
-          <small class="upload-hint">* Solo JPG, máx. 1MB</small>
+          <small class="upload-hint">{{ t('vehicleSpec.fileHint') }}</small>
           <div v-if="imagenCargada1 && imagenUrl1" class="imagen-preview">
             <img :src="imagenUrl1" alt="Vista previa" class="preview-thumbnail" />
             <span class="nombre-archivo">{{ imagen1?.name }}</span>
           </div>
           <div v-else-if="imagen1 && !imagenCargada1 && !cargandoImagen" class="imagen-preview-failed">
-            <span class="nombre-archivo">{{ imagen1?.name }} (Error al cargar)</span>
+            <span class="nombre-archivo">{{ imagen1?.name }} {{ t('vehicleSpec.uploadError') }}</span>
           </div>
         </div>
       </div>
     </div>
 
     <div class="seccion">
-      <h2 class="subtitulo-formulario">DATOS DEL VEHÍCULO</h2>
+      <h2 class="subtitulo-formulario">{{ t('vehicleSpec.vehicleData') }}</h2>
       <div class="datos-vehiculo">
         <div class="campo-formulario">
-            <label for="marca">MARCA</label>
+            <label for="marca">{{ t('vehicleSpec.brand') }}</label>
             <div class="select-container">
                 <select 
                   id="marca"
@@ -184,7 +191,7 @@ const updateFormData = () => {
                   @change="updateFormData"
                   class="custom-select"
                 >
-                  <option value="" disabled selected>Seleccione una marca</option>
+                  <option value="" disabled selected>{{ t('vehicleSpec.selectBrand') }}</option>
                   <option 
                     v-for="marca in marcas" 
                     :key="marca.codigo" 
@@ -199,38 +206,42 @@ const updateFormData = () => {
             </div>     
         </div>
         <div class="campo-formulario">
-          <label for="modelo">MODELO</label>
+          <label for="modelo">{{ t('vehicleSpec.model') }}</label>
           <pv-inputText
             id="modelo"
             v-model="formulario.modelo"
-            placeholder="Ingrese el modelo"
+            :placeholder="t('vehicleSpec.modelPlaceholder')"
             @input="updateFormData"
             class="p-input-custom"
           />
         </div>
 
         <div class="campo-formulario">
-          <label for="placa">PLACA</label>
+          <label for="placa">{{ t('vehicleSpec.licensePlate') }}</label>
           <pv-inputText
             id="placa"
             v-model="formulario.placa"
-            placeholder="Ej: A1E-45O"
+            :placeholder="t('vehicleSpec.platePlaceholder')"
             @input="formatearPlaca"
             maxlength="7"
             class="p-input-custom"
             :class="{ 'p-invalid': !placaValida && formulario.placa.length > 0 }"
           />
-          <small class="field-help">Formato: 3 caracteres alfanuméricos - 3 caracteres alfanuméricos (Ej: ABC-123)</small>
-          <small v-if="!placaValida && formulario.placa.length === 7" class="p-error">Formato de placa incorrecto. Use XXX-XXX (letras/números).</small>
-          <small v-else-if="!placaValida && formulario.placa.length > 0 && formulario.placa.length < 7" class="p-error">Placa incompleta.</small>
+          <small class="field-help">{{ t('vehicleSpec.plateFormat') }}</small>
+          <small v-if="!placaValida && formulario.placa.length === 7" class="p-error">
+            {{ t('vehicleSpec.plateErrorFormat') }}
+          </small>
+          <small v-else-if="!placaValida && formulario.placa.length > 0 && formulario.placa.length < 7" class="p-error">
+            {{ t('vehicleSpec.plateIncomplete') }}
+          </small>
         </div>
 
         <div class="campo-formulario">
-          <label for="precio">PRECIO A VENDER</label>
+          <label for="precio">{{ t('vehicleSpec.sellingPrice') }}</label>
           <pv-inputText
             id="precio"
             v-model="formulario.precioVender"
-            placeholder="S/."
+            :placeholder="t('vehicleSpec.pricePlaceholder')"
             type="number"
             @input="updateFormData"
             class="p-input-custom"
