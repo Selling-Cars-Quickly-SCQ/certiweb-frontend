@@ -354,7 +354,6 @@
     },
     "recommended": "Recommended",
     "paymentNote": {
-      "simulation": "This is a payment simulation. No actual charges will be made.",
       "freePlan": "You have selected the Free Plan. No payment information is required."
     },
     "paymentSummary": {
