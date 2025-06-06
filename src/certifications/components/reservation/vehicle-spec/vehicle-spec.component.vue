@@ -20,7 +20,8 @@ const formulario = reactive({
   marca: '',
   modelo: '',
   placa: '',
-  precioVender: null
+  precioVender: null,
+  propietarioEmail: ''
 });
 const placaValida = ref(true);
 
@@ -234,6 +235,18 @@ const updateFormData = () => {
           <small v-else-if="!placaValida && formulario.placa.length > 0 && formulario.placa.length < 7" class="p-error">
             {{ t('vehicleSpec.plateIncomplete') }}
           </small>
+        </div>
+
+        <div class="campo-formulario">
+          <label for="propietarioEmail">{{ t('vehicleSpec.ownerEmail') }}</label>
+          <pv-inputText
+            id="propietarioEmail"
+            v-model="formulario.propietarioEmail"
+            :placeholder="t('vehicleSpec.ownerEmailPlaceholder')"
+            type="email"
+            @input="updateFormData"
+            class="p-input-custom"
+          />
         </div>
 
         <div class="campo-formulario">
