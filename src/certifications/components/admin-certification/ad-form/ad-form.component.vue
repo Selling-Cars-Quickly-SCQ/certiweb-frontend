@@ -19,6 +19,7 @@ const emit = defineEmits(['update:formData', 'saveCar']);
 const formData = ref({
   title: '',
   owner: '',
+  ownerEmail: '',
   year: null,
   brand: '',
   model: '',
@@ -32,6 +33,7 @@ const formData = ref({
 watch(() => props.initialData, (newData) => {
   if (newData) {
     formData.value.owner = newData.reservationName || '';
+    formData.value.ownerEmail = newData.reservationEmail || ''; 
     formData.value.brand = newData.brand || '';
     formData.value.model = newData.model || '';
     formData.value.imageUrl = newData.imageUrl || '';
@@ -47,6 +49,7 @@ watch(formData, (newData) => {
 const isFormValid = computed(() => {
   return formData.value.title &&
          formData.value.owner &&
+         formData.value.ownerEmail &&
          formData.value.year !== null &&
          formData.value.brand &&
          formData.value.model &&
@@ -57,6 +60,7 @@ const formProgress = computed(() => {
   const fields = [
     formData.value.title,
     formData.value.owner,
+    formData.value.ownerEmail,
     formData.value.year !== null ? 'filled' : '',
     formData.value.brand,
     formData.value.model,
@@ -153,6 +157,29 @@ defineExpose({
               v-model="formData.owner"
               class="form-input readonly-input"
               :placeholder="t('adForm.ownerPlaceholder')"
+              readonly
+            />
+            <div class="readonly-indicator">
+              <i class="pi pi-lock"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Owner Email -->
+        <div class="field-group">
+          <div class="field-header">
+            <label for="ownerEmail" class="field-label">
+              <i class="pi pi-envelope label-icon"></i>
+              {{ t('adForm.ownerEmail') }}
+            </label>
+            <span class="field-badge readonly">{{ t('adForm.autoCompleted') }}</span>
+          </div>
+          <div class="input-wrapper">
+            <pv-inputText
+              id="ownerEmail"
+              v-model="formData.ownerEmail"
+              class="form-input readonly-input" 
+              :placeholder="t('adForm.ownerEmailPlaceholder')"
               readonly
             />
             <div class="readonly-indicator">
