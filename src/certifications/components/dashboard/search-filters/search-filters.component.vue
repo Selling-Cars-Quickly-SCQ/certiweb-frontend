@@ -3,6 +3,9 @@ import { ref, computed, onMounted } from 'vue';
 import brandPhrase from '@/assets/brandPhrase.png';
 import { carService } from '@/certifications/services/car.service.js';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const router = useRouter();
 
@@ -132,7 +135,7 @@ onMounted(async () => {
     <div class="search-container">
       <div class="search-header">
         <i class="pi pi-search"></i>
-        <h2>Encuentra tu vehículo ideal</h2>
+        <h2>{{t('search-filters.title')}}</h2>
       </div>
       
       <div class="filter-section">
@@ -141,7 +144,7 @@ onMounted(async () => {
           <div class="filter-item">
             <label class="filter-label">
               <i class="pi pi-tag"></i>
-              <span>Marca</span>
+              <span>{{t('search-filters.brand')}}</span>
             </label>
             <select 
               v-model="selectedBrand" 
@@ -162,7 +165,7 @@ onMounted(async () => {
           <div class="filter-item">
             <label class="filter-label">
               <i class="pi pi-car"></i>
-              <span>Modelo</span>
+              <span>{{t('search-filters.model')}}</span>
             </label>
             <select 
               v-model="selectedModel" 
@@ -186,7 +189,7 @@ onMounted(async () => {
             icon="pi pi-trash" 
             class="clear-button" 
             @click="clearFilters" 
-            label="Limpiar" 
+            :label="t('search-filters.clear')" 
             outlined
           />
           
@@ -197,7 +200,7 @@ onMounted(async () => {
             @click="search" 
             :loading="loading"
             :disabled="!isFormValid"
-            label="Buscar"
+            :label="t('search-filters.search')"
           />
         </div>
       </div>
