@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import AcceptReservationComponent from './accept-reservation/accept-reservation.component.vue';
 import AdFormComponent from './ad-form/ad-form.component.vue';
 import UploadCertificationComponent from './upload-certification/upload-certification.component.vue';
@@ -10,6 +11,8 @@ const adFormData = ref({});
 const createdCarId = ref(null);
 const isSavingCar = ref(false);
 const isUploadingPdfStatus = ref(false);
+
+const router = useRouter();
 
 const handleReservationAccepted = (reservationData) => {
   acceptedReservationData.value = reservationData;
@@ -92,6 +95,11 @@ const resetProcess = () => {
   isSavingCar.value = false;
   isUploadingPdfStatus.value = false;
 };
+
+const handleLogout = () => {
+  localStorage.removeItem('currentSession');
+  router.push('/login');
+};
 </script>
 
 <template>
@@ -109,8 +117,14 @@ const resetProcess = () => {
             v-if="completedSteps > 0"
             label="Reiniciar Proceso" 
             icon="pi pi-refresh" 
-            class="p-button-text p-button-sm"
+            class="p-button-text p-button-sm p-button-raised p-button-info"
             @click="resetProcess"
+          />
+          <pv-button 
+            label="Cerrar Sesión" 
+            icon="pi pi-sign-out" 
+            class="p-button-text p-button-sm p-button-danger"
+            @click="handleLogout"
           />
         </div>
       </div>
@@ -268,11 +282,16 @@ const resetProcess = () => {
 .progress-stats {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem; /* Reducido para mejor ajuste */
   background: #f1f5f9;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1rem; /* Ajustado padding */
   border-radius: 12px;
   border: 1px solid #e2e8f0;
+}
+
+/* Asegurar que los botones no se superpongan demasiado */
+.progress-stats .p-button-sm {
+  margin-left: 0.5rem;
 }
 
 .steps-completed {
