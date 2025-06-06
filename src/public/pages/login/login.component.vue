@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { environment } from '@/environments/environment.development';
 import { useI18n } from 'vue-i18n';
+import LanguageSwitcherComponent from '@/public/components/language-switcher/language-switcher.component.vue';
 
 const { t } = useI18n();
 const router = useRouter();
@@ -129,6 +130,7 @@ const goToRegister = () => {
 </script>
 
 <template>
+  <LanguageSwitcherComponent/>
   <div class="login-wrapper">
     <div class="login-container">
       <pv-card class="login-card">
