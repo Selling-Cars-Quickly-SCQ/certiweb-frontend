@@ -2,6 +2,9 @@
 import { ref, onMounted } from 'vue'
 import { userService } from '@/certifications/services/user.service'
 import toolbarComponent from '../../../certifications/components/dashboard/toolbar/toolbar.component.vue'
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 const user = ref({
   name: '',
   email: '',
@@ -30,40 +33,40 @@ onMounted(async () => {
 </script>
 
 <template>
-    <toolbarComponent/>
+  <toolbarComponent/>
   <div class="profile-wrapper">
-    <pv-card class="profile-card">
-      <template #header>
-        <h2 class="profile-title">Perfil de Usuario</h2>
-      </template>
-      <template #content>
-        <div v-if="loading" class="profile-loading">
-          Cargando datos...
-        </div>
-        <div v-else class="profile-data">
-          <div class="profile-row">
-            <span class="profile-label">Nombre:</span>
-            <span class="profile-value">{{ user.name }}</span>
-          </div>
-          <div class="profile-row">
-            <span class="profile-label">Correo:</span>
-            <span class="profile-value">{{ user.email }}</span>
-          </div>
-          <div class="profile-row">
-            <span class="profile-label">Plan:</span>
-            <span class="profile-value">{{ user.plan }}</span>
-          </div>
-        </div>
-        <div class="back-home">
-        <pv-button 
-            label="Volver al inicio" 
-            icon="pi pi-home" 
-            class="p-button-text home-btn"
-            @click="$router.push('/')" 
-        />
-        </div>
-      </template>
-    </pv-card>
+      <pv-card class="profile-card">
+          <template #header>
+              <h2 class="profile-title">{{ t('profilePage.title') }}</h2>
+          </template>
+          <template #content>
+              <div v-if="loading" class="profile-loading">
+                  {{ t('profilePage.loading') }}
+              </div>
+              <div v-else class="profile-data">
+                  <div class="profile-row">
+                      <span class="profile-label">{{ t('profilePage.nameLabel') }}:</span>
+                      <span class="profile-value">{{ user.name }}</span>
+                  </div>
+                  <div class="profile-row">
+                      <span class="profile-label">{{ t('profilePage.emailLabel') }}:</span>
+                      <span class="profile-value">{{ user.email }}</span>
+                  </div>
+                  <div class="profile-row">
+                      <span class="profile-label">{{ t('profilePage.planLabel') }}:</span>
+                      <span class="profile-value">{{ user.plan }}</span>
+                  </div>
+              </div>
+              <div class="back-home">
+                  <pv-button 
+                      :label="t('profilePage.backButton')" 
+                      icon="pi pi-home" 
+                      class="p-button-text home-btn"
+                      @click="$router.push('/')" 
+                  />
+              </div>
+          </template>
+      </pv-card>
   </div>
 </template>
 
