@@ -164,6 +164,7 @@ const handleConfirmReservation = async () => {
     const reservationPayload = {
       userId: currentUser.id,
       reservationName: currentUser.name,
+      reservationEmail: currentUser.email,
       imageUrl: props.vehicleData.imagenes[0].url,
       brand: props.vehicleData.marca,
       model: props.vehicleData.modelo,
