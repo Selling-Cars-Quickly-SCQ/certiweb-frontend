@@ -3,7 +3,9 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { environment } from '@/environments/environment.development';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const router = useRouter();
 
 const email = ref('');
@@ -132,15 +134,15 @@ const goToRegister = () => {
       <pv-card class="login-card">
         <template #header>
           <div class="card-header">
-            <h1 class="title">Iniciar Sesión</h1>
-            <p class="subtitle">Accede a tu cuenta de CertiWeb</p>
+            <h1 class="title">{{ t('loginPage.title') }}</h1>
+            <p class="subtitle">{{ t('loginPage.subtitle') }}</p>
           </div>
         </template>
         
         <template #content>
           <form @submit.prevent="handleLogin" class="login-form">
             <div class="form-field">
-              <label for="email">Correo Electrónico</label>
+              <label for="email">{{ t('loginPage.emailLabel') }}</label>
               <span class="p-input-icon-left w-full">
                 <i class="pi pi-envelope"></i>
                 <pv-inputText 
@@ -148,13 +150,13 @@ const goToRegister = () => {
                   v-model="email" 
                   type="email" 
                   class="w-full" 
-                  placeholder="ejemplo@correo.com" 
+                  :placeholder="t('loginPage.emailPlaceholder')" 
                 />
               </span>
             </div>
             
             <div class="form-field">
-              <label for="password">Contraseña</label>
+              <label for="password">{{ t('loginPage.passwordLabel') }}</label>
               <span class="p-input-icon-left w-full">
                 <i class="pi pi-lock"></i>
                 <pv-password 
@@ -163,7 +165,7 @@ const goToRegister = () => {
                   toggleMask 
                   :feedback="false" 
                   class="w-full" 
-                  placeholder="Ingresa tu contraseña" 
+                  :placeholder="t('loginPage.passwordPlaceholder')" 
                 />
               </span>
             </div>
@@ -176,10 +178,10 @@ const goToRegister = () => {
                   :binary="true" 
                   class="remember-checkbox"
                 />
-                <label for="rememberMe" class="remember-label">Recordarme</label>
+                <label for="rememberMe" class="remember-label">{{ t('loginPage.rememberMe') }}</label>
               </div>
               
-              <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+              <a href="#" class="forgot-password">{{ t('loginPage.forgotPassword') }}</a>
             </div>
             
             <!-- Message Error or Success -->
@@ -196,17 +198,17 @@ const goToRegister = () => {
             <div class="form-actions">
               <pv-button 
                 type="submit" 
-                label="Iniciar Sesión" 
+                :label="t('loginPage.loginButton')" 
                 icon="pi pi-sign-in" 
                 class="p-button-primary login-button" 
               />
             </div>
             
             <div class="register-prompt">
-              <p>¿No tienes una cuenta?</p>
+              <p>{{ t('loginPage.noAccountPrompt') }}</p>
               <pv-button 
                 type="button" 
-                label="Regístrate" 
+                :label="t('loginPage.registerButton')" 
                 class="p-button-text register-link" 
                 @click="goToRegister"
               />
