@@ -1,3 +1,141 @@
 {
-    
+    "pageNotFound":{
+        "title":"Page not found",
+        "message":"Sorry, the page you are looking for does not exist.",
+        "returnHome":"Return to the home page"
+    },
+    "language": {
+      "english": "English",
+      "spanish": "Spanish"
+    },
+    "toolbar": {
+      "certifiedCars": "Certified Cars for Sale",
+      "certifyCar": "Certify your Car",
+      "userMenu": "User Menu",
+      "menu": "Menu",
+      "profile": "Profile",
+      "history": "History",
+      "support": "Support",
+      "termsOfUse": "Terms of Use",
+      "logout": "Logout",
+      "toolbar": {
+        "home": "Home",
+        "cars": "Cars",
+        "support": "Support",
+        "termsOfUse": "Terms of Use",
+        "adminCertification": "Admin Certification",
+        "logout": "Logout"
+      }
+    },
+    "adminCertification": {
+      "processTitle": "Certification Process",
+      "stepsCompleted": "{completedSteps}/3 steps completed",
+      "resetProcess": "Reset Process",
+      "logout": "Logout",
+      "step1": "Accept Reservation",
+      "step2": "Save Information",
+      "step3": "Upload PDF",
+      "step1Title": "Accept Reservation",
+      "step1Completed": "Completed",
+      "step2Title": "Complete and Save Information",
+      "step2CarId": "Car ID: {createdCarId}",
+      "step2Locked": "Locked",
+      "step3Title": "Upload Technical Report PDF",
+      "step3Locked": "First save car information",
+      "pdfUploadLocked": "PDF Upload Locked",
+      "completePreviousSteps": "Complete previous steps to enable PDF upload",
+      "alertReservationNeeded": "You must accept a reservation first",
+      "alertCarSaved": "Vehicle information saved successfully. Now you can upload the PDF.",
+      "alertSaveCarError": "Error saving vehicle information: ",
+      "alertPdfUploaded": "PDF uploaded successfully to the database",
+      "alertPdfUploadError": "Error uploading PDF: "
+    },
+    "search-filters":{
+      "title":"Find your ideal vehicle",
+      "brand":"Brand",
+      "model":"Model",
+      "clear":"Clear",
+      "search":"Search"
+    },
+    "acceptReservation": {
+      "pendingReservations": "Pending Reservations",
+      "loadingReservations": "Loading reservations...",
+      "retry": "Retry",
+      "noPendingReservations": "No Pending Reservations",
+      "allProcessed": "All reservations have been processed or no new reservations are available.",
+      "notAvailable": "N/A",
+      "brand": "Brand",
+      "model": "Model",
+      "license": "License",
+      "dateTime": "Date & Time",
+      "price": "Price",
+      "status": "Status",
+      "acceptReservation": "Accept Reservation"
+    },
+    "adForm": {
+    "creationTitle": "Client Ad Creation",
+    "creationSubtitle": "Complete the information to generate the vehicle ad",
+    "formProgress": "Form Progress",
+    "vehicleAdData": "Vehicle and Ad Data",
+    "adTitle": "Ad Title",
+    "editable": "Editable",
+    "adTitlePlaceholder": "Ex: Toyota Corolla 2020 - Excellent condition",
+    "adTitleHint": "Write an attractive title for the ad",
+    "owner": "Owner",
+    "autoCompleted": "Auto-completed",
+    "ownerPlaceholder": "Owner's name",
+    "year": "Year",
+    "yearPlaceholder": "Vehicle year",
+    "yearHint": "Enter the manufacturing year of the vehicle",
+    "brand": "Brand",
+    "brandPlaceholder": "Vehicle brand",
+    "model": "Model",
+    "modelPlaceholder": "Vehicle model",
+    "detailedDescription": "Detailed Description",
+    "descriptionPlaceholder": "Describe the characteristics, condition, equipment, and any relevant details of the vehicle...",
+    "characters": "characters",
+    "descriptionHint": "Include details about condition, mileage, maintenance, etc.",
+    "saveVehicleInfo": "Save Vehicle Information",
+    "formComplete": "Form Complete",
+    "formIncomplete": "Form Incomplete",
+    "allFieldsCompleted": "All required fields have been completed",
+    "completeEditableFields": "Complete editable fields to continue"
+  },
+  "uploadTechReport": {
+    "title": "Upload Technical Report",
+    "subtitle": "Upload the PDF document of the technical report for car ID: {carId}"
+  },
+  "uploadZone": {
+    "selectOrDrag": "Select or drag your PDF file",
+    "supportedFormats": "Supported formats: PDF • Max size: 10MB",
+    "selectFile": "Select File",
+    "features": {
+      "secure": "Secure and encrypted",
+      "fast": "Fast processing",
+      "validation": "Automatic validation"
+    }
+  },
+  "fileState": {
+    "processing": "Processing file...",
+    "fileType": "PDF Document",
+    "validFile": "Valid file",
+    "invalidFormat": "Invalid format",
+    "base64Generated": "Base64 generated ({size} KB)",
+    "removeFile": "Remove file"
+  },
+  "preview": {
+    "title": "Document Preview",
+    "description": "PDF document converted to Base64 and ready to save",
+    "actions": {
+      "download": "Download",
+      "open": "Open"
+    }
+  },
+  "uploadButton": {
+    "label": "Upload PDF to Database"
+  },
+  "successMessage": {
+    "title": "File processed successfully!",
+    "description": "The technical report is ready to be saved in the database"
+  }
 }

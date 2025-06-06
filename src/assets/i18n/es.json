@@ -1,3 +1,133 @@
 {
-    
+    "pageNotFound":{
+        "title":"Pagina no encontrada",
+        "message":"Losentimos esta pagina no existe.",
+        "returnHome":"Retorna a la pagina principal"
+    },
+    "language": {
+      "english": "Ingles",
+      "spanish": "Español"
+    },
+    "toolbar": {
+      "certifiedCars": "Autos Certificados en venta",
+      "certifyCar": "Certifica tu auto",
+      "userMenu": "Menu de usuario",
+      "menu": "Menú",
+      "profile": "Perfil",
+      "history": "Historial",
+      "support": "Soporte",
+      "termsOfUse": "Términos de uso",
+      "logout": "Cerrar sesión"
+    },
+    "search-filters":{
+      "title":"Encuentra tu vehículo ideal",
+      "brand":"Marca",
+      "model":"Modelo",
+      "clear":"Limpiar",
+      "search":"Buscar"
+    },
+    "adminCertification": {
+    "processTitle": "Proceso de Certificación",
+    "stepsCompleted": "{completedSteps}/3 pasos completados",
+    "resetProcess": "Reiniciar Proceso",
+    "logout": "Cerrar Sesión",
+    "step1": "Aceptar Reserva",
+    "step2": "Guardar Información",
+    "step3": "Subir PDF",
+    "step1Title": "Aceptar Reserva",
+    "step1Completed": "Completado",
+    "step2Title": "Completar y Guardar Información",
+    "step2CarId": "ID del Auto: {createdCarId}",
+    "step2Locked": "Bloqueado",
+    "step3Title": "Subir Informe Técnico PDF",
+    "step3Locked": "Primero guarde la información del auto",
+    "pdfUploadLocked": "Subida de PDF Bloqueada",
+    "completePreviousSteps": "Complete los pasos anteriores para habilitar la subida del PDF",
+    "alertReservationNeeded": "Primero debe aceptar una reserva",
+    "alertCarSaved": "Información del vehículo guardada exitosamente. Ahora puede subir el PDF.",
+    "alertSaveCarError": "Error al guardar la información del vehículo: ",
+    "alertPdfUploaded": "PDF subido exitosamente a la base de datos",
+    "alertPdfUploadError": "Error al subir el PDF: "
+  },
+  "acceptReservation": {
+    "pendingReservations": "Reservas Pendientes",
+    "loadingReservations": "Cargando reservas...",
+    "retry": "Reintentar",
+    "noPendingReservations": "No hay Reservas Pendientes",
+    "allProcessed": "Todas las reservas han sido procesadas o no hay nuevas reservas disponibles.",
+    "notAvailable": "N/A",
+    "brand": "Marca",
+    "model": "Modelo",
+    "license": "Licencia",
+    "dateTime": "Fecha y Hora",
+    "price": "Precio",
+    "status": "Estado",
+    "acceptReservation": "Aceptar Reserva"
+  },
+  "adForm": {
+    "creationTitle": "Creación del Anuncio al Cliente",
+    "creationSubtitle": "Complete la información para generar el anuncio del vehículo",
+    "formProgress": "Progreso del formulario",
+    "vehicleAdData": "Datos del Vehículo y Anuncio",
+    "adTitle": "Título del Anuncio",
+    "editable": "Editable",
+    "adTitlePlaceholder": "Ej: Toyota Corolla 2020 - Excelente estado",
+    "adTitleHint": "Escriba un título atractivo para el anuncio",
+    "owner": "Propietario",
+    "autoCompleted": "Auto-completado",
+    "ownerPlaceholder": "Nombre del propietario",
+    "year": "Año",
+    "yearPlaceholder": "Año del vehículo",
+    "yearHint": "Ingrese el año de fabricación del vehículo",
+    "brand": "Marca",
+    "brandPlaceholder": "Marca del vehículo",
+    "model": "Modelo",
+    "modelPlaceholder": "Modelo del vehículo",
+    "detailedDescription": "Descripción Detallada",
+    "descriptionPlaceholder": "Describa las características, estado, equipamiento y cualquier detalle relevante del vehículo...",
+    "characters": "caracteres",
+    "descriptionHint": "Incluya detalles sobre el estado, kilometraje, mantenimiento, etc.",
+    "saveVehicleInfo": "Guardar Información del Vehículo",
+    "formComplete": "Formulario Completo",
+    "formIncomplete": "Formulario Incompleto",
+    "allFieldsCompleted": "Todos los campos requeridos han sido completados",
+    "completeEditableFields": "Complete los campos editables para continuar"
+  },
+  "uploadTechReport": {
+    "title": "Subir Informe Técnico",
+    "subtitle": "Suba el documento PDF del informe técnico para el auto ID: {carId}"
+  },
+  "uploadZone": {
+    "selectOrDrag": "Seleccione o arrastre su archivo PDF",
+    "supportedFormats": "Formatos soportados: PDF • Tamaño máximo: 10MB",
+    "selectFile": "Seleccionar Archivo",
+    "features": {
+      "secure": "Seguro y encriptado",
+      "fast": "Procesamiento rápido",
+      "validation": "Validación automática"
+    }
+  },
+  "fileState": {
+    "processing": "Procesando archivo...",
+    "fileType": "Documento PDF",
+    "validFile": "Archivo válido",
+    "invalidFormat": "Formato no válido",
+    "base64Generated": "Base64 generado ({size} KB)",
+    "removeFile": "Eliminar archivo"
+  },
+  "preview": {
+    "title": "Vista Previa del Documento",
+    "description": "Documento PDF convertido a Base64 y listo para guardar",
+    "actions": {
+      "download": "Descargar",
+      "open": "Abrir"
+    }
+  },
+  "uploadButton": {
+    "label": "Subir PDF a la Base de Datos"
+  },
+  "successMessage": {
+    "title": "¡Archivo procesado exitosamente!",
+    "description": "El informe técnico está listo para ser guardado en la base de datos"
+  }
 }
