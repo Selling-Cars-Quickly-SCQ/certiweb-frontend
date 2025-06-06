@@ -1,6 +1,8 @@
 <script setup>
 import { ref, defineEmits, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const selectedFile = ref(null);
 const isDragOver = ref(false);
 const isUploading = ref(false);
@@ -132,8 +134,8 @@ const onDrop = () => {
           <i class="pi pi-file-pdf"></i>
         </div>
         <div class="header-text">
-          <h3 class="section-title">Subir Informe Técnico</h3>
-          <p class="section-subtitle">Suba el documento PDF del informe técnico para el auto ID: {{ carId }}</p>
+          <h3 class="section-title">{{ t('uploadTechReport.title') }}</h3>
+          <p class="section-subtitle">{{ t('uploadTechReport.subtitle', { carId: carId }) }}</p>
         </div>
       </div>
     </div>
@@ -155,9 +157,9 @@ const onDrop = () => {
           </div>
           
           <div class="upload-text">
-            <h4 class="upload-title">Seleccione o arrastre su archivo PDF</h4>
+            <h4 class="upload-title">{{ t('uploadZone.selectOrDrag') }}</h4>
             <p class="upload-description">
-              Formatos soportados: PDF • Tamaño máximo: 10MB
+              {{ t('uploadZone.supportedFormats') }}
             </p>
           </div>
 
@@ -167,7 +169,7 @@ const onDrop = () => {
             accept=".pdf"
             :maxFileSize="10000000" 
             @select="onSelect" 
-            chooseLabel="Seleccionar Archivo"
+            :chooseLabel="t('uploadZone.selectFile')"
             class="custom-file-upload"
             :auto="false" 
           />
@@ -175,15 +177,15 @@ const onDrop = () => {
           <div class="upload-features">
             <div class="feature-item">
               <i class="pi pi-shield feature-icon"></i>
-              <span>Seguro y encriptado</span>
+              <span>{{ t('uploadZone.features.secure') }}</span>
             </div>
             <div class="feature-item">
               <i class="pi pi-clock feature-icon"></i>
-              <span>Procesamiento rápido</span>
+              <span>{{ t('uploadZone.features.fast') }}</span>
             </div>
             <div class="feature-item">
               <i class="pi pi-check feature-icon"></i>
-              <span>Validación automática</span>
+              <span>{{ t('uploadZone.features.validation') }}</span>
             </div>
           </div>
         </div>
@@ -194,7 +196,7 @@ const onDrop = () => {
         <!-- Upload Progress -->
         <div v-if="isUploading" class="upload-progress">
           <div class="progress-header">
-            <span class="progress-text">Procesando archivo...</span>
+            <span class="progress-text">{{ t('fileState.processing') }}</span>
             <span class="progress-percentage">{{ uploadProgress }}%</span>
           </div>
           <div class="progress-bar">
@@ -221,15 +223,15 @@ const onDrop = () => {
               <h5 class="file-name">{{ selectedFile.name }}</h5>
               <div class="file-meta">
                 <span class="file-size">{{ fileSize }}</span>
-                <span class="file-type">PDF Document</span>
+                <span class="file-type">{{ t('fileState.fileType') }}</span>
               </div>
               <div class="file-validation" :class="{ 'valid': isValidFile }">
                 <i :class="isValidFile ? 'pi pi-check-circle' : 'pi pi-exclamation-triangle'"></i>
-                <span>{{ isValidFile ? 'Archivo válido' : 'Formato no válido' }}</span>
+                <span>{{ isValidFile ? t('fileState.validFile') : t('fileState.invalidFormat') }}</span>
               </div>
               <div v-if="base64Data" class="base64-info">
                 <i class="pi pi-database"></i>
-                <span>Base64 generado ({{ Math.round(base64Data.length / 1024) }} KB)</span>
+                <span>{{ t('fileState.base64Generated', { size: Math.round(base64Data.length / 1024) }) }}</span>
               </div>
             </div>
 
@@ -237,7 +239,7 @@ const onDrop = () => {
               v-if="!isUploading"
               @click="removeFile"
               class="remove-button"
-              title="Eliminar archivo"
+              :title="t('fileState.removeFile')"
             >
               <i class="pi pi-times"></i>
             </pv-button>
@@ -249,7 +251,7 @@ const onDrop = () => {
           <div class="preview-header">
             <h5 class="preview-title">
               <i class="pi pi-eye"></i>
-              Vista Previa del Documento
+              {{ t('preview.title') }}
             </h5>
           </div>
           
@@ -261,16 +263,16 @@ const onDrop = () => {
               <div class="preview-info">
                 <h6 class="preview-filename">{{ selectedFile.name }}</h6>
                 <p class="preview-description">
-                  Documento PDF convertido a Base64 y listo para guardar
+                  {{ t('preview.description') }}
                 </p>
                 <div class="preview-actions">
                   <pv-button class="preview-button" @click="downloadPreview">
                     <i class="pi pi-download"></i>
-                    Descargar
+                    {{ t('preview.actions.download') }}
                   </pv-button>
                   <pv-button class="preview-button" @click="openPreview">
                     <i class="pi pi-external-link"></i>
-                    Abrir
+                    {{ t('preview.actions.open') }}
                   </pv-button>
                 </div>
               </div>
@@ -281,7 +283,7 @@ const onDrop = () => {
         <!-- Upload to Database Button -->
         <div v-if="!isUploading && isValidFile && base64Data" class="upload-to-db">
           <pv-button 
-            label="Subir PDF a la Base de Datos"
+            :label="t('uploadButton.label')"
             icon="pi pi-cloud-upload"
             class="upload-db-button"
             @click="uploadPdfToDatabase"
@@ -297,9 +299,9 @@ const onDrop = () => {
               <i class="pi pi-check-circle"></i>
             </div>
             <div class="success-text">
-              <h6 class="success-title">¡Archivo procesado exitosamente!</h6>
+              <h6 class="success-title">{{ t('successMessage.title') }}</h6>
               <p class="success-description">
-                El informe técnico está listo para ser guardado en la base de datos
+                {{ t('successMessage.description') }}
               </p>
             </div>
           </div>
