@@ -1,15 +1,14 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const router = useRouter();
 
 const certificationRoute = '/reservation';
 
 const bannerData = ref({
-  title: 'Sabemos que tu carro es importante',
-  description: 'Certifica tu auto y obten una inspeccion que pondra mas valor y confiansa a la hora de venderlo.',
-  buttonText: 'Obten tu certificado!',
   carImage: 'https://img.freepik.com/foto-gratis/coche-lujoso-estacionado-carretera-faro-iluminado-al-atardecer_181624-60607.jpg?semt=ais_hybrid&w=740'
 });
 
@@ -24,16 +23,16 @@ const navigateToCertification = () => {
       <div class="car-image-container">
         <img 
           :src="bannerData.carImage" 
-          alt="Kia Rio Rojo" 
+          :alt="t('banner.carAltText')" 
           class="car-image"
         />
       </div>
       
       <div class="certification-content">
-        <h2 class="certification-title">{{ bannerData.title }}</h2>
+        <h2 class="certification-title">{{ t('banner.title') }}</h2>
         
         <p class="certification-description">
-          {{ bannerData.description }}
+          {{ t('banner.description') }}
         </p>
         
         <div class="certification-action">
@@ -41,7 +40,7 @@ const navigateToCertification = () => {
             class="certification-button" 
             @click="navigateToCertification"
           >
-            <span>{{ bannerData.buttonText }}</span>
+            <span>{{ t('banner.buttonText') }}</span>
             <i class="pi pi-arrow-right button-icon"></i>
           </pv-button>
         </div>
