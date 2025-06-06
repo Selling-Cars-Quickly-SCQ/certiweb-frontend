@@ -1,7 +1,9 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import toolbarComponent from '../../../certifications/components/dashboard/toolbar/toolbar.component.vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const router = useRouter();
 
 const goToDashboard = () => {
@@ -19,45 +21,45 @@ const goToDashboard = () => {
             <i class="pi pi-question-circle"></i>
           </div>
           <div class="header-content">
-            <h1>Términos y Condiciones de Uso</h1>
-            <p class="header-subtitle">Última actualización: Enero 2024</p>
+            <h1>{{ t('termsPage.title') }}</h1>
+            <p class="header-subtitle">{{ t('termsPage.lastUpdate') }}</p>
           </div>
         </div>
       </template>
       <template #content>
         <div class="card-content">
           <div class="intro-section">
-            <p class="intro-text">Por favor, lee nuestros términos y condiciones cuidadosamente antes de usar nuestros servicios.</p>
+            <p class="intro-text">{{ t('termsPage.introText') }}</p>
           </div>
           
           <div class="terms-content">
             <section class="term-section">
               <div class="section-header">
                 <span class="section-number">1</span>
-                <h2>Aceptación de los Términos</h2>
+                <h2>{{ t('termsPage.section1.title') }}</h2>
               </div>
               <div class="section-content">
-                <p>Al acceder y utilizar <strong>CertiWeb</strong> (el "Servicio"), aceptas estar sujeto a estos Términos y Condiciones de Uso ("Términos"). Si no estás de acuerdo con alguna parte de los términos, no podrás acceder al Servicio.</p>
+                <p>{{ t('termsPage.section1.content', { service: 'CertiWeb' }) }}</p>
               </div>
             </section>
 
             <section class="term-section">
               <div class="section-header">
                 <span class="section-number">2</span>
-                <h2>Uso del Servicio</h2>
+                <h2>{{ t('termsPage.section2.title') }}</h2>
               </div>
               <div class="section-content">
-                <p>El Servicio se proporciona para facilitar la certificación y gestión de información vehicular. No debes utilizar el servicio para ningún propósito ilegal o no autorizado.</p>
+                <p>{{ t('termsPage.section2.content') }}</p>
               </div>
             </section>
 
             <section class="term-section">
               <div class="section-header">
                 <span class="section-number">3</span>
-                <h2>Cuentas de Usuario</h2>
+                <h2>{{ t('termsPage.section3.title') }}</h2>
               </div>
               <div class="section-content">
-                <p>Cuando creas una cuenta con nosotros, debes proporcionarnos información precisa, completa y actual en todo momento. El incumplimiento de esta condición constituye una violación de los Términos, que puede resultar en la terminación inmediata de tu cuenta en nuestro Servicio.</p>
+                <p>{{ t('termsPage.section3.content') }}</p>
               </div>
             </section>
           </div>
@@ -66,7 +68,7 @@ const goToDashboard = () => {
       <template #footer>
         <div class="card-footer">
           <pv-button 
-            label="Volver al Inicio" 
+            :label="t('termsPage.backButton')" 
             icon="pi pi-home" 
             @click="goToDashboard" 
             class="home-button" 
