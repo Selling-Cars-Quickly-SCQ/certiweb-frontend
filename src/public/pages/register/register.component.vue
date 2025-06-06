@@ -2,18 +2,21 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { registerService } from '@/public/services/register.service.js';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 const router = useRouter();
 
 const currentStep = ref(0);
 const items = ref([
     {
-        label: 'Información Personal'
+        label: t('registerPage.steps.personalInfo')
     },
     {
-        label: 'Seleccionar Plan'
+        label: t('registerPage.steps.selectPlan')
     },
     {
-        label: 'Pago'
+        label: t('registerPage.steps.payment')
     }
 ]);
 
@@ -22,9 +25,9 @@ const email = ref('');
 const password = ref('');
 
 const planOptions = ref([
-    { name: 'Free', value: 'Free' },
-    { name: 'Mensual', value: 'Mensual' },
-    { name: 'Anual', value: 'Anual' }
+    { name: t('registerPage.plans.free'), value: 'Free' },
+    { name: t('registerPage.plans.monthly'), value: 'Mensual' },
+    { name: t('registerPage.plans.yearly'), value: 'Anual' }
 ]);
 const selectedPlan = ref(null);
 
@@ -38,12 +41,12 @@ const successMessage = ref('');
 
 const validateStep0 = () => {
   if (!name.value || !email.value || !password.value) {
-    errorMessage.value = 'Por favor, completa todos los campos de información personal.';
+    errorMessage.value = t('registerPage.errors.missingPersonalInfo');
     return false;
   }
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email.value)) {
-    errorMessage.value = 'Por favor, introduce un correo electrónico válido.';
+    errorMessage.value = t('registerPage.errors.invalidEmail');
     return false;
   }
   errorMessage.value = '';
@@ -52,7 +55,7 @@ const validateStep0 = () => {
 
 const validateStep1 = () => {
   if (!selectedPlan.value) {
-    errorMessage.value = 'Por favor, selecciona un plan.';
+    errorMessage.value = t('registerPage.errors.missingPlan');
     return false;
   }
   errorMessage.value = '';
@@ -87,7 +90,7 @@ const handleRegistration = async () => {
   successMessage.value = '';
 
   if (selectedPlan.value !== 'Free' && (!cardNumber.value || !expiryDate.value || !cvv.value)) {
-    errorMessage.value = 'Por favor, completa los datos de pago (simulación).';
+    errorMessage.value = t('registerPage.errors.missingPayment');
     return;
   }
 
@@ -114,7 +117,7 @@ const handleRegistration = async () => {
       localStorage.setItem('users', JSON.stringify(users));
     }
     
-    successMessage.value = '¡Registro exitoso! Serás redirigido al login.';
+    successMessage.value = t('registerPage.success');
     name.value = '';
     email.value = '';
     password.value = '';
@@ -127,7 +130,7 @@ const handleRegistration = async () => {
       router.push('/login'); 
     }, 3000);
   } catch (error) {
-    errorMessage.value = 'Error al registrar. El correo podría ya estar en uso o el servidor no está disponible.';
+    errorMessage.value = t('registerPage.errors.registrationFailed');
   }
 };
 
@@ -142,8 +145,8 @@ const goToLogin = () => {
         <pv-card class="register-card">
           <template #header>
             <div class="card-header">
-              <h1 class="title">Crear tu cuenta</h1>
-              <p class="subtitle">Completa el formulario para acceder a CertiWeb</p>
+              <h1 class="title">{{ t('registerPage.title') }}</h1>
+              <p class="subtitle">{{ t('registerPage.subtitle') }}</p>
             </div>
           </template>
           
@@ -155,36 +158,36 @@ const goToLogin = () => {
             <form @submit.prevent="currentStep === 2 ? handleRegistration() : nextStep()">
               <!-- Step 1: Personal Information -->
               <div v-if="currentStep === 0" class="step-content">
-                <h2 class="step-title">Información Personal</h2>
+                <h2 class="step-title">{{ t('registerPage.steps.personalInfo') }}</h2>
                 
                 <div class="form-field">
-                  <label for="name">Nombre Completo</label>
+                  <label for="name">{{ t('registerPage.formLabels.fullName') }}</label>
                   <span class="p-input-icon-left w-full">
                     <i class="pi pi-user"></i>
-                    <pv-inputText id="name" v-model="name" type="text" class="w-full" placeholder="Ingresa tu nombre completo" />
+                    <pv-inputText id="name" v-model="name" type="text" class="w-full" :placeholder="t('registerPage.placeholders.fullName')" />
                   </span>
                 </div>
                 
                 <div class="form-field">
-                  <label for="email">Correo Electrónico</label>
+                  <label for="email">{{ t('registerPage.formLabels.email') }}</label>
                   <span class="p-input-icon-left w-full">
                     <i class="pi pi-envelope"></i>
-                    <pv-inputText id="email" v-model="email" type="email" class="w-full" placeholder="ejemplo@correo.com" />
+                    <pv-inputText id="email" v-model="email" type="email" class="w-full" :placeholder="t('registerPage.placeholders.email')" />
                   </span>
                 </div>
                 
                 <div class="form-field">
-                  <label for="password">Contraseña</label>
+                  <label for="password">{{ t('registerPage.formLabels.password') }}</label>
                   <span class="p-input-icon-left w-full">
                     <i class="pi pi-lock"></i>
-                    <pv-password id="password" v-model="password" toggleMask :feedback="false" class="w-full" placeholder="Crea una contraseña segura" />
+                    <pv-password id="password" v-model="password" toggleMask :feedback="false" class="w-full" :placeholder="t('registerPage.placeholders.password')" />
                   </span>
                 </div>
               </div>
               
               <!-- Step 2: Plan -->
               <div v-if="currentStep === 1" class="step-content">
-                <h2 class="step-title">Selecciona tu Plan</h2>
+                <h2 class="step-title">{{ t('registerPage.steps.selectPlan') }}</h2>
                 
                 <div class="plans-container">
                   <div 
@@ -194,15 +197,15 @@ const goToLogin = () => {
                   >
                     <div class="plan-header">
                       <i class="pi pi-users plan-icon"></i>
-                      <h3>Plan Free</h3>
+                      <h3>{{ t('registerPage.plans.free') }}</h3>
                     </div>
                     <div class="plan-content">
-                      <p class="plan-price">$0.00<span>/siempre</span></p>
+                      <p class="plan-price">$0.00<span>/{{ t('registerPage.plans.forever') }}</span></p>
                       <ul class="plan-features">
-                        <li><i class="pi pi-check"></i> Contacto con compradores</li>
-                        <li><i class="pi pi-check"></i> Visualización de catálogo</li>
-                        <li><i class="pi pi-times"></i> No permite reservas de autos</li>
-                        <li><i class="pi pi-times"></i> Funcionalidades limitadas</li>
+                        <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.contactBuyers') }}</li>
+                        <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.catalogView') }}</li>
+                        <li><i class="pi pi-times"></i> {{ t('registerPage.planFeatures.noCarReservations') }}</li>
+                        <li><i class="pi pi-times"></i> {{ t('registerPage.planFeatures.limitedFeatures') }}</li>
                       </ul>
                     </div>
                   </div>
@@ -214,14 +217,14 @@ const goToLogin = () => {
                   >
                     <div class="plan-header">
                       <i class="pi pi-calendar plan-icon"></i>
-                      <h3>Plan Mensual</h3>
+                      <h3>{{ t('registerPage.plans.monthly') }}</h3>
                     </div>
                     <div class="plan-content">
-                      <p class="plan-price">$19.99<span>/mes</span></p>
+                      <p class="plan-price">$19.99<span>/{{ t('registerPage.plans.month') }}</span></p>
                       <ul class="plan-features">
-                        <li><i class="pi pi-check"></i> Acceso completo por 30 días</li>
-                        <li><i class="pi pi-check"></i> Soporte técnico</li>
-                        <li><i class="pi pi-check"></i> Actualizaciones incluidas</li>
+                        <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.fullAccess30') }}</li>
+                        <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.techSupport') }}</li>
+                        <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.updatesIncluded') }}</li>
                       </ul>
                     </div>
                   </div>
@@ -231,19 +234,19 @@ const goToLogin = () => {
                     :class="{ 'selected': selectedPlan === 'Anual' }"
                     @click="selectedPlan = 'Anual'"
                   >
-                    <div class="plan-badge">Recomendado</div>
+                    <div class="plan-badge">{{ t('registerPage.recommended') }}</div>
                     <div class="plan-header">
                       <i class="pi pi-calendar-plus plan-icon"></i>
-                      <h3>Plan Anual</h3>
+                      <h3>{{ t('registerPage.plans.yearly') }}</h3>
                     </div>
                     <div class="plan-content">
-                      <p class="plan-price">$199.99<span>/año</span></p>
-                      <p class="plan-saving">¡Ahorra un 16%!</p>
+                      <p class="plan-price">$199.99<span>/{{ t('registerPage.plans.year') }}</span></p>
+                      <p class="plan-saving">{{ t('registerPage.plans.save16') }}</p>
                       <ul class="plan-features">
-                        <li><i class="pi pi-check"></i> Acceso completo por 365 días</li>
-                        <li><i class="pi pi-check"></i> Soporte técnico prioritario</li>
-                        <li><i class="pi pi-check"></i> Actualizaciones incluidas</li>
-                        <li><i class="pi pi-check"></i> Funciones exclusivas</li>
+                        <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.fullAccess365') }}</li>
+                        <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.prioritySupport') }}</li>
+                        <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.updatesIncluded') }}</li>
+                        <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.exclusiveFeatures') }}</li>
                       </ul>
                     </div>
                   </div>
@@ -252,42 +255,42 @@ const goToLogin = () => {
               
               <!-- Step 3: Payment Information -->
               <div v-if="currentStep === 2" class="step-content">
-                <h2 class="step-title">Información de Pago</h2>
-                <p class="payment-note" v-if="selectedPlan !== 'Free'">Esta es una simulación. No se procesará ningún pago real.</p>
-                <p class="payment-note" v-if="selectedPlan === 'Free'">Has seleccionado el plan gratuito. No se requiere información de pago.</p>
+                <h2 class="step-title">{{ t('registerPage.steps.payment') }}</h2>
+                <p class="payment-note" v-if="selectedPlan !== 'Free'">{{ t('registerPage.paymentNote.simulation') }}</p>
+                <p class="payment-note" v-if="selectedPlan === 'Free'">{{ t('registerPage.paymentNote.freePlan') }}</p>
                 
                 <div v-if="selectedPlan !== 'Free'">
                 <div class="form-field">
-                  <label for="cardNumber">Número de Tarjeta</label>
+                  <label for="cardNumber">{{ t('registerPage.formLabels.cardNumber') }}</label>
                   <span class="p-input-icon-left w-full">
                     <i class="pi pi-credit-card"></i>
-                    <pv-inputText id="cardNumber" v-model="cardNumber" class="w-full" placeholder="1234 5678 9012 3456" />
+                    <pv-inputText id="cardNumber" v-model="cardNumber" class="w-full" :placeholder="t('registerPage.placeholders.cardNumber')" />
                   </span>
                 </div>
                 
                 <div class="payment-row">
                   <div class="form-field">
-                    <label for="expiryDate">Fecha de Expiración</label>
-                    <pv-inputText id="expiryDate" v-model="expiryDate" placeholder="MM/AA" />
+                    <label for="expiryDate">{{ t('registerPage.formLabels.expiryDate') }}</label>
+                    <pv-inputText id="expiryDate" v-model="expiryDate" :placeholder="t('registerPage.placeholders.expiryDate')" />
                   </div>
                   
                   <div class="form-field">
-                    <label for="cvv">CVV</label>
+                    <label for="cvv">{{ t('registerPage.formLabels.cvv') }}</label>
                     <span class="p-input-icon-left">
                       <i class="pi pi-lock"></i>
-                      <pv-inputText id="cvv" v-model="cvv" placeholder="123" />
+                      <pv-inputText id="cvv" v-model="cvv" :placeholder="t('registerPage.placeholders.cvv')" />
                     </span>
                   </div>
                 </div>
                 
                 <div class="payment-summary">
-                  <h3>Resumen de Compra</h3>
+                  <h3>{{ t('registerPage.paymentSummary.title') }}</h3>
                   <div class="summary-row">
-                    <span>Plan seleccionado:</span>
+                    <span>{{ t('registerPage.paymentSummary.selectedPlan') }}:</span>
                     <span>{{ selectedPlan }}</span>
                   </div>
                   <div class="summary-row total">
-                    <span>Total a pagar:</span>
+                    <span>{{ t('registerPage.paymentSummary.total') }}:</span>
                     <span v-if="selectedPlan === 'Free'">$0.00</span>
                     <span v-else-if="selectedPlan === 'Mensual'">$19.99</span>
                     <span v-else-if="selectedPlan === 'Anual'">$199.99</span>
@@ -314,7 +317,7 @@ const goToLogin = () => {
                 <pv-button 
                   v-if="currentStep > 0" 
                   type="button" 
-                  label="Anterior" 
+                  :label="t('registerPage.buttons.previous')" 
                   icon="pi pi-arrow-left" 
                   class="p-button-outlined" 
                   @click="prevStep" 
@@ -322,7 +325,7 @@ const goToLogin = () => {
                 
                 <pv-button 
                   type="submit" 
-                  :label="currentStep === 2 ? 'Completar Registro' : 'Siguiente'" 
+                  :label="currentStep === 2 ? t('registerPage.buttons.complete') : t('registerPage.buttons.next')" 
                   :icon="currentStep === 2 ? 'pi pi-check' : 'pi pi-arrow-right'" 
                   iconPos="right" 
                   class="p-button-primary" 
@@ -331,10 +334,10 @@ const goToLogin = () => {
               
               <!-- Login redirect -->
               <div class="login-prompt">
-                <p>¿Ya tienes una cuenta?</p>
+                <p>{{ t('registerPage.haveAccount') }}</p>
                 <pv-button 
                   type="button" 
-                  label="Inicia sesión" 
+                  :label="t('registerPage.buttons.login')" 
                   class="p-button-text login-link" 
                   @click="goToLogin"
                 />
@@ -346,7 +349,7 @@ const goToLogin = () => {
     </div>
 </template>
   
-  <style scoped>
+<style scoped>
   .register-wrapper {
     min-height: 100vh;
     background: linear-gradient(135deg, #f5f0e1 0%, #f5f0e1 100%);
