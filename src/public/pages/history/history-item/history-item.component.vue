@@ -1,7 +1,9 @@
 <script setup>
 import { defineProps } from 'vue';
 import { Reservation } from '@/certifications/model/reservation.entity.js';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const props = defineProps({
   reservation: {
     type: Object,
@@ -36,22 +38,22 @@ const handleImageError = (event) => {
     <template #header>
       <img
         :src="reservation.imageUrl || placeholderImage"
-        alt="Imagen del vehículo"
+        :alt="t('historyItem.imageAlt')"
         class="vehicle-image"
         @error="handleImageError"
       />
     </template>
     <template #title>
-      <div class="card-title">{{ reservation.reservationName || 'Nombre no disponible' }}</div>
+      <div class="card-title">{{ reservation.reservationName || t('historyItem.noName') }}</div>
     </template>
     <template #subtitle>
       <div class="card-subtitle">{{ reservation.brand }} - {{ reservation.model }}</div>
     </template>
     <template #content>
       <div class="reservation-details">
-        <p><strong>Fecha y Hora:</strong> {{ formatDateTime(reservation.inspectionDateTime) }}</p>
-        <p><strong>Precio:</strong> S/ {{ reservation.price || 'No especificado' }}</p>
-        <p><strong>Estado:</strong> <span :class="`status-${reservation.status?.toLowerCase()}`">{{ reservation.status || 'No especificado' }}</span></p>
+        <p><strong>{{ t('historyItem.dateTime') }}</strong> {{ formatDateTime(reservation.inspectionDateTime) }}</p>
+        <p><strong>{{ t('historyItem.price') }}</strong> S/ {{ reservation.price || t('historyItem.priceNotSpecified') }}</p>
+        <p><strong>{{ t('historyItem.status') }}</strong> <span :class="`status-${reservation.status?.toLowerCase()}`">{{ reservation.status || t('historyItem.statusNotSpecified') }}</span></p>
       </div>
     </template>
   </pv-card>
