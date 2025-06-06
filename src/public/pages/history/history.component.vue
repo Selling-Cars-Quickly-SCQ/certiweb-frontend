@@ -5,7 +5,9 @@ import FooterContentComponent from '@/public/components/footer-content.component
 import { historyService } from '@/public/services/history.service.js';
 import { userService } from '@/certifications/services/user.service.js';
 import ToolbarComponent from '@/certifications/components/dashboard/toolbar/toolbar.component.vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const reservations = ref([]);
 const loading = ref(true);
 const errorLoading = ref(null);
@@ -39,11 +41,11 @@ onMounted(async () => {
   <div class="history-page">
     <ToolbarComponent />
     <div class="history-container">
-      <h1 class="page-title">Historial de Reservaciones</h1>
+      <h1 class="page-title">{{ t('historyPage.title') }}</h1>
 
       <div v-if="loading" class="loading-state">
         <pv-progress-spinner strokeWidth="4" animationDuration=".5s" style="width: 50px; height: 50px;"/>
-        <p>Cargando historial...</p>
+        <p>{{ t('historyPage.loading') }}</p>
       </div>
       
       <div v-else-if="errorLoading" class="error-state">
@@ -61,8 +63,13 @@ onMounted(async () => {
 
       <div v-else class="empty-state">
         <i class="pi pi-inbox" style="font-size: 2rem; color: #666;"></i>
-        <p>No tienes reservaciones en tu historial.</p>
-        <pv-button label="Explorar Vehículos" icon="pi pi-search" @click="$router.push('/')" class="p-button-outlined"/>
+        <p>{{ t('historyPage.emptyTitle') }}</p>
+        <pv-button 
+          :label="t('historyPage.exploreButton')" 
+          icon="pi pi-search" 
+          @click="$router.push('/')" 
+          class="p-button-outlined"
+        />
       </div>
     </div>
     <FooterContentComponent />
