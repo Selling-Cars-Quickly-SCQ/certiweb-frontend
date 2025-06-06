@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { registerService } from '@/public/services/register.service.js';
 import { useI18n } from 'vue-i18n';
+import LanguageSwitcherComponent from '@/public/components/language-switcher/language-switcher.component.vue';
 
 const { t } = useI18n();
 const router = useRouter();
@@ -140,6 +141,7 @@ const goToLogin = () => {
 </script>
 
 <template>
+  <LanguageSwitcherComponent/>
     <div class="register-wrapper">
       <div class="register-container">
         <pv-card class="register-card">
@@ -256,7 +258,6 @@ const goToLogin = () => {
               <!-- Step 3: Payment Information -->
               <div v-if="currentStep === 2" class="step-content">
                 <h2 class="step-title">{{ t('registerPage.steps.payment') }}</h2>
-                <p class="payment-note" v-if="selectedPlan !== 'Free'">{{ t('registerPage.paymentNote.simulation') }}</p>
                 <p class="payment-note" v-if="selectedPlan === 'Free'">{{ t('registerPage.paymentNote.freePlan') }}</p>
                 
                 <div v-if="selectedPlan !== 'Free'">
