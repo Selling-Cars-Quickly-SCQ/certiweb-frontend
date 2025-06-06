@@ -206,5 +206,168 @@
     "plateIncomplete": "Incomplete plate.",
     "sellingPrice": "SELLING PRICE",
     "pricePlaceholder": "S/."
+  },
+  "footer": {
+    "copyright": "© 2025 Certiweb.com. All rights reserved.",
+    "terms": "Terms and Conditions"
+  },
+  "carDetail": {
+    "backButton": "Back to List",
+    "loading": "Loading car details...",
+    "error": "Error loading car details:",
+    "tryAgain": "Try Again",
+    "noImageAlt": "No Image",
+    "brand": "Brand:",
+    "model": "Model:",
+    "year": "Year:",
+    "ownerInfo": "Owner Information",
+    "owner": "Owner:",
+    "licensePlate": "License Plate:",
+    "description": "Description",
+    "noDescription": "No detailed description available.",
+    "techCert": "Technical Certification",
+    "viewCert": "View Certification",
+    "downloadCert": "Download Certification",
+    "noCert": "No certification PDF available for this vehicle.",
+    "contactSeller": "Contact Seller",
+    "notFound": "Car details not found."
+  },
+  "carList": {
+    "title": "Certified Cars",
+    "loading": "Loading...",
+    "error": "Error loading cars:",
+    "empty": "No certified cars available at the moment.",
+    "year": "Year:",
+    "noDescription": "No description available",
+    "owner": "Owner:",
+    "viewDetails": "View Details"
+  },
+  "historyItem": {
+    "imageAlt": "Vehicle image",
+    "noName": "Name not available",
+    "dateTime": "Date and Time:",
+    "price": "Price:",
+    "priceNotSpecified": "Not specified",
+    "status": "Status:",
+    "statusNotSpecified": "Not specified"
+  },
+  "historyPage": {
+    "title": "Reservation History",
+    "loading": "Loading history...",
+    "emptyTitle": "No reservations in your history",
+    "exploreButton": "Explore Vehicles"
+  },
+  "supportPage": {
+    "title": "Support Page",
+    "welcomeMessage": "Welcome to our support page. Here you'll find help to solve your doubts.",
+    "contactTitle": "You can contact us through:",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "scheduleLabel": "Business hours",
+    "scheduleTime": "Monday to Friday from 9:00 to 18:00",
+    "faqMessage": "You can also check our Frequently Asked Questions (FAQ) section for quick answers.",
+    "backButton": "Back to Home"
+  },
+  "termsPage": {
+    "title": "Terms and Conditions of Use",
+    "lastUpdate": "Last update: January 2024",
+    "introText": "Please read our terms and conditions carefully before using our services.",
+    "section1": {
+      "title": "Acceptance of Terms",
+      "content": "By accessing and using {service} (the \"Service\"), you agree to be bound by these Terms and Conditions of Use (\"Terms\"). If you disagree with any part of the terms, you may not access the Service."
+    },
+    "section2": {
+      "title": "Service Usage",
+      "content": "The Service is provided to facilitate vehicle information certification and management. You must not use the service for any illegal or unauthorized purpose."
+    },
+    "section3": {
+      "title": "User Accounts",
+      "content": "When you create an account with us, you must provide us with accurate, complete, and up-to-date information at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our Service."
+    },
+    "backButton": "Back to Home"
+  },
+  "loginPage": {
+    "title": "Login",
+    "subtitle": "Access your CertiWeb account",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email address",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot your password?",
+    "loginButton": "Login",
+    "noAccountPrompt": "Don't have an account?",
+    "registerButton": "Register"
+  },
+  "profilePage": {
+    "title": "User Profile",
+    "loading": "Loading data...",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "planLabel": "Plan",
+    "backButton": "Back to home"
+  },
+  "registerPage": {
+    "title": "Create your account",
+    "subtitle": "Complete the form to access CertiWeb",
+    "steps": {
+      "personalInfo": "Personal Information",
+      "selectPlan": "Select Plan",
+      "payment": "Payment"
+    },
+    "formLabels": {
+      "fullName": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "cardNumber": "Card Number",
+      "expiryDate": "Expiry Date",
+      "cvv": "CVV"
+    },
+    "placeholders": {
+      "fullName": "Enter your full name",
+      "email": "Enter your email address",
+      "password": "Create a secure password",
+      "cardNumber": "1234 5678 9012 3456",
+      "expiryDate": "MM/YY",
+      "cvv": "123"
+    },
+    "plans": {
+      "free": "Free Plan",
+      "monthly": "Monthly Plan",
+      "yearly": "Annual Plan",
+      "forever": "forever",
+      "month": "month",
+      "year": "year",
+      "save16": "Save 16%"
+    },
+    "planFeatures": {
+      "contactBuyers": "Contact potential buyers",
+      "catalogView": "Basic catalog view",
+      "noCarReservations": "No car reservations",
+      "limitedFeatures": "Limited features",
+      "fullAccess30": "Full access for 30 days",
+      "techSupport": "Technical support",
+      "updatesIncluded": "Regular updates included",
+      "fullAccess365": "Full access for 365 days",
+      "prioritySupport": "Priority support",
+      "exclusiveFeatures": "Exclusive features"
+    },
+    "recommended": "Recommended",
+    "paymentNote": {
+      "simulation": "This is a payment simulation. No actual charges will be made.",
+      "freePlan": "You have selected the Free Plan. No payment information is required."
+    },
+    "paymentSummary": {
+      "title": "Order Summary",
+      "selectedPlan": "Selected Plan",
+      "total": "Total"
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "complete": "Complete Registration",
+      "login": "Log In"
+    },
+    "haveAccount": "Already have an account?"
   }
 }

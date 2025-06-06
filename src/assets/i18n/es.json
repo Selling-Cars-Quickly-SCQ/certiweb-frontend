@@ -198,5 +198,169 @@
     "plateIncomplete": "Placa incompleta.",
     "sellingPrice": "PRECIO A VENDER",
     "pricePlaceholder": "S/."
+  },
+  "footer": {
+    "copyright": "© 2025 Certiweb.com. Reservados todos los derechos.",
+    "terms": "Términos y Condiciones"
+  },
+  "carDetail": {
+    "backButton": "Volver al listado",
+    "loading": "Cargando detalles del vehículo...",
+    "error": "Error al cargar detalles:",
+    "tryAgain": "Intentar nuevamente",
+    "noImageAlt": "Sin imagen",
+    "brand": "Marca:",
+    "model": "Modelo:",
+    "year": "Año:",
+    "ownerInfo": "Información del propietario",
+    "owner": "Propietario:",
+    "licensePlate": "Placa:",
+    "description": "Descripción",
+    "noDescription": "No hay descripción detallada disponible.",
+    "techCert": "Certificación Técnica",
+    "viewCert": "Ver Certificación",
+    "downloadCert": "Descargar Certificación",
+    "noCert": "No hay PDF de certificación disponible para este vehículo.",
+    "contactSeller": "Contactar Vendedor",
+    "notFound": "Detalles del vehículo no encontrados."
+  },
+  "carList": {
+    "title": "Vehículos Certificados",
+    "loading": "Cargando...",
+    "error": "Error al cargar vehículos:",
+    "empty": "No hay vehículos certificados disponibles actualmente.",
+    "year": "Año:",
+    "noDescription": "Sin descripción disponible",
+    "owner": "Propietario:",
+    "viewDetails": "Ver Detalles"
+  },
+  "historyItem": {
+    "imageAlt": "Imagen del vehículo",
+    "noName": "Nombre no disponible",
+    "dateTime": "Fecha y Hora:",
+    "price": "Precio:",
+    "priceNotSpecified": "No especificado",
+    "status": "Estado:",
+    "statusNotSpecified": "No especificado"
+  },
+  "historyPage": {
+    "title": "Historial de Reservaciones",
+    "loading": "Cargando historial...",
+    "emptyTitle": "No tienes reservaciones en tu historial",
+    "exploreButton": "Explorar Vehículos"
+  },
+  "supportPage": {
+    "title": "Página de Soporte",
+    "welcomeMessage": "Bienvenido a nuestra página de soporte. Aquí encontrarás ayuda para resolver tus dudas.",
+    "contactTitle": "Puedes contactarnos a través de:",
+    "emailLabel": "Email",
+    "phoneLabel": "Teléfono",
+    "scheduleLabel": "Horario de atención",
+    "scheduleTime": "Lunes a Viernes de 9:00 a 18:00",
+    "faqMessage": "También puedes consultar nuestra sección de Preguntas Frecuentes (FAQ) para obtener respuestas rápidas.",
+    "backButton": "Volver al Inicio"
+  },
+  "termsPage": {
+    "title": "Términos y Condiciones de Uso",
+    "lastUpdate": "Última actualización: Enero 2024",
+    "introText": "Por favor, lee nuestros términos y condiciones cuidadosamente antes de usar nuestros servicios.",
+    "section1": {
+      "title": "Aceptación de los Términos",
+      "content": "Al acceder y utilizar {service} (el \"Servicio\"), aceptas estar sujeto a estos Términos y Condiciones de Uso (\"Términos\"). Si no estás de acuerdo con alguna parte de los términos, no podrás acceder al Servicio."
+    },
+    "section2": {
+      "title": "Uso del Servicio",
+      "content": "El Servicio se proporciona para facilitar la certificación y gestión de información vehicular. No debes utilizar el servicio para ningún propósito ilegal o no autorizado."
+    },
+    "section3": {
+      "title": "Cuentas de Usuario",
+      "content": "Cuando creas una cuenta con nosotros, debes proporcionarnos información precisa, completa y actual en todo momento. El incumplimiento de esta condición constituye una violación de los Términos, que puede resultar en la terminación inmediata de tu cuenta en nuestro Servicio."
+    },
+    "backButton": "Volver al Inicio"
+  },
+  "loginPage": {
+    "title": "Iniciar Sesión",
+    "subtitle": "Accede a tu cuenta de CertiWeb",
+    "emailLabel": "Correo Electrónico",
+    "emailPlaceholder": "Ingresa tu correo electrónico",
+    "passwordLabel": "Contraseña",
+    "passwordPlaceholder": "Ingresa tu contraseña",
+    "rememberMe": "Recordarme",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "loginButton": "Iniciar Sesión",
+    "noAccountPrompt": "¿No tienes una cuenta?",
+    "registerButton": "Regístrate"
+  },
+  "profilePage": {
+    "title": "Perfil de Usuario",
+    "loading": "Cargando datos...",
+    "nameLabel": "Nombre",
+    "emailLabel": "Correo",
+    "planLabel": "Plan",
+    "backButton": "Volver al inicio"
+  },
+  "registerPage": {
+    "title": "Crea tu cuenta",
+    "subtitle": "Completa el formulario para acceder a CertiWeb",
+    "steps": {
+      "personalInfo": "Información Personal",
+      "selectPlan": "Seleccionar Plan",
+      "payment": "Pago"
+    },
+    "formLabels": {
+      "fullName": "Nombre Completo",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "cardNumber": "Número de Tarjeta",
+      "expiryDate": "Fecha de Vencimiento",
+      "cvv": "CVV"
+    },
+    "placeholders": {
+      "fullName": "Ingresa tu nombre completo",
+      "email": "Ingresa tu correo electrónico",
+      "password": "Crea una contraseña segura",
+      "cardNumber": "1234 5678 9012 3456",
+      "expiryDate": "MM/AA",
+      "cvv": "123"
+    },
+    "plans": {
+      "free": "Plan Gratuito",
+      "monthly": "Plan Mensual",
+      "yearly": "Plan Anual",
+      "forever": "para siempre",
+      "month": "mes",
+      "year": "año",
+      "save16": "Ahorra 16%"
+    },
+    "planFeatures": {
+      "contactBuyers": "Contactar compradores potenciales",
+      "catalogView": "Vista de catálogo básica",
+      "noCarReservations": "Sin reservas de coches",
+      "limitedFeatures": "Funcionalidades limitadas",
+      "fullAccess30": "Acceso completo por 30 días",
+      "techSupport": "Soporte técnico",
+      "updatesIncluded": "Actualizaciones incluidas",
+      "fullAccess365": "Acceso completo por 365 días",
+      "prioritySupport": "Soporte prioritario",
+      "exclusiveFeatures": "Funcionalidades exclusivas"
+    },
+    "recommended": "Recomendado",
+    "paymentNote": {
+      "simulation": "Esto es una simulación de pago. No se realizarán cargos reales.",
+      "freePlan": "Has seleccionado el Plan Gratuito. No se requiere información de pago."
+    },
+    "paymentSummary": {
+      "title": "Resumen del Pedido",
+      "selectedPlan": "Plan Seleccionado",
+      "total": "Total"
+    },
+    "buttons": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "complete": "Completar Registro",
+      "login": "Iniciar Sesión"
+    },
+    "haveAccount": "¿Ya tienes una cuenta?"
   }
+
 }
