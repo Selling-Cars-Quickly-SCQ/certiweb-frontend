@@ -129,7 +129,7 @@ onMounted(async () => {
 <template>
   <div class="search-page-container">
     <div class="brand-phrase-container">
-      <img :src="brandPhrase" alt="Brand Phrase" class="brand-phrase-image" />
+      <img :src="brandPhrase" :alt="t('brandPhrase.alt')" class="brand-phrase-image" />
     </div>
     
     <div class="search-container">
@@ -151,7 +151,7 @@ onMounted(async () => {
               class="filter-select"
               @change="resetModelOnBrandChange"
             >
-              <option :value="null" disabled>Selecciona marca</option>
+              <option :value="null" disabled>{{t('search-filters.selectBrand')}}</option>
               <option 
                 v-for="brand in brandOptions" 
                 :key="brand.code" 
@@ -172,7 +172,7 @@ onMounted(async () => {
               class="filter-select"
               :disabled="!selectedBrand"
             >
-              <option :value="null" disabled>Selecciona modelo</option>
+              <option :value="null" disabled>{{t('search-filters.selectModel')}}</option>
               <option 
                 v-for="model in filteredModels" 
                 :key="model.code" 
