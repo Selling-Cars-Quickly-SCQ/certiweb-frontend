@@ -1,6 +1,8 @@
 <script setup>
 import { ref, computed, watch, defineProps, defineEmits } from 'vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const props = defineProps({
   initialData: {
     type: Object,
@@ -85,15 +87,15 @@ defineExpose({
           <i class="pi pi-megaphone"></i>
         </div>
         <div class="header-text">
-          <h1 class="main-title">Creación del Anuncio al Cliente</h1>
-          <p class="subtitle">Complete la información para generar el anuncio del vehículo</p>
+          <h1 class="main-title">{{ t('adForm.creationTitle') }}</h1>
+          <p class="subtitle">{{ t('adForm.creationSubtitle') }}</p>
         </div>
       </div>
 
       <!-- Progress Bar -->
       <div class="progress-section">
         <div class="progress-info">
-          <span class="progress-label">Progreso del formulario</span>
+          <span class="progress-label">{{ t('adForm.formProgress') }}</span>
           <span class="progress-percentage">{{ formProgress }}%</span>
         </div>
         <div class="progress-bar">
@@ -109,7 +111,7 @@ defineExpose({
     <div class="form-content">
       <div class="section-header">
         <i class="pi pi-car section-icon"></i>
-        <h2 class="section-title">Datos del Vehículo y Anuncio</h2>
+        <h2 class="section-title">{{ t('adForm.vehicleAdData') }}</h2>
       </div>
 
       <div class="form-grid">
@@ -118,20 +120,20 @@ defineExpose({
           <div class="field-header">
             <label for="title" class="field-label">
               <i class="pi pi-tag label-icon"></i>
-              Título del Anuncio
+              {{ t('adForm.adTitle') }}
             </label>
-            <span class="field-badge editable">Editable</span>
+            <span class="field-badge editable">{{ t('adForm.editable') }}</span>
           </div>
           <div class="input-wrapper">
             <pv-inputText
               id="title"
               v-model="formData.title"
               class="form-input editable-input"
-              placeholder="Ej: Toyota Corolla 2020 - Excelente estado"
+              :placeholder="t('adForm.adTitlePlaceholder')"
             />
             <div class="input-hint">
               <i class="pi pi-info-circle"></i>
-              <span>Escriba un título atractivo para el anuncio</span>
+              <span>{{ t('adForm.adTitleHint') }}</span>
             </div>
           </div>
         </div>
@@ -141,16 +143,16 @@ defineExpose({
           <div class="field-header">
             <label for="owner" class="field-label">
               <i class="pi pi-user label-icon"></i>
-              owner
+              {{ t('adForm.owner') }}
             </label>
-            <span class="field-badge readonly">Auto-completado</span>
+            <span class="field-badge readonly">{{ t('adForm.autoCompleted') }}</span>
           </div>
           <div class="input-wrapper">
             <pv-inputText
               id="owner"
               v-model="formData.owner"
               class="form-input readonly-input"
-              placeholder="Nombre del owner"
+              :placeholder="t('adForm.ownerPlaceholder')"
               readonly
             />
             <div class="readonly-indicator">
@@ -164,16 +166,16 @@ defineExpose({
           <div class="field-header">
             <label for="year" class="field-label">
               <i class="pi pi-calendar label-icon"></i>
-              Año
+              {{ t('adForm.year') }}
             </label>
-            <span class="field-badge editable">Editable</span>
+            <span class="field-badge editable">{{ t('adForm.editable') }}</span>
           </div>
           <div class="input-wrapper">
             <pv-input-number
               id="year"
               v-model="formData.year"
               class="form-input editable-input"
-              placeholder="Año del vehículo"
+              :placeholder="t('adForm.yearPlaceholder')"
               :useGrouping="false"
               mode="decimal"
               :maxlength="4"
@@ -182,7 +184,7 @@ defineExpose({
             />
              <div class="input-hint">
               <i class="pi pi-info-circle"></i>
-              <span>Ingrese el año de fabricación del vehículo</span>
+              <span>{{ t('adForm.yearHint') }}</span>
             </div>
           </div>
         </div>
@@ -192,16 +194,16 @@ defineExpose({
           <div class="field-header">
             <label for="brand" class="field-label">
               <i class="pi pi-bookmark label-icon"></i>
-              brand
+              {{ t('adForm.brand') }}
             </label>
-            <span class="field-badge readonly">Auto-completado</span>
+            <span class="field-badge readonly">{{ t('adForm.autoCompleted') }}</span>
           </div>
           <div class="input-wrapper">
             <pv-inputText
               id="brand"
               v-model="formData.brand"
               class="form-input readonly-input"
-              placeholder="brand del vehículo"
+              :placeholder="t('adForm.brandPlaceholder')"
               readonly
             />
             <div class="readonly-indicator">
@@ -215,16 +217,16 @@ defineExpose({
           <div class="field-header">
             <label for="model" class="field-label">
               <i class="pi pi-cog label-icon"></i>
-              model
+              {{ t('adForm.model') }}
             </label>
-            <span class="field-badge readonly">Auto-completado</span>
+            <span class="field-badge readonly">{{ t('adForm.autoCompleted') }}</span>
           </div>
           <div class="input-wrapper">
             <pv-inputText
               id="model"
               v-model="formData.model"
               class="form-input readonly-input"
-              placeholder="model del vehículo"
+              :placeholder="t('adForm.modelPlaceholder')"
               readonly
             />
             <div class="readonly-indicator">
@@ -238,9 +240,9 @@ defineExpose({
           <div class="field-header">
             <label for="description" class="field-label">
               <i class="pi pi-file-edit label-icon"></i>
-              Descripción Detallada
+              {{ t('adForm.detailedDescription') }}
             </label>
-            <span class="field-badge editable">Editable</span>
+            <span class="field-badge editable">{{ t('adForm.editable') }}</span>
           </div>
           <div class="input-wrapper">
             <pv-textarea
@@ -248,14 +250,14 @@ defineExpose({
               v-model="formData.description"
               class="form-textarea editable-input"
               rows="5"
-              placeholder="Describa las características, estado, equipamiento y cualquier detalle relevante del vehículo..."
+              :placeholder="t('adForm.descriptionPlaceholder')"
             />
             <div class="textarea-counter">
-              <span>{{ formData.description?.length || 0 }} caracteres</span>
+              <span>{{ formData.description?.length || 0 }} {{ t('adForm.characters') }}</span>
             </div>
             <div class="input-hint">
               <i class="pi pi-lightbulb"></i>
-              <span>Incluya detalles sobre el estado, kilometraje, mantenimiento, etc.</span>
+              <span>{{ t('adForm.descriptionHint') }}</span>
             </div>
           </div>
         </div>
@@ -264,7 +266,7 @@ defineExpose({
       <!-- Save Button -->
       <div class="form-actions">
         <pv-button 
-          label="Guardar Información del Vehículo"
+          :label="t('adForm.saveVehicleInfo')"
           icon="pi pi-save"
           class="p-button-primary p-button-lg save-button"
           @click="handleSaveCar"
@@ -281,12 +283,12 @@ defineExpose({
           </div>
           <div class="status-text">
             <span class="status-title">
-              {{ isFormValid ? 'Formulario Completo' : 'Formulario Incompleto' }}
+              {{ isFormValid ? t('adForm.formComplete') : t('adForm.formIncomplete') }}
             </span>
             <span class="status-description">
               {{ isFormValid
-                ? 'Todos los campos requeridos han sido completados' 
-                : 'Complete los campos editables para continuar' 
+                ? t('adForm.allFieldsCompleted') 
+                : t('adForm.completeEditableFields') 
               }}
             </span>
           </div>
