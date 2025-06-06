@@ -10,6 +10,9 @@ import historyComponent from '../public/pages/history/history.component.vue';
 import adminCertificationComponent from '../certifications/components/admin-certification/admin-certification.component.vue';
 import CarListComponent from '../public/pages/car-list/CarList.vue';
 import CarDetailComponent from '../public/pages/car-detail/CarDetail.vue';
+import SupportComponent from '../public/pages/info/support.component.vue';
+import TermsOfUseComponent from '../public/pages/info/terms-of-use.component.vue';
+import pageNotFoundComponent from '../public/pages/page-not-found/page-not-found.component.vue'
 
 const routes = [
   {
@@ -65,6 +68,21 @@ const routes = [
     path: '/cars/:id',
     name: 'CarDetail',
     component: CarDetailComponent
+  },
+  {
+    path: '/support',
+    name: 'Support',
+    component: SupportComponent
+  },
+  {
+    path: '/terms-of-use',
+    name: 'TermsOfUse',
+    component: TermsOfUseComponent
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'PageNotFound',
+    component: pageNotFoundComponent
   }
 ]
 
