@@ -5,6 +5,8 @@ import AcceptReservationComponent from './accept-reservation/accept-reservation.
 import AdFormComponent from './ad-form/ad-form.component.vue';
 import UploadCertificationComponent from './upload-certification/upload-certification.component.vue';
 import { carService } from '@/certifications/services/car.service.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 
 const acceptedReservationData = ref(null);
 const adFormData = ref({});
@@ -25,7 +27,7 @@ const handleAdFormUpdate = (data) => {
 
 const handleSaveCarData = async (formData) => {
   if (!acceptedReservationData.value) {
-    alert('Primero debe aceptar una reserva');
+    alert(t('adminCertification.alertReservationNeeded'));
     return;
   }
 
@@ -47,11 +49,11 @@ const handleSaveCarData = async (formData) => {
     createdCarId.value = newCar.id || newCar.data?.id;
     
     console.log('Auto creado exitosamente con ID:', createdCarId.value);
-    alert('Información del vehículo guardada exitosamente. Ahora puede subir el PDF.');
+    alert(t('adminCertification.alertCarSaved'));
 
   } catch (error) {
     console.error('Error al guardar el auto:', error);
-    alert('Error al guardar la información del vehículo: ' + error.message);
+    alert(t('adminCertification.alertSaveCarError') + error.message);
   } finally {
     isSavingCar.value = false;
   }
@@ -71,11 +73,11 @@ const handlePdfUploaded = async (payload) => {
     });
     
     console.log(`PDF para el auto ${payload.carId} actualizado con éxito.`);
-    alert('PDF subido exitosamente a la base de datos');
+    alert(t('adminCertification.alertPdfUploaded'));
     
   } catch (error) {
     console.error('Error al actualizar el PDF del auto:', error);
-    alert('Error al subir el PDF: ' + error.message);
+    alert(t('adminCertification.alertPdfUploadError') + error.message);
   } finally {
     isUploadingPdfStatus.value = false;
   }
@@ -109,19 +111,19 @@ const handleLogout = () => {
       <div class="progress-header">
         <h2 class="progress-title">
           <i class="pi pi-cog"></i>
-          Proceso de Certificación
+          {{ t('adminCertification.processTitle') }}
         </h2>
         <div class="progress-stats">
-          <span class="steps-completed">{{ completedSteps }}/3 pasos completados</span>
+          <span class="steps-completed">{{ t('adminCertification.stepsCompleted', { completedSteps }) }}</span>
           <pv-button 
             v-if="completedSteps > 0"
-            label="Reiniciar Proceso" 
+            :label="t('adminCertification.resetProcess')" 
             icon="pi pi-refresh" 
             class="p-button-text p-button-sm p-button-raised p-button-info"
             @click="resetProcess"
           />
           <pv-button 
-            label="Cerrar Sesión" 
+            :label="t('adminCertification.logout')" 
             icon="pi pi-sign-out" 
             class="p-button-text p-button-sm p-button-danger"
             @click="handleLogout"
@@ -135,12 +137,12 @@ const handleLogout = () => {
             <i class="pi pi-check" v-if="acceptedReservationData"></i>
             <span v-else>1</span>
           </div>
-          <span class="step-label">Aceptar Reserva</span>
+          <span class="step-label">{{ t('adminCertification.step1') }}</span>
         </div>
         
         <div class="step-connector" :class="{ 'completed': acceptedReservationData }"></div>
         
-        <div class="step" :class="{ 
+        <div class="step" :class="{
           'completed': createdCarId, 
           'active': acceptedReservationData && !createdCarId
         }">
@@ -148,19 +150,19 @@ const handleLogout = () => {
             <i class="pi pi-check" v-if="createdCarId"></i>
             <span v-else>2</span>
           </div>
-          <span class="step-label">Guardar Información</span>
+          <span class="step-label">{{ t('adminCertification.step2') }}</span>
         </div>
         
         <div class="step-connector" :class="{ 'completed': createdCarId }"></div>
         
-        <div class="step" :class="{ 
+        <div class="step" :class="{
           'completed': false,
           'active': createdCarId
         }">
           <div class="step-icon">
             <span>3</span>
           </div>
-          <span class="step-label">Subir PDF</span>
+          <span class="step-label">{{ t('adminCertification.step3') }}</span>
         </div>
       </div>
     </div>
@@ -172,11 +174,11 @@ const handleLogout = () => {
         <div class="step-header">
           <h3 class="step-title">
             <span class="step-number">1</span>
-            Aceptar Reserva
+            {{ t('adminCertification.step1Title') }}
           </h3>
           <div v-if="acceptedReservationData" class="step-status completed">
             <i class="pi pi-check-circle"></i>
-            <span>Completado</span>
+            <span>{{ t('adminCertification.step1Completed') }}</span>
           </div>
         </div>
         <AcceptReservationComponent @reservationAccepted="handleReservationAccepted" />
@@ -187,15 +189,15 @@ const handleLogout = () => {
         <div class="step-header">
           <h3 class="step-title">
             <span class="step-number">2</span>
-            Completar y Guardar Información
+            {{ t('adminCertification.step2Title') }}
           </h3>
           <div v-if="createdCarId" class="step-status completed">
             <i class="pi pi-check-circle"></i>
-            <span>Auto ID: {{ createdCarId }}</span>
+            <span>{{ t('adminCertification.step2CarId', { createdCarId }) }}</span>
           </div>
           <div v-else-if="!acceptedReservationData" class="step-status disabled">
             <i class="pi pi-lock"></i>
-            <span>Bloqueado</span>
+            <span>{{ t('adminCertification.step2Locked') }}</span>
           </div>
         </div>
         <AdFormComponent 
@@ -211,11 +213,11 @@ const handleLogout = () => {
         <div class="step-header">
           <h3 class="step-title">
             <span class="step-number">3</span>
-            Subir Informe Técnico PDF
+            {{ t('adminCertification.step3Title') }}
           </h3>
           <div v-if="!createdCarId" class="step-status disabled">
             <i class="pi pi-lock"></i>
-            <span>Primero guarde la información del auto</span>
+            <span>{{ t('adminCertification.step3Locked') }}</span>
           </div>
         </div>
         <UploadCertificationComponent 
@@ -227,8 +229,8 @@ const handleLogout = () => {
         <div v-else class="placeholder-message">
           <div class="placeholder-content">
             <i class="pi pi-upload"></i>
-            <h4>Subida de PDF Bloqueada</h4>
-            <p>Complete los pasos anteriores para habilitar la subida del PDF</p>
+            <h4>{{ t('adminCertification.pdfUploadLocked') }}</h4>
+            <p>{{ t('adminCertification.completePreviousSteps') }}</p>
           </div>
         </div>
       </div>
