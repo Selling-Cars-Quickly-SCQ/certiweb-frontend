@@ -19,12 +19,17 @@
       "termsOfUse": "Términos de uso",
       "logout": "Cerrar sesión"
     },
-    "search-filters":{
-      "title":"Encuentra tu vehículo ideal",
-      "brand":"Marca",
-      "model":"Modelo",
-      "clear":"Limpiar",
-      "search":"Buscar"
+    "brandPhrase": {
+      "alt": "Imagen de eslogan de la marca"
+    },
+    "search-filters": {
+      "title": "Encuentra tu auto perfecto",
+      "brand": "Marca",
+      "model": "Modelo",
+      "selectBrand": "Selecciona marca",
+      "selectModel": "Selecciona modelo",
+      "clear": "Limpiar filtros",
+      "search": "Buscar"
     },
     "adminCertification": {
     "processTitle": "Proceso de Certificación",
@@ -129,5 +134,69 @@
   "successMessage": {
     "title": "¡Archivo procesado exitosamente!",
     "description": "El informe técnico está listo para ser guardado en la base de datos"
+  },
+  "brandSearch": {
+    "title": "Marcas más buscadas",
+    "subtitle": "Descubre los vehículos de las marcas más populares entre nuestros usuarios"
+  },
+  "brandCard": {
+    "logoAlt": "Logo de {brand}",
+    "viewVehicles": "Ver vehículos"
+  },
+  "navigation": {
+    "backToHome": "Volver al inicio"
+  },
+  "banner": {
+    "title": "Sabemos que tu carro es importante",
+    "description": "Certifica tu auto y obten una inspección que pondrá más valor y confianza a la hora de venderlo.",
+    "buttonText": "Obtén tu certificado!",
+    "carAltText": "Kia Rio Rojo"
+  },
+  "welcome": {
+    "title": "¡Bienvenido de nuevo!",
+    "subtitle": "Revisa estos autos que fueron recientemente certificados"
+  },
+  "car": {
+    "viewDetails": "Ver detalles"
+  },
+  "navigation2": {
+    "seeMoreModels": "Mira más modelos"
+  },
+  "carColors": {
+    "metallicBlue": "Azul Metálico",
+    "gray": "Gris",
+    "red": "Rojo",
+    "pearlWhite": "Blanco Perlado",
+    "quantumGray": "Gris Quantum",
+    "iridiumSilver": "Plata Iridio"
+  },
+  "calendar": {
+    "title": "RESERVE LA HORA DE INSPECCIÓN",
+    "selectDate": "Seleccione una fecha",
+    "selectTime": "Seleccione una hora",
+    "weekdaysNote": "Solo días laborables (Lunes a Viernes)",
+    "timeSlotsNote": "Horarios disponibles de Lunes a Viernes",
+    "selectedDateTime": "Fecha y hora seleccionada:",
+    "confirmButton": "Confirmar Reserva"
+  },
+  "vehicleSpec": {
+    "uploadPhoto": "SUBIR FOTO DEL VEHÍCULO",
+    "vehiclePhoto": "Foto del Vehículo",
+    "selectFile": "Seleccionar",
+    "uploadImage": "Enviar imagen",
+    "fileHint": "* Solo JPG, máx. 1MB",
+    "uploadError": "(Error al cargar)",
+    "vehicleData": "DATOS DEL VEHÍCULO",
+    "brand": "MARCA",
+    "selectBrand": "Seleccione una marca",
+    "model": "MODELO",
+    "modelPlaceholder": "Ingrese el modelo",
+    "licensePlate": "PLACA",
+    "platePlaceholder": "Ej: A1E-45O",
+    "plateFormat": "Formato: 3 caracteres alfanuméricos - 3 caracteres alfanuméricos (Ej: ABC-123)",
+    "plateErrorFormat": "Formato de placa incorrecto. Use XXX-XXX (letras/números).",
+    "plateIncomplete": "Placa incompleta.",
+    "sellingPrice": "PRECIO A VENDER",
+    "pricePlaceholder": "S/."
   }
 }

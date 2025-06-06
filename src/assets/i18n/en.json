@@ -50,12 +50,17 @@
       "alertPdfUploaded": "PDF uploaded successfully to the database",
       "alertPdfUploadError": "Error uploading PDF: "
     },
-    "search-filters":{
-      "title":"Find your ideal vehicle",
-      "brand":"Brand",
-      "model":"Model",
-      "clear":"Clear",
-      "search":"Search"
+    "brandPhrase": {
+      "alt": "Brand slogan image"
+    },
+    "search-filters": {
+      "title": "Find your perfect car",
+      "brand": "Brand",
+      "model": "Model",
+      "selectBrand": "Select brand",
+      "selectModel": "Select model",
+      "clear": "Clear filters",
+      "search": "Search"
     },
     "acceptReservation": {
       "pendingReservations": "Pending Reservations",
@@ -137,5 +142,69 @@
   "successMessage": {
     "title": "File processed successfully!",
     "description": "The technical report is ready to be saved in the database"
+  },
+  "brandSearch": {
+    "title": "Most searched brands",
+    "subtitle": "Discover vehicles from the most popular brands among our users"
+  },
+  "brandCard": {
+    "logoAlt": "Logo of {brand}",
+    "viewVehicles": "View vehicles"
+  },
+  "navigation": {
+    "backToHome": "Back to home"
+  },
+  "banner": {
+    "title": "We know your car is important",
+    "description": "Certify your car and get an inspection that will add more value and confidence when selling it.",
+    "buttonText": "Get your certificate!",
+    "carAltText": "Red Kia Rio"
+  },
+  "welcome": {
+    "title": "Welcome back!",
+    "subtitle": "Check out these recently certified cars"
+  },
+  "car": {
+    "viewDetails": "View details"
+  },
+  "navigation2": {
+    "seeMoreModels": "See more models"
+  },
+  "carColors": {
+    "metallicBlue": "Metallic Blue",
+    "gray": "Gray",
+    "red": "Red",
+    "pearlWhite": "Pearl White",
+    "quantumGray": "Quantum Gray",
+    "iridiumSilver": "Iridium Silver"
+  },
+  "calendar": {
+    "title": "BOOK INSPECTION TIME",
+    "selectDate": "Select a date",
+    "selectTime": "Select a time",
+    "weekdaysNote": "Only business days (Monday to Friday)",
+    "timeSlotsNote": "Available times from Monday to Friday",
+    "selectedDateTime": "Selected date and time:",
+    "confirmButton": "Confirm Reservation"
+  },
+  "vehicleSpec": {
+    "uploadPhoto": "UPLOAD VEHICLE PHOTO",
+    "vehiclePhoto": "Vehicle Photo",
+    "selectFile": "Select File",
+    "uploadImage": "Upload Image",
+    "fileHint": "* JPG only, max. 1MB",
+    "uploadError": "(Upload failed)",
+    "vehicleData": "VEHICLE DATA",
+    "brand": "BRAND",
+    "selectBrand": "Select a brand",
+    "model": "MODEL",
+    "modelPlaceholder": "Enter model",
+    "licensePlate": "LICENSE PLATE",
+    "platePlaceholder": "Ex: A1E-45O",
+    "plateFormat": "Format: 3 alphanumeric characters - 3 alphanumeric characters (Ex: ABC-123)",
+    "plateErrorFormat": "Incorrect plate format. Use XXX-XXX (letters/numbers).",
+    "plateIncomplete": "Incomplete plate.",
+    "sellingPrice": "SELLING PRICE",
+    "pricePlaceholder": "S/."
   }
 }
