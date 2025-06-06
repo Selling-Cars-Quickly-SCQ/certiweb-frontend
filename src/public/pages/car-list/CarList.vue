@@ -1,117 +1,117 @@
 <script setup>
-  import { ref, onMounted } from 'vue';
-  import { useRouter, useRoute } from 'vue-router';
-  import { carService } from '../../../certifications/services/car.service';
-  import toolbarComponent from '../../../certifications/components/dashboard/toolbar/toolbar.component.vue';
+import { ref, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { carService } from '../../../certifications/services/car.service';
+import toolbarComponent from '../../../certifications/components/dashboard/toolbar/toolbar.component.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+const cars = ref([]);
+const loading = ref(true);
+const error = ref(null);
+const router = useRouter();
+const route = useRoute();
   
-  const cars = ref([]);
-  const loading = ref(true);
-  const error = ref(null);
-  const router = useRouter();
-  const route = useRoute();
-  
-  const fetchCars = async () => {
-    try {
-      loading.value = true;
-      error.value = null;
-      
-      const carsData = await carService.getAllCars();
-      
-      if (Array.isArray(carsData)) {
-        const brandQuery = route.query.brand ? route.query.brand.toLowerCase() : null;
-        const modelQuery = route.query.model ? route.query.model.toLowerCase() : null;
-
-        if (brandQuery || modelQuery) {
-          cars.value = carsData.filter(car => {
-            const carBrand = car.brand ? car.brand.toLowerCase() : '';
-            const carModel = car.model ? car.model.toLowerCase() : '';
-
-            let matchesBrand = true;
-            if (brandQuery) {
-              matchesBrand = carBrand === brandQuery;
-            }
-
-            let matchesModel = true;
-            if (modelQuery) {
-              matchesModel = carModel === modelQuery;
-            }
-            return matchesBrand && matchesModel;
-          });
-          console.log('Cars filtered by query:', cars.value);
-        } else {
-          cars.value = carsData;
-          console.log('All cars loaded:', carsData);
-        }
+const fetchCars = async () => {
+  try {
+    loading.value = true;
+    error.value = null;
+    
+    const carsData = await carService.getAllCars();
+    
+    if (Array.isArray(carsData)) {
+      const brandQuery = route.query.brand ? route.query.brand.toLowerCase() : null;
+      const modelQuery = route.query.model ? route.query.model.toLowerCase() : null;
+      if (brandQuery || modelQuery) {
+        cars.value = carsData.filter(car => {
+          const carBrand = car.brand ? car.brand.toLowerCase() : '';
+          const carModel = car.model ? car.model.toLowerCase() : '';
+          let matchesBrand = true;
+          if (brandQuery) {
+            matchesBrand = carBrand === brandQuery;
+          }
+          let matchesModel = true;
+          if (modelQuery) {
+            matchesModel = carModel === modelQuery;
+          }
+          return matchesBrand && matchesModel;
+        });
+        console.log('Cars filtered by query:', cars.value);
       } else {
-        console.warn('Fetched data is not an array:', carsData);
-        cars.value = [];
+        cars.value = carsData;
+        console.log('All cars loaded:', carsData);
       }
-    } catch (err) {
-      console.error('Error fetching cars:', err);
-      error.value = err;
+    } else {
+      console.warn('Fetched data is not an array:', carsData);
       cars.value = [];
-    } finally {
-      loading.value = false;
     }
-  };
-  
-  const navigateToCarDetail = (carId) => {
-    router.push(`/cars/${carId}`);
-  };
-  
-  const getPhotoUrl = (car) => {
-    return car.imageUrl || 'https://via.placeholder.com/300x200?text=No+Image';
-  };
-  
-  const formatCurrency = (value) => {
-    const numValue = typeof value === 'string' ? parseFloat(value) : value;
-    if (typeof numValue !== 'number' || isNaN(numValue)) {
-      return value;
-    }
-    return new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN' }).format(numValue);
-  };
-  
-  onMounted(() => {
-    fetchCars();
-  });
+  } catch (err) {
+    console.error('Error fetching cars:', err);
+    error.value = err;
+    cars.value = [];
+  } finally {
+    loading.value = false;
+  }
+};
+
+const navigateToCarDetail = (carId) => {
+  router.push(`/cars/${carId}`);
+};
+
+const getPhotoUrl = (car) => {
+  return car.imageUrl || 'https://via.placeholder.com/300x200?text=No+Image';
+};
+
+const formatCurrency = (value) => {
+  const numValue = typeof value === 'string' ? parseFloat(value) : value;
+  if (typeof numValue !== 'number' || isNaN(numValue)) {
+    return value;
+  }
+  return new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN' }).format(numValue);
+};
+
+onMounted(() => {
+  fetchCars();
+});
 </script>
 
 <template>
   <toolbarComponent/>
-    <div class="car-list-container p-d-flex p-flex-column p-ai-center">
-      <h2 class="p-mb-4">Certified Cars</h2>
-      <div v-if="loading" class="p-d-flex p-jc-center p-ai-center" style="height: 200px;">
-        <pv-progress-spinner />
-      </div>
-      <div v-else-if="error" class="p-error p-text-center">
-        <p>Error loading cars: {{ error.message }}</p>
-      </div>
-      <div v-else-if="cars.length === 0" class="p-text-center">
-        <p>No certified cars available at the moment.</p>
-      </div>
-      <div v-else class="car-grid">
-        <pv-card v-for="car in cars" :key="car.id" class="car-card" @click="navigateToCarDetail(car.id)">
-          <template #header>
-            <img :src="getPhotoUrl(car)" :alt="car.model" class="car-image" />
-          </template>
-          <template #title>
-            <div class="car-title">{{ car.title }}</div>
-          </template>
-          <template #subtitle>
-            <div class="car-brand-model">{{ car.brand }} - {{ car.model }}</div>
-            <div class="car-year">Year: {{ car.year }}</div>
-          </template>
-          <template #content>
-            <p class="car-description">{{ car.description ? car.description.substring(0, 100) + '...' : 'No description available' }}</p>
-            <div class="car-owner">Owner: {{ car.owner }}</div>
-          </template>
-          <template #footer>
-            <div class="car-price">{{ formatCurrency(car.price) }}</div>
-            <pv-button label="View Details" icon="pi pi-search" class="p-button-sm" />
-          </template>
-        </pv-card>
-      </div>
+  <div class="car-list-container p-d-flex p-flex-column p-ai-center">
+    <h2 class="p-mb-4">{{ t('carList.title') }}</h2>
+    <div v-if="loading" class="p-d-flex p-jc-center p-ai-center" style="height: 200px;">
+      <pv-progress-spinner />
+      <span class="p-ml-2">{{ t('carList.loading') }}</span>
     </div>
+    <div v-else-if="error" class="p-error p-text-center">
+      <p>{{ t('carList.error') }} {{ error.message }}</p>
+    </div>
+    <div v-else-if="cars.length === 0" class="p-text-center">
+      <p>{{ t('carList.empty') }}</p>
+    </div>
+    <div v-else class="car-grid">
+      <pv-card v-for="car in cars" :key="car.id" class="car-card" @click="navigateToCarDetail(car.id)">
+        <template #header>
+          <img :src="getPhotoUrl(car)" :alt="car.model" class="car-image" />
+        </template>
+        <template #title>
+          <div class="car-title">{{ car.title }}</div>
+        </template>
+        <template #subtitle>
+          <div class="car-brand-model">{{ car.brand }} - {{ car.model }}</div>
+          <div class="car-year">{{ t('carList.year') }} {{ car.year }}</div>
+        </template>
+        <template #content>
+          <p class="car-description">{{ car.description ? car.description.substring(0, 100) + '...' : t('carList.noDescription') }}</p>
+          <div class="car-owner">{{ t('carList.owner') }} {{ car.owner }}</div>
+        </template>
+        <template #footer>
+          <div class="car-price">{{ formatCurrency(car.price) }}</div>
+          <pv-button :label="t('carList.viewDetails')" icon="pi pi-search" class="p-button-sm" />
+        </template>
+      </pv-card>
+    </div>
+  </div>
 </template>
 
 <style scoped>
