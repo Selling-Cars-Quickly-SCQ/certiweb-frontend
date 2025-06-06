@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const router = useRouter();
 
 const certifiedCars = ref([
@@ -9,7 +11,7 @@ const certifiedCars = ref([
     id: 1,
     name: 'BMW Serie 4',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYVcLx4pGvnOpKwlHUU49s8jkRkJDGVxaiDw&s',
-    color: 'Azul Metálico',
+    color: t('carColors.metallicBlue'),
     price: 'S/2,700.00',
     route: '/cars/4'
   },
@@ -17,7 +19,7 @@ const certifiedCars = ref([
     id: 2,
     name: 'Ford Mustang GT',
     image: 'https://www.vdm.ford.com/content/dam/na/ford/en_us/images/mustang/2025/jellybeans/Ford_Mustang_2025_200A_PJS_883_89W_13B_COU_64F_99H_44U_EBST_YZTAC_DEFAULT_EXT_4.png',
-    color: 'Gris',
+    color: t('carColors.gray'),
     price: 'S/1,900.00',
     route: '/cars/5'
   },
@@ -25,7 +27,7 @@ const certifiedCars = ref([
     id: 3,
     name: 'Kia Niro',
     image: 'https://cdn.motor1.com/images/mgl/ojyBzq/s3/kia-niro-2025.jpg',
-    color: 'Rojo',
+    color: t('carColors.red'),
     price: 'S/2,200.00',
     route: '/cars/2'
   },
@@ -33,7 +35,7 @@ const certifiedCars = ref([
     id: 4,
     name: 'Kia Sportage',
     image: 'https://s3.amazonaws.com/kia-greccomotors/Sportage_blanca_01_9a1ad740c7.png',
-    color: 'Blanco Perlado',
+    color: t('carColors.pearlWhite'),
     price: 'S/2,450.00',
     route: '/cars/3'
   },
@@ -41,7 +43,7 @@ const certifiedCars = ref([
     id: 5,
     name: 'Audi A5 Sportback',
     image: 'https://hips.hearstapps.com/hmg-prod/images/2025-audi-a5-137-669583e0eda6e.jpg?crop=0.638xw:0.479xh;0.207xw,0.312xh&resize=1200:*',
-    color: 'Gris Quantum',
+    color: t('carColors.quantumGray'),
     price: 'S/2,300.00',
     route: '/cars/6'
   },
@@ -49,7 +51,7 @@ const certifiedCars = ref([
     id: 6,
     name: 'Mercedes Clase C',
     image: 'https://images.coches.com/_vn_/mercedes/Clase-C/0b325a581bbefb9994d94efc91277ba9.jpg?w=1920&ar=16:9',
-    color: 'Plata Iridio',
+    color: t('carColors.iridiumSilver'),
     price: 'S/2,500.00',
     route: '/cars/7'
   }
@@ -134,8 +136,8 @@ onMounted(() => {
   <section class="certified-cars-section">
     <div class="certified-cars-container">
       <div class="certified-cars-header">
-        <h2 class="welcome-title">¡Bienvenido de nuevo!</h2>
-        <p class="welcome-subtitle">Revisa estos autos que fueron recientemente certificados</p>
+        <h2 class="welcome-title">{{ t('welcome.title') }}</h2>
+        <p class="welcome-subtitle">{{ t('welcome.subtitle') }}</p>
       </div>
       
       <div 
@@ -169,7 +171,7 @@ onMounted(() => {
                   <div class="car-overlay">
                     <span class="car-price">{{ car.price }}</span>
                     <span class="car-view-details">
-                      <i class="pi pi-search"></i> Ver detalles
+                      <i class="pi pi-search"></i> {{ t('car.viewDetails') }}
                     </span>
                   </div>
                 </div>
@@ -193,7 +195,7 @@ onMounted(() => {
       
       <div class="see-more-container">
         <router-link to="/cars" class="see-more-link">
-          Mira más modelos
+          {{ t('navigation2.seeMoreModels') }}
           <i class="pi pi-arrow-right"></i>
         </router-link>
       </div>
