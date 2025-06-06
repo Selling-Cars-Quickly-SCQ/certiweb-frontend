@@ -1,74 +1,76 @@
 <script setup>
-  import { useRouter } from 'vue-router';
-  import toolbarComponent from '../../../certifications/components/dashboard/toolbar/toolbar.component.vue';
-  
-  const router = useRouter();
-  
-  const goToDashboard = () => {
-    router.push('/');
-  };
+import { useRouter } from 'vue-router';
+import toolbarComponent from '../../../certifications/components/dashboard/toolbar/toolbar.component.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+const router = useRouter();
+
+const goToDashboard = () => {
+  router.push('/');
+};
 </script>
 
 <template>
-    <toolbar-component/>
-    <div class="info-page-container">
-      <pv-card class="info-card">
-        <template #title>
-          <div class="card-header">
-            <div class="icon-wrapper">
-              <i class="pi pi-question-circle"></i>
-            </div>
-            <h1>Página de Soporte</h1>
+  <toolbar-component/>
+  <div class="info-page-container">
+    <pv-card class="info-card">
+      <template #title>
+        <div class="card-header">
+          <div class="icon-wrapper">
+            <i class="pi pi-question-circle"></i>
           </div>
-        </template>
-        <template #content>
-          <div class="card-content">
-            <p class="welcome-text">Bienvenido a nuestra página de soporte. Aquí encontrarás ayuda para resolver tus dudas.</p>
-            
-            <div class="contact-section">
-              <h3>Puedes contactarnos a través de:</h3>
-              <div class="contact-grid">
-                <div class="contact-item">
-                  <i class="pi pi-envelope contact-icon"></i>
-                  <div>
-                    <strong>Email:</strong>
-                    <span>soporte@certiweb.com</span>
-                  </div>
+          <h1>{{ t('supportPage.title') }}</h1>
+        </div>
+      </template>
+      <template #content>
+        <div class="card-content">
+          <p class="welcome-text">{{ t('supportPage.welcomeMessage') }}</p>
+          
+          <div class="contact-section">
+            <h3>{{ t('supportPage.contactTitle') }}</h3>
+            <div class="contact-grid">
+              <div class="contact-item">
+                <i class="pi pi-envelope contact-icon"></i>
+                <div>
+                  <strong>{{ t('supportPage.emailLabel') }}:</strong>
+                  <span>soporte@certiweb.com</span>
                 </div>
-                <div class="contact-item">
-                  <i class="pi pi-phone contact-icon"></i>
-                  <div>
-                    <strong>Teléfono:</strong>
-                    <span>+123 456 7890</span>
-                  </div>
+              </div>
+              <div class="contact-item">
+                <i class="pi pi-phone contact-icon"></i>
+                <div>
+                  <strong>{{ t('supportPage.phoneLabel') }}:</strong>
+                  <span>+123 456 7890</span>
                 </div>
-                <div class="contact-item">
-                  <i class="pi pi-clock contact-icon"></i>
-                  <div>
-                    <strong>Horario de atención:</strong>
-                    <span>Lunes a Viernes de 9:00 a 18:00</span>
-                  </div>
+              </div>
+              <div class="contact-item">
+                <i class="pi pi-clock contact-icon"></i>
+                <div>
+                  <strong>{{ t('supportPage.scheduleLabel') }}:</strong>
+                  <span>{{ t('supportPage.scheduleTime') }}</span>
                 </div>
               </div>
             </div>
-            
-            <div class="faq-section">
-              <p>También puedes consultar nuestra sección de <strong>Preguntas Frecuentes (FAQ)</strong> para obtener respuestas rápidas.</p>
-            </div>
           </div>
-        </template>
-        <template #footer>
-          <div class="card-footer">
-            <pv-button 
-              label="Volver al Inicio" 
-              icon="pi pi-home" 
-              @click="goToDashboard" 
-              class="home-button" 
-            />
+          
+          <div class="faq-section">
+            <p>{{ t('supportPage.faqMessage') }}</p>
           </div>
-        </template>
-      </pv-card>
-    </div>
+        </div>
+      </template>
+      <template #footer>
+        <div class="card-footer">
+          <pv-button 
+            :label="t('supportPage.backButton')" 
+            icon="pi pi-home"
+            @click="goToDashboard" 
+            class="home-button" 
+          />
+        </div>
+      </template>
+    </pv-card>
+  </div>
 </template>
   
 <style scoped>
