@@ -2,6 +2,7 @@
   import { ref, onMounted } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
   import { carService } from '../../../certifications/services/car.service';
+  import toolbarComponent from '../../../certifications/components/dashboard/toolbar/toolbar.component.vue';
   
   const cars = ref([]);
   const loading = ref(true);
@@ -76,6 +77,7 @@
 </script>
 
 <template>
+  <toolbarComponent/>
     <div class="car-list-container p-d-flex p-flex-column p-ai-center">
       <h2 class="p-mb-4">Certified Cars</h2>
       <div v-if="loading" class="p-d-flex p-jc-center p-ai-center" style="height: 200px;">
