@@ -3,7 +3,10 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import certiwebLogo from '@/assets/certiweb.png';
 import { userService } from '../../../services/user.service';
+import languageSwitcherComponent from '../../../../public/components/language-switcher/language-switcher.component.vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const router = useRouter();
 const userName = ref('Usuario');
 const visible = ref(false);
@@ -54,19 +57,20 @@ const navigateToHome = () => {
             <img :src="certiwebLogo" alt="CertiWeb Logo" class="logo">
           </div>
           <div class="nav-links">
-            
-            <pv-button label="Autos Certificados en venta" class="p-button-text nav-link" @click="navigateTo('/cars')"/>
-            <pv-button label="Certifica tu auto" class="p-button-text nav-link" @click="navigateTo('/reservation')" />
-            
+            <pv-button :label="t('toolbar.certifiedCars')" class="p-button-text nav-link" @click="navigateTo('/cars')"/>
+            <pv-button :label="t('toolbar.certifyCar')" class="p-button-text nav-link" @click="navigateTo('/reservation')" />
           </div>
         </div>
       </template>
 
-      <!-- Right side - User Name and Menu -->
+      <!-- Right side - User Name, Language Switcher and Menu -->
       <template #end>
-        <div class="user-profile">
-          <span class="user-name">{{ userName }}</span>
-          <pv-button icon="pi pi-bars" class="p-button-text menu-button" @click="openMenu" aria-label="Menu de usuario" />
+        <div class="right-container">
+          
+          <div class="user-profile">
+            <span class="user-name">{{ userName }}</span>
+            <pv-button icon="pi pi-bars" class="p-button-text menu-button" @click="openMenu" :aria-label="t('toolbar.userMenu')" />
+          </div>
         </div>
       </template>
     </pv-toolbar>
@@ -83,30 +87,34 @@ const navigateToHome = () => {
       class="menu-dialog"
       style="width: 300px; z-index: 9999;"
     >
+      
       <div class="menu-header">
-        <h3>Menú</h3>
+        <h3>{{ t('toolbar.menu') }}</h3>
         <pv-button icon="pi pi-times" class="p-button-text p-button-rounded close-button" @click="visible = false" />
       </div>
       <div class="menu-options">
         <div class="menu-option" @click="navigateTo('/profile')">
           <i class="pi pi-user"></i>
-          <span>Perfil</span>
+          <span>{{ t('toolbar.profile') }}</span>
         </div>
         <div class="menu-option" @click="navigateTo('/history')">
           <i class="pi pi-history"></i>
-          <span>Historial</span>
+          <span>{{ t('toolbar.history') }}</span>
         </div>
         <div class="menu-option" @click="navigateTo('/support')">
           <i class="pi pi-question-circle"></i>
-          <span>Soporte</span>
+          <span>{{ t('toolbar.support') }}</span>
         </div>
         <div class="menu-option" @click="navigateTo('/terms-of-use')">
           <i class="pi pi-file"></i>
-          <span>Términos de uso</span>
+          <span>{{ t('toolbar.termsOfUse') }}</span>
         </div>
         <div class="menu-option logout-option" @click="handleLogout">
           <i class="pi pi-sign-out"></i>
-          <span>Cerrar sesión</span>
+          <span>{{ t('toolbar.logout') }}</span>
+        </div>
+        <div>
+          <language-switcher-component/>
         </div>
       </div>
     </pv-dialog>
