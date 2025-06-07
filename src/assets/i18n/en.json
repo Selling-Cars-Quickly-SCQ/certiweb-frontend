@@ -207,7 +207,7 @@
     "plateErrorFormat": "Invalid plate format.",
     "plateIncomplete": "Incomplete plate.",
     "ownerEmail": "Owner's Email",
-    "ownerEmailPlaceholder": "example@email.com",
+    "ownerEmailPlaceholder": "Enter your email address",
     "sellingPrice": "Selling Price (PEN)",
     "pricePlaceholder": "E.g.: 50000"
   },
