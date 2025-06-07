@@ -53,7 +53,7 @@ const navigateToCertification = () => {
 .certification-banner {
   width: 100%;
   background-color: #f5f0e1;
-  padding: 2rem 1rem;
+  padding: 1.5rem 1rem;
   overflow: hidden;
 }
 
@@ -61,23 +61,27 @@ const navigateToCertification = () => {
   max-width: 1280px;
   margin: 0 auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .car-image-container {
-  flex: 1;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  order: 1;
 }
 
 .car-image {
-  max-width: 100%;
+  width: 100%;
+  max-width: 500px;
   height: auto;
   object-fit: contain;
   border-radius: 8px;
   transition: transform 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .car-image:hover {
@@ -85,14 +89,16 @@ const navigateToCertification = () => {
 }
 
 .certification-content {
-  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
+  order: 2;
+  text-align: center;
 }
 
 .certification-title {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: #1b4332;
   margin: 0;
@@ -100,14 +106,16 @@ const navigateToCertification = () => {
 }
 
 .certification-description {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #495057;
   margin: 0;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .certification-action {
   margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
 }
 
 :deep(.certification-button) {
@@ -115,14 +123,17 @@ const navigateToCertification = () => {
   border: none;
   color: #1b4332;
   font-weight: 600;
-  font-size: 1.1rem;
-  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  padding: 0.75rem 1.25rem;
   border-radius: 8px;
   transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 300px;
+  justify-content: center;
 }
 
 :deep(.certification-button:hover) {
@@ -145,37 +156,122 @@ const navigateToCertification = () => {
 }
 
 /* Responsive adjustments */
-@media (max-width: 992px) {
-  .certification-container {
-    flex-direction: column;
-    text-align: center;
+@media (min-width: 640px) {
+  .certification-banner {
+    padding: 2rem 1.5rem;
   }
   
   .certification-title {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
   
   .certification-description {
-    font-size: 1rem;
+    font-size: 1.05rem;
+    max-width: 500px;
+    margin: 0 auto;
   }
   
-  .certification-action {
-    display: flex;
-    justify-content: center;
+  :deep(.certification-button) {
+    font-size: 1.05rem;
+    padding: 0.75rem 1.5rem;
   }
 }
 
-@media (max-width: 576px) {
-  .certification-banner {
-    padding: 1.5rem 1rem;
-  }
-  
-  .certification-title {
-    font-size: 1.5rem;
+@media (min-width: 768px) {
+  .certification-container {
+    flex-direction: row;
+    text-align: left;
+    gap: 2rem;
   }
   
   .car-image-container {
-    margin-bottom: 1rem;
+    flex: 1;
+    order: 2;
+  }
+  
+  .certification-content {
+    flex: 1;
+    order: 1;
+    text-align: left;
+    justify-content: center;
+  }
+  
+  .certification-action {
+    justify-content: flex-start;
+  }
+  
+  :deep(.certification-button) {
+    width: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .certification-banner {
+    padding: 3rem 2rem;
+  }
+  
+  .certification-container {
+    gap: 3rem;
+  }
+  
+  .certification-title {
+    font-size: 2.25rem;
+  }
+  
+  .certification-description {
+    font-size: 1.1rem;
+  }
+  
+  :deep(.certification-button) {
+    font-size: 1.1rem;
+    padding: 0.875rem 1.75rem;
+  }
+  
+  .car-image {
+    max-width: 600px;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .car-image,
+  .button-icon,
+  :deep(.certification-button) {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .certification-title {
+    color: #000;
+  }
+  
+  .certification-description {
+    color: #000;
+  }
+  
+  :deep(.certification-button) {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #000;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+  .car-image:hover {
+    transform: none;
+  }
+  
+  :deep(.certification-button:hover) {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  :deep(.certification-button:hover) .button-icon {
+    transform: none;
   }
 }
 </style>

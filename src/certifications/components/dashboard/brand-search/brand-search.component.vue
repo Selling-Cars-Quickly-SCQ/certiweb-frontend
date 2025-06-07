@@ -413,4 +413,152 @@ const clearHoveredBrand = () => {
 :deep(.p-card-body) {
   padding: 0 !important;
 }
+@media (max-width: 639px) {
+  .brand-search-section {
+    padding: 2rem 0.75rem;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .brands-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .brand-content {
+    padding: 1.25rem 1rem;
+  }
+  
+  .hover-bar {
+    height: 2px;
+  }
+}
+
+/* PrimeVue Card Override */
+:deep(.p-card-content) {
+  padding: 0 !important;
+}
+
+:deep(.p-card-body) {
+  padding: 0 !important;
+  height: 100%;
+}
+/* Responsive Design */
+@media (min-width: 640px) {
+  .brands-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .brand-content {
+    padding: 1.75rem 1.25rem;
+  }
+  
+  .logo-circle {
+    width: 6rem;
+    height: 6rem;
+  }
+  
+  .brand-logo {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .brand-name {
+    font-size: 1.15rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .brand-search-section {
+    padding: 3.5rem 1.5rem;
+  }
+  
+  .title {
+    font-size: 2.25rem;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .brands-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+  }
+  
+  .logo-circle {
+    width: 7rem;
+    height: 7rem;
+  }
+  
+  .brand-logo {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .brand-search-section {
+    padding: 4rem 2rem;
+  }
+  
+  .brands-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  
+  .logo-circle {
+    width: 8rem;
+    height: 8rem;
+  }
+  
+  .brand-logo {
+    width: 5rem;
+    height: 5rem;
+  }
+  
+  .brand-name {
+    font-size: 1.25rem;
+  }
+  
+  .search-indicator {
+    font-size: 0.875rem;
+  }
+}
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .brand-card,
+  .logo-circle,
+  .brand-logo,
+  .decorative-ring,
+  .hover-bar,
+  .home-button,
+  .home-button i {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+  .brand-card:hover {
+    transform: none;
+  }
+  
+  .hover-bar {
+    transform: scaleX(1);
+    opacity: 0.5;
+  }
+  
+  .decorative-ring {
+    opacity: 0.3;
+  }
+}
 </style>
