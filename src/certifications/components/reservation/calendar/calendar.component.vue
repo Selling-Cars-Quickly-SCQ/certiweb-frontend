@@ -6,9 +6,9 @@ import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n();
 const toast = useToast();
 const router = useRouter();
+const { t } = useI18n();
 
 const props = defineProps({
   modelValue: {
@@ -29,7 +29,6 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-
 const fechaHora = ref(props.modelValue || null);
 
 const horariosDisponibles = [
@@ -39,7 +38,6 @@ const horariosDisponibles = [
   { display: '3:00 PM', hour: 15 },
   { display: '5:00 PM', hour: 17 }
 ];
-
 
 onMounted(() => {
   if (!fechaHora.value) {
@@ -53,7 +51,6 @@ onMounted(() => {
     }
     
     today.setHours(9, 0, 0, 0);
-
   }
 });
 
@@ -246,11 +243,11 @@ const handleConfirmReservation = async () => {
       </div>
     </div>
     
-    <div class="confirm-reservation-section" style="text-align: center; margin-top: 20px;">
+    <div class="confirm-reservation-section">
       <pv-button 
         :label="t('calendar.confirmButton')" 
         icon="pi pi-check" 
-        class="p-button-success" 
+        class="p-button-success confirm-button" 
         @click="handleConfirmReservation"
         :disabled="!fechaHora || !vehicleData.placa" 
       />
@@ -262,153 +259,431 @@ const handleConfirmReservation = async () => {
 <style scoped>
 .calendar-container {
   width: 100%;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8fffe 0%, #f0f9f4 100%);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .subtitulo-formulario {
   color: #1e4d2b;
-  font-size: 20px;
-  margin-bottom: 20px;
-  font-weight: bold;
+  font-size: 1.75rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
   text-align: center;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.subtitulo-formulario::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #1e4d2b, #2d6b3f);
+  border-radius: 2px;
 }
 
 .calendar-layout {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .calendar-section,
 .time-section {
-  flex: 1;
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(30, 77, 43, 0.1);
+  transition: all 0.3s ease;
+}
+
+.calendar-section:hover,
+.time-section:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .calendar-subtitle {
-  font-size: 18px;
+  font-size: 1.25rem;
   color: #1e4d2b;
-  margin-bottom: 15px;
+  margin-bottom: 1.25rem;
   text-align: center;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.calendar-subtitle::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(180deg, #1e4d2b, #2d6b3f);
+  border-radius: 2px;
 }
 
 .calendar-note {
   display: block;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 1rem;
   color: #666;
-  font-size: 12px;
+  font-size: 0.875rem;
+  font-style: italic;
+  padding: 0.5rem;
+  background: rgba(30, 77, 43, 0.05);
+  border-radius: 6px;
 }
 
 .time-slots {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
 }
 
 .time-slot {
-  background-color: #f3f3f3;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 10px 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  padding: 1rem 0.5rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.95rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.time-slot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s ease;
 }
 
 .time-slot:hover {
-  background-color: #e6f7e6;
+  background: linear-gradient(135deg, #e6f7e6 0%, #d4edda 100%);
   border-color: #1e4d2b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 77, 43, 0.2);
+}
+
+.time-slot:hover::before {
+  left: 100%;
 }
 
 .time-slot.selected {
-  background-color: #1e4d2b;
+  background: linear-gradient(135deg, #1e4d2b 0%, #2d6b3f 100%);
   color: white;
   border-color: #1e4d2b;
+  box-shadow: 0 4px 15px rgba(30, 77, 43, 0.3);
+  transform: scale(1.05);
 }
 
 .selected-datetime {
-  margin-top: 20px;
-  background-color: #e6f7e6;
-  border-radius: 8px;
-  padding: 15px;
+  margin-top: 2rem;
+  background: linear-gradient(135deg, #e6f7e6 0%, #d4edda 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(30, 77, 43, 0.2);
+  box-shadow: 0 2px 10px rgba(30, 77, 43, 0.1);
 }
 
 .datetime-preview {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  font-size: 16px;
+  gap: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  flex-wrap: wrap;
 }
 
 .datetime-preview i {
   color: #1e4d2b;
-  font-size: 18px;
+  font-size: 1.25rem;
 }
 
+.confirm-reservation-section {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(30, 77, 43, 0.1);
+}
+
+:deep(.confirm-button) {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+  border: none !important;
+  padding: 0.875rem 2.5rem !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  border-radius: 25px !important;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+:deep(.confirm-button:hover) {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4) !important;
+}
+
+:deep(.confirm-button:disabled) {
+  background: #6c757d !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* PrimeVue DatePicker Customization */
 :deep(.p-datepicker) {
   width: 100%;
-  border-radius: 5px;
+  border-radius: 10px;
   overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(30, 77, 43, 0.1);
 }
 
 :deep(.p-datepicker table) {
-  font-size: 14px;
+  font-size: 0.95rem;
   border-collapse: collapse;
+  width: 100%;
 }
 
 :deep(.p-datepicker-header) {
-  background-color: #1e4d2b;
+  background: linear-gradient(135deg, #1e4d2b 0%, #2d6b3f 100%);
   color: white;
   text-align: center;
+  padding: 1rem;
+  font-weight: 600;
 }
 
 :deep(.p-datepicker-calendar td) {
-  padding: 10px;
+  padding: 0.75rem;
   cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+  margin: 2px;
 }
 
 :deep(.p-highlight) {
-  background-color: #1e4d2b !important;
+  background: linear-gradient(135deg, #1e4d2b 0%, #2d6b3f 100%) !important;
   color: white !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
 }
 
 :deep(.p-datepicker-today > span) {
-  border-color: #1e4d2b !important;
+  border: 2px solid #1e4d2b !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
 }
 
 :deep(.p-datepicker-calendar td:not(.p-disabled):hover) {
-  background-color: #e6f7e6 !important;
-}
-
-
-:deep(.p-datepicker-calendar td.p-datepicker-current-day) {
-  background-color: #1e4d2b !important;
+  background: linear-gradient(135deg, #e6f7e6 0%, #d4edda 100%) !important;
+  border-radius: 6px !important;
+  transform: scale(1.05);
 }
 
 :deep(.p-datepicker-calendar td.p-disabled) {
-  background-color: #f9f9f9;
-  color: #ccc;
+  background-color: #f8f9fa;
+  color: #adb5bd;
   cursor: not-allowed;
+  opacity: 0.5;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .calendar-layout {
-    flex-direction: column;
-  }
+:deep(.p-datepicker-prev),
+:deep(.p-datepicker-next) {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50% !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  transition: all 0.2s ease !important;
+}
 
+:deep(.p-datepicker-prev:hover),
+:deep(.p-datepicker-next:hover) {
+  background: rgba(255, 255, 255, 0.2) !important;
+  transform: scale(1.1) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .calendar-container {
+    padding: 1.25rem;
+  }
+  
+  .calendar-layout {
+    gap: 1.5rem;
+  }
+  
+  .subtitulo-formulario {
+    font-size: 1.5rem;
+  }
+  
+  .time-slots {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.5rem;
+  }
+  
+  .time-slot {
+    padding: 0.875rem 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .calendar-container {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+  
+  .calendar-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .subtitulo-formulario {
+    font-size: 1.375rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .calendar-section,
+  .time-section {
+    padding: 1.25rem;
+  }
+  
+  .calendar-subtitle {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+  
+  .time-slots {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .time-slot {
+    padding: 1rem 0.75rem;
+    font-size: 0.95rem;
+  }
+  
+  .datetime-preview {
+    font-size: 1rem;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  
+  .datetime-preview span {
+    display: block;
+    width: 100%;
+    margin: 0.25rem 0;
+  }
+  
+  :deep(.confirm-button) {
+    width: 100% !important;
+    max-width: 300px !important;
+    padding: 1rem 2rem !important;
+    font-size: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendar-container {
+    padding: 0.75rem;
+    margin: 0.25rem;
+    border-radius: 12px;
+  }
+  
+  .subtitulo-formulario {
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .calendar-section,
+  .time-section {
+    padding: 1rem;
+  }
+  
+  .calendar-subtitle {
+    font-size: 1rem;
+    margin-bottom: 0.875rem;
+  }
+  
   .time-slots {
     grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .time-slot {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+  
+  .calendar-note {
+    font-size: 0.8rem;
+    padding: 0.375rem;
+  }
+  
+  .selected-datetime {
+    padding: 1rem;
+  }
+  
+  .datetime-preview {
+    font-size: 0.9rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .datetime-preview i {
+    font-size: 1.1rem;
+  }
+  
+  :deep(.p-datepicker-calendar td) {
+    padding: 0.5rem;
+  }
+  
+  :deep(.p-datepicker table) {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .calendar-container {
+    padding: 0.5rem;
+  }
+  
+  .subtitulo-formulario {
+    font-size: 1.125rem;
+  }
+  
+  .calendar-section,
+  .time-section {
+    padding: 0.75rem;
+  }
+  
+  .time-slot {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+  
+  :deep(.confirm-button) {
+    padding: 0.875rem 1.5rem !important;
+    font-size: 0.95rem !important;
   }
 }
 </style>

@@ -25,12 +25,6 @@ const formulario = reactive({
 });
 const placaValida = ref(true);
 
-const validarPlaca = (placa) => {
-  const regex = /^[A-Z0-9]{3}-[A-Z0-9]{3}$/;
-  return regex.test(placa);
-};
-
-const selectedOptions = ref();
 const marcas = ref([
   { nombre: 'Toyota', codigo: 'toyota' },
   { nombre: 'Nissan', codigo: 'nissan' },
@@ -137,6 +131,11 @@ const emitVehicleData = () => {
 
 const updateFormData = () => {
   emitVehicleData();
+};
+
+const validarPlaca = (placa) => {
+  const regex = /^[A-Z0-9]{3}-[A-Z0-9]{3}$/;
+  return regex.test(placa);
 };
 </script>
 
@@ -268,142 +267,150 @@ const updateFormData = () => {
 <style scoped>
 .vehicle-spec-container {
   width: 100%;
-  padding: 24px;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
-  font-family: 'Roboto', sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8fffe 0%, #f0f9f4 100%);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .seccion {
-  margin-bottom: 36px;
+  margin-bottom: 3rem;
 }
 
 .subtitulo-formulario {
   color: #1e4d2b;
-  font-size: 22px;
-  margin-bottom: 18px;
-  font-weight: 600;
-  border-bottom: 2px solid #e1e1e1;
-  padding-bottom: 12px;
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
   position: relative;
+  padding-bottom: 0.75rem;
+  text-align: center;
 }
 
 .subtitulo-formulario::after {
   content: '';
   position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 60px;
-  height: 2px;
-  background-color: #1e4d2b;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #1e4d2b, #2d6b3f);
+  border-radius: 2px;
 }
 
 .fotos-container {
   display: flex;
-  justify-content: space-between;
-  gap: 24px;
-  margin-top: 20px;
+  justify-content: center;
+  margin-top: 1.5rem;
 }
 
 .foto-upload {
-  flex: 1;
+  width: 100%;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  background-color: #fff;
+  border: 2px dashed #e0e0e0;
+  border-radius: 16px;
+  background: white;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  min-height: 250px;
+  min-height: 300px;
 }
 
 .foto-upload:hover {
   border-color: #1e4d2b;
-  box-shadow: 0 4px 12px rgba(30, 77, 43, 0.15);
+  box-shadow: 0 4px 20px rgba(30, 77, 43, 0.15);
+  transform: translateY(-2px);
 }
 
 .foto-uploaded {
-  border-left: 4px solid #1e4d2b;
+  border-style: solid;
+  border-color: #1e4d2b;
+  background: linear-gradient(135deg, #f0f9f4 0%, #e6f7e6 100%);
 }
 
 .upload-header {
-  background-color: #f0f5f1;
-  color: #1e4d2b;
+  background: linear-gradient(135deg, #1e4d2b 0%, #2d6b3f 100%);
+  color: white;
   font-weight: 600;
-  padding: 10px 16px;
-  border-bottom: 1px solid #e0e0e0;
-  font-size: 14px;
+  padding: 1rem;
   text-align: center;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
 }
 
 .upload-content {
-  padding: 20px;
+  padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 1rem;
   align-items: center;
+  flex: 1;
 }
 
 .upload-hint {
-  padding: 0 16px 10px;
+  padding: 0 1.5rem 1rem;
   color: #666;
-  font-size: 12px;
+  font-size: 0.875rem;
   text-align: center;
+  font-style: italic;
+  background: rgba(30, 77, 43, 0.05);
+  margin: 0 1rem;
+  border-radius: 8px;
+  padding: 0.75rem;
 }
 
 .imagen-preview {
-  margin: 0 16px 16px;
-  width: calc(100% - 32px);
+  margin: 0 1rem 1rem;
+  width: calc(100% - 2rem);
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f0f5f1;
-  border-radius: 8px;
+  background: white;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(30, 77, 43, 0.2);
 }
 
 .imagen-preview-failed {
-  margin: 0 16px 16px;
-  width: calc(100% - 32px);
+  margin: 0 1rem 1rem;
+  width: calc(100% - 2rem);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px;
-  background-color: #fff0f0;
-  border: 1px solid #d9534f;
-  border-radius: 8px;
+  padding: 1rem;
+  background: #fff5f5;
+  border: 2px solid #fed7d7;
+  border-radius: 12px;
 }
 
 .imagen-preview-failed .nombre-archivo {
-  color: #d9534f;
+  color: #e53e3e;
+  font-weight: 500;
 }
 
 .preview-thumbnail {
   width: 100%;
-  height: 140px;
+  height: 200px;
   object-fit: cover;
-  border-bottom: 1px solid #e0e0e0;
 }
 
 .nombre-archivo {
-  font-size: 12px;
+  font-size: 0.875rem;
   color: #666;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin: 0.75rem;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  display: block;
-  padding: 6px 12px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 4px;
-  width: 90%;
   text-align: center;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  font-weight: 500;
 }
 
 /* PrimeVue FileUpload Customization */
@@ -421,18 +428,19 @@ const updateFormData = () => {
 }
 
 :deep(.p-button) {
-  background-color: #1e4d2b;
-  border-color: #1e4d2b;
-  border-radius: 6px !important;
-  padding: 8px 16px;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  background: linear-gradient(135deg, #1e4d2b 0%, #2d6b3f 100%);
+  border: none;
+  border-radius: 10px !important;
+  padding: 0.875rem 2rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(30, 77, 43, 0.2);
 }
 
 :deep(.p-button:hover) {
-  background-color: #2a6a3c;
-  border-color: #2a6a3c;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #2d6b3f 0%, #1e4d2b 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(30, 77, 43, 0.3);
 }
 
 :deep(.p-button:focus) {
@@ -441,82 +449,92 @@ const updateFormData = () => {
 
 :deep(.p-fileupload-choose) {
   width: 100%;
-  height: 40px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px dashed #1e4d2b !important;
-  border-radius: 6px !important;
-  background-color: rgba(30, 77, 43, 0.05) !important;
+  border: 2px dashed #1e4d2b !important;
+  border-radius: 10px !important;
+  background: rgba(30, 77, 43, 0.05) !important;
   color: #1e4d2b !important;
-  font-weight: 500;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 :deep(.p-fileupload-choose:hover) {
-  background-color: rgba(30, 77, 43, 0.1) !important;
+  background: rgba(30, 77, 43, 0.1) !important;
+  border-style: solid !important;
 }
 
 :deep(.p-button.p-component.p-button-secondary) {
-  background-color: #f0f5f1 !important;
-  border-color: #1e4d2b !important;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+  border: 2px solid #1e4d2b !important;
   color: #1e4d2b !important;
 }
 
 :deep(.p-button.p-component.p-button-secondary:hover) {
-  background-color: #e0eae1 !important;
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%) !important;
 }
 
 :deep(.imagen-cargada .p-fileupload-choose) {
-  background-color: rgba(30, 77, 43, 0.1) !important;
-  border: 1px solid #1e4d2b !important;
+  background: rgba(30, 77, 43, 0.15) !important;
+  border: 2px solid #1e4d2b !important;
+  color: #1e4d2b !important;
 }
 
 .datos-vehiculo {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  margin-top: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 1.5rem;
 }
 
 .campo-formulario {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .campo-formulario label {
-  margin-bottom: 8px;
+  margin-bottom: 0.75rem;
   font-weight: 600;
   color: #1e4d2b;
-  font-size: 14px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.campo-formulario label::before {
+  content: '';
+  width: 4px;
+  height: 16px;
+  background: linear-gradient(180deg, #1e4d2b, #2d6b3f);
+  border-radius: 2px;
 }
 
 .campo-formulario small {
-  margin-top: 6px;
+  margin-top: 0.5rem;
   color: #666;
-  font-size: 12px;
+  font-size: 0.875rem;
 }
 
 .campo-formulario small.p-error {
-  color: #f44336;
-  font-size: 12px;
-  margin-top: 4px;
+  color: #e53e3e;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
 }
 
 .field-help {
   color: #666;
-  font-size: 12px;
-  margin-top: 6px;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-style: italic;
 }
 
-/* PrimeVue Select & Input Customization */
-:deep(.p-select-custom) {
-  width: 100%;
-  background-color: #ffffff;
-}
-
-:deep(.p-select) {
+.select-container {
   position: relative;
-  width: 100%;
 }
 
 .custom-select {
@@ -524,126 +542,263 @@ const updateFormData = () => {
   -webkit-appearance: none;
   -moz-appearance: none;
   width: 100%;
-  background-color: #ffffff;
-  border: 1px solid #ced4da;
-  border-radius: 6px;
-  padding: 10px 16px;
-  font-size: 14px;
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
   color: #333;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .custom-select:hover {
   border-color: #1e4d2b;
+  box-shadow: 0 2px 8px rgba(30, 77, 43, 0.1);
 }
 
 .custom-select:focus {
   outline: none;
   border-color: #1e4d2b;
-  box-shadow: 0 0 0 2px rgba(30, 77, 43, 0.2);
+  box-shadow: 0 0 0 3px rgba(30, 77, 43, 0.1);
 }
 
 .select-arrow {
   position: absolute;
-  right: 12px;
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
   color: #666;
+  transition: transform 0.2s ease;
 }
 
 .select-arrow i {
-  font-size: 12px;
+  font-size: 1rem;
+}
+
+.custom-select:focus + .select-arrow {
+  transform: translateY(-50%) rotate(180deg);
 }
 
 .custom-select option {
-  padding: 10px;
-  background-color: white;
+  padding: 0.75rem;
+  background: white;
   color: #333;
-}
-
-.custom-select option:hover,
-.custom-select option:focus {
-  background-color: #f0f5f1;
-}
-
-:deep(.p-select-item) {
-  background-color: #ffffff !important;
-  padding: 10px 16px !important;
-  color: #374151 !important;
-  font-size: 14px !important;
-  transition: background-color 0.2s !important;
-}
-
-:deep(.p-select-item:hover) {
-  background-color: rgba(30, 77, 43, 0.08) !important;
-}
-
-:deep(.p-select-item.p-highlight) {
-  background-color: rgba(30, 77, 43, 0.15) !important;
-  color: #1e4d2b !important;
-  font-weight: 500 !important;
-}
-
-:deep(.p-select-trigger) {
-  width: 40px;
-  background-color: white;
-  border-left: none;
-  color: #666;
-}
-
-:deep(.p-select-label) {
-  padding: 10px 16px;
-  font-size: 14px;
 }
 
 :deep(.p-input-custom),
 :deep(.p-inputtext) {
   width: 100%;
-  background-color: #ffffff;
-  border: 1px solid #ced4da;
-  border-radius: 6px;
-  padding: 10px 16px;
-  font-size: 14px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 :deep(.p-input-custom:hover),
 :deep(.p-inputtext:hover) {
   border-color: #1e4d2b;
+  box-shadow: 0 2px 8px rgba(30, 77, 43, 0.1);
 }
 
 :deep(.p-input-custom:focus),
 :deep(.p-inputtext:focus) {
   outline: 0 none;
   border-color: #1e4d2b;
-  box-shadow: 0 0 0 2px rgba(30, 77, 43, 0.2);
+  box-shadow: 0 0 0 3px rgba(30, 77, 43, 0.1);
 }
 
 :deep(.p-input-custom.p-invalid),
 :deep(.p-inputtext.p-invalid) {
-  border-color: #f44336 !important;
+  border-color: #e53e3e !important;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1) !important;
 }
 
-/* Responsive */
-@media (max-width: 992px) {
-  .fotos-container {
-    flex-direction: column;
-  }
-
-  .datos-vehiculo {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 576px) {
+/* Responsive Design */
+@media (max-width: 1024px) {
   .vehicle-spec-container {
-    padding: 16px;
+    padding: 1.5rem;
+  }
+  
+  .datos-vehiculo {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
   }
   
   .subtitulo-formulario {
-    font-size: 20px;
+    font-size: 1.5rem;
+  }
+  
+  .foto-upload {
+    min-height: 280px;
+  }
+  
+  .upload-content {
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .vehicle-spec-container {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+  
+  .seccion {
+    margin-bottom: 2rem;
+  }
+  
+  .subtitulo-formulario {
+    font-size: 1.375rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .datos-vehiculo {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  
+  .foto-upload {
+    min-height: 250px;
+  }
+  
+  .upload-content {
+    padding: 1.25rem 1rem;
+    gap: 0.875rem;
+  }
+  
+  .upload-header {
+    padding: 0.875rem;
+    font-size: 0.95rem;
+  }
+  
+  .preview-thumbnail {
+    height: 180px;
+  }
+  
+  :deep(.p-fileupload-choose) {
+    height: 45px;
+  }
+  
+  :deep(.p-button) {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .vehicle-spec-container {
+    padding: 0.75rem;
+    margin: 0.25rem;
+    border-radius: 12px;
+  }
+  
+  .subtitulo-formulario {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .subtitulo-formulario::after {
+    width: 60px;
+    height: 2px;
+  }
+  
+  .seccion {
+    margin-bottom: 1.5rem;
+  }
+  
+  .foto-upload {
+    min-height: 220px;
+  }
+  
+  .upload-content {
+    padding: 1rem 0.75rem;
+    gap: 0.75rem;
+  }
+  
+  .upload-header {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .upload-hint {
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    margin: 0 0.5rem;
+  }
+  
+  .preview-thumbnail {
+    height: 150px;
+  }
+  
+  .nombre-archivo {
+    font-size: 0.8rem;
+    margin: 0.5rem;
+  }
+  
+  .campo-formulario label {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .campo-formulario small {
+    font-size: 0.8rem;
+  }
+  
+  :deep(.p-input-custom),
+  :deep(.p-inputtext),
+  .custom-select {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.95rem;
+  }
+  
+  :deep(.p-fileupload-choose) {
+    height: 40px;
+    font-size: 0.9rem;
+  }
+  
+  :deep(.p-button) {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .vehicle-spec-container {
+    padding: 0.5rem;
+  }
+  
+  .subtitulo-formulario {
+    font-size: 1.125rem;
+  }
+  
+  .foto-upload {
+    min-height: 200px;
+  }
+  
+  .upload-content {
+    padding: 0.875rem 0.5rem;
+  }
+  
+  .preview-thumbnail {
+    height: 120px;
+  }
+  
+  :deep(.p-input-custom),
+  :deep(.p-inputtext),
+  .custom-select {
+    padding: 0.625rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  :deep(.p-button) {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
   }
 }
 </style>
