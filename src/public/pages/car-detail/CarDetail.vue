@@ -20,8 +20,8 @@ const fetchCarDetails = async () => {
     
     const response = await carService.getCarById(carId.value);
     car.value = response.data || response; 
-    
     console.log('Car details loaded:', car.value);
+
   } catch (err) {
     console.error('Error fetching car details:', err);
     error.value = err;
@@ -69,6 +69,21 @@ const formatCurrency = (value) => {
 
 const goBack = () => {
   router.back();
+};
+
+const contactSeller = () => {
+  if (car.value && car.value.ownerEmail) {
+    const subject = encodeURIComponent(t('carDetail.emailSubject', { model: car.value.model, brand: car.value.brand }));
+    const body = encodeURIComponent(t('carDetail.emailBody', { 
+        model: car.value.model, 
+        brand: car.value.brand, 
+        licensePlate: car.value.licensePlate 
+    }));
+    window.location.href = `mailto:${car.value.ownerEmail}?subject=${subject}&body=${body}`;
+  } else {
+    console.warn('No owner email available to contact.');
+    alert(t('carDetail.noEmailWarning'));
+  }
 };
 
 onMounted(() => {
@@ -163,6 +178,7 @@ onMounted(() => {
             :label="t('carDetail.contactSeller')" 
             icon="pi pi-envelope" 
             class="p-button-raised p-button-primary" 
+            @click="contactSeller" 
           />
         </div>
       </div>
