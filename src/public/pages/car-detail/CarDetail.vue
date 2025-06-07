@@ -4,12 +4,12 @@ import { useRoute, useRouter } from 'vue-router';
 import { carService } from '../../../certifications/services/car.service';
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const car = ref(null);
 const loading = ref(true);
 const error = ref(null);
+const { t } = useI18n();
 
 const carId = computed(() => route.params.id);
 
@@ -193,18 +193,27 @@ onMounted(() => {
 
 <style scoped>
 .car-detail-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 2rem auto;
   padding: 2rem;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
 .back-button {
-  margin-bottom: 1.5rem;
-  color: #007bff;
+  margin-bottom: 2rem;
+  color: #007bff !important;
+  font-weight: 600 !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 25px !important;
+  transition: all 0.3s ease !important;
+}
+
+.back-button:hover {
+  background: rgba(0, 123, 255, 0.1) !important;
+  transform: translateX(-2px) !important;
 }
 
 .loading-spinner,
@@ -214,40 +223,41 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 300px;
+  min-height: 400px;
   text-align: center;
   color: #555;
+  padding: 2rem;
 }
 
 .loading-spinner p {
-  margin-top: 1rem;
-  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
-.error-message i, .no-car-found i {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+.error-message i, 
+.no-car-found i {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
   color: #dc3545;
 }
+
 .no-car-found i {
-    color: #6c757d;
+  color: #6c757d;
 }
 
-.error-message p, .no-car-found p {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
+.error-message p, 
+.no-car-found p {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
 }
 
 .car-content-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2.5rem;
-}
-
-@media (min-width: 992px) {
-  .car-content-grid {
-    grid-template-columns: 2fr 3fr;
-  }
+  gap: 3rem;
+  align-items: start;
 }
 
 .image-gallery {
@@ -258,122 +268,410 @@ onMounted(() => {
 
 .main-car-image {
   width: 100%;
-  max-height: 450px;
+  max-width: 600px;
+  height: auto;
+  min-height: 300px;
+  max-height: 500px;
   object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem; /* Space for potential thumbnails */
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease;
 }
 
-.thumbnail-grid { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
-.thumbnail-image { width: 80px; height: 60px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent; }
-.thumbnail-image.active { border-color: #007bff; }
+.main-car-image:hover {
+  transform: scale(1.02);
+}
 
 .details-section {
-  padding-left: 0;
-}
-
-@media (min-width: 992px) {
-  .details-section {
-    padding-left: 1.5rem;
-  }
+  padding: 0;
 }
 
 .car-main-title {
-  font-size: 2.2rem;
-  font-weight: 700;
+  font-size: 2.5rem;
+  font-weight: 800;
   color: #2c3e50;
-  margin-bottom: 0.75rem;
-  line-height: 1.3;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .car-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  font-size: 0.95rem;
+  gap: 1.5rem;
+  font-size: 1rem;
   color: #555;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(0, 123, 255, 0.05);
+  border-radius: 12px;
+  border-left: 4px solid #007bff;
 }
 
 .car-meta span {
   display: flex;
   align-items: center;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .car-meta i {
-  margin-right: 0.5rem;
+  margin-right: 0.75rem;
   color: #007bff;
+  font-size: 1.1rem;
 }
 
 .price-tag {
-  font-size: 1.8rem;
-  font-weight: bold;
+  font-size: 2.2rem;
+  font-weight: 800;
   color: #28a745;
-  margin-bottom: 1.5rem;
-  padding: 0.75rem 1.25rem;
-  background-color: #e9f5ec;
-  border-radius: 6px;
+  margin-bottom: 2rem;
+  padding: 1.25rem 2rem;
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  border-radius: 12px;
   display: inline-block;
+  border: 2px solid rgba(40, 167, 69, 0.2);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
 }
 
 .section-block {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .section-title {
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #34495e;
-  margin-bottom: 0.8rem;
-  padding-bottom: 0.4rem;
-  border-bottom: 2px solid #007bff;
-  display: inline-block;
-}
-
-.section-title i {
-  margin-right: 0.6rem;
-}
-
-.car-full-description {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #444;
-  white-space: pre-wrap;
-}
-
-.technical-report-section .pdf-actions {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 3px solid #007bff;
   display: flex;
+  align-items: center;
   gap: 0.75rem;
 }
 
+.section-title i {
+  color: #007bff;
+  font-size: 1.3rem;
+}
+
+.car-full-description {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #444;
+  white-space: pre-wrap;
+  background: rgba(0, 0, 0, 0.02);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+}
+
+.technical-report-section .pdf-actions {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.pdf-actions :deep(.p-button) {
+  padding: 0.875rem 1.5rem !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+}
+
 .pdf-preview-container {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    overflow: hidden;
-    height: 500px;
-    margin-top: 1rem;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 600px;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #f8f9fa;
+  position: relative;
 }
 
 .pdf-iframe {
   width: 100%;
   height: 100%;
   border: none;
+  background: white;
 }
 
 .actions-footer {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #eee;
+  margin-top: 3rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
   display: flex;
+  justify-content: center;
   gap: 1rem;
 }
 
-:deep(.p-button) {
-  font-weight: 500;
+.actions-footer :deep(.p-button) {
+  padding: 1rem 2.5rem !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  border-radius: 25px !important;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3) !important;
+  transition: all 0.3s ease !important;
 }
 
+.actions-footer :deep(.p-button:hover) {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4) !important;
+}
+
+/* Responsive Design */
+@media (min-width: 1200px) {
+  .car-content-grid {
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4rem;
+  }
+  
+  .details-section {
+    padding-left: 2rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .car-detail-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .car-main-title {
+    font-size: 2.2rem;
+  }
+  
+  .price-tag {
+    font-size: 2rem;
+    padding: 1rem 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+  }
+  
+  .pdf-preview-container {
+    height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .car-detail-container {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+  
+  .back-button {
+    margin-bottom: 1.5rem;
+    padding: 0.625rem 1.25rem !important;
+    font-size: 0.95rem !important;
+  }
+  
+  .car-content-grid {
+    gap: 2rem;
+  }
+  
+  .car-main-title {
+    font-size: 1.875rem;
+    margin-bottom: 1rem;
+  }
+  
+  .car-meta {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.25rem;
+  }
+  
+  .car-meta span {
+    justify-content: center;
+    padding: 0.75rem 1rem;
+  }
+  
+  .price-tag {
+    font-size: 1.75rem;
+    padding: 1rem 1.25rem;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .section-block {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .section-title {
+    font-size: 1.2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .car-full-description {
+    font-size: 1rem;
+    padding: 1.25rem;
+  }
+  
+  .pdf-actions {
+    flex-direction: column;
+  }
+  
+  .pdf-actions :deep(.p-button) {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  
+  .pdf-preview-container {
+    height: 400px;
+    background: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .pdf-iframe {
+    display: none;
+  }
+  
+  .pdf-preview-container::after {
+    content: "Para una mejor experiencia, utiliza los botones de arriba para ver o descargar el certificado PDF";
+    color: #6c757d;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px dashed #dee2e6;
+    max-width: 100%;
+  }
+  
+  .actions-footer {
+    padding: 1.5rem;
+  }
+  
+  .actions-footer :deep(.p-button) {
+    width: 100% !important;
+    padding: 0.875rem 2rem !important;
+    font-size: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .car-detail-container {
+    padding: 0.75rem;
+    margin: 0.25rem;
+    border-radius: 12px;
+  }
+  
+  .car-main-title {
+    font-size: 1.625rem;
+    text-align: center;
+  }
+  
+  .car-meta {
+    padding: 1rem;
+  }
+  
+  .car-meta span {
+    font-size: 0.9rem;
+    padding: 0.625rem 0.875rem;
+  }
+  
+  .price-tag {
+    font-size: 1.5rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .section-block {
+    padding: 1.25rem;
+  }
+  
+  .section-title {
+    font-size: 1.1rem;
+  }
+  
+  .car-full-description {
+    font-size: 0.95rem;
+    padding: 1rem;
+  }
+  
+  .pdf-preview-container {
+    height: 300px;
+    padding: 0.75rem;
+  }
+  
+  .pdf-preview-container::after {
+    font-size: 0.85rem;
+    padding: 1.25rem;
+  }
+  
+  .actions-footer {
+    padding: 1.25rem;
+  }
+  
+  .actions-footer :deep(.p-button) {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 0.95rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .car-detail-container {
+    padding: 0.5rem;
+  }
+  
+  .car-main-title {
+    font-size: 1.5rem;
+  }
+  
+  .price-tag {
+    font-size: 1.375rem;
+    padding: 0.75rem 0.875rem;
+  }
+  
+  .section-block {
+    padding: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1rem;
+  }
+  
+  .pdf-preview-container {
+    height: 250px;
+    padding: 0.5rem;
+  }
+  
+  .pdf-preview-container::after {
+    font-size: 0.8rem;
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .pdf-preview-container::after {
+    display: none;
+  }
+  
+  .pdf-iframe {
+    display: block !important;
+  }
+}
 </style>
