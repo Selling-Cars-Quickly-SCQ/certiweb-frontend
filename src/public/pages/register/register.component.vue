@@ -5,8 +5,8 @@ import { registerService } from '@/public/services/register.service.js';
 import { useI18n } from 'vue-i18n';
 import LanguageSwitcherComponent from '@/public/components/language-switcher/language-switcher.component.vue';
 
-const { t } = useI18n();
 const router = useRouter();
+const { t } = useI18n();
 
 const currentStep = ref(0);
 const items = ref([
@@ -351,479 +351,727 @@ const goToLogin = () => {
 </template>
   
 <style scoped>
-  .register-wrapper {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f5f0e1 0%, #f5f0e1 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem 1rem;
-    font-family: 'Poppins', 'Segoe UI', sans-serif;
+.register-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f0e1 0%, #ede4d1 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  position: relative;
+}
+
+.register-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  pointer-events: none;
+}
+
+.register-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+:deep(.register-card) {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  background-color: #ffffff;
+  border: none;
+  backdrop-filter: blur(10px);
+}
+
+:deep(.register-card .p-card-header) {
+  background: linear-gradient(135deg, #1e4d2b 0%, #2d6b3f 100%);
+  padding: 3rem 2rem;
+  text-align: center;
+  position: relative;
+}
+
+:deep(.register-card .p-card-header::before) {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+  pointer-events: none;
+}
+
+.card-header {
+  position: relative;
+  z-index: 1;
+}
+
+.card-header .title {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.025em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header .subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+:deep(.register-card .p-card-content) {
+  padding: 0;
+}
+
+.steps-container {
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+:deep(.custom-steps) {
+  margin: 0;
+}
+
+:deep(.custom-steps .p-steps-item) {
+  flex: 1;
+}
+
+:deep(.custom-steps .p-steps-item .p-menuitem-link) {
+  background: transparent;
+}
+
+:deep(.custom-steps .p-steps-item .p-steps-number) {
+  background-color: #e2e8f0;
+  color: #64748b;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:deep(.custom-steps .p-steps-item.p-highlight .p-steps-number) {
+  background: linear-gradient(135deg, #1e4d2b 0%, #2d6b3f 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(30, 77, 43, 0.4);
+  transform: scale(1.1);
+}
+
+:deep(.custom-steps .p-steps-item .p-steps-title) {
+  color: #64748b;
+  font-weight: 500;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+:deep(.custom-steps .p-steps-item.p-highlight .p-steps-title) {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+/* Steps Content */
+.step-content {
+  padding: 2.5rem;
+  animation: fadeIn 0.5s ease;
+  min-height: 400px;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px);
   }
-  
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+.step-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.step-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #1e4d2b, #2d6b3f);
+  border-radius: 2px;
+}
+
+/* Form Fields */
+.form-field {
+  margin-bottom: 2rem;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.95rem;
+  letter-spacing: 0.025em;
+}
+
+:deep(.p-inputtext) {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  background-color: #f9fafb;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+:deep(.p-inputtext:hover) {
+  border-color: #d1d5db;
+  background-color: #ffffff;
+}
+
+:deep(.p-inputtext:focus) {
+  border-color: #1e4d2b;
+  box-shadow: 0 0 0 3px rgba(30, 77, 43, 0.1);
+  background-color: #ffffff;
+  outline: none;
+}
+
+:deep(.p-password) {
+  width: 100%;
+}
+
+:deep(.p-password-input) {
+  width: 100%;
+}
+
+:deep(.p-input-icon-left) {
+  width: 100%;
+}
+
+:deep(.p-input-icon-left i) {
+  color: #6b7280;
+  left: 1rem;
+  font-size: 1.1rem;
+}
+
+:deep(.p-input-icon-left input) {
+  padding-left: 3rem;
+}
+
+/* Plan Selection */
+.plans-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.plan-card {
+  border: 3px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.plan-card:hover {
+  border-color: #cbd5e1;
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.plan-card.selected {
+  border-color: #1e4d2b;
+  background: linear-gradient(135deg, #f0f9f4 0%, #e6f7e6 100%);
+  box-shadow: 0 12px 32px rgba(30, 77, 43, 0.25);
+  transform: translateY(-8px);
+}
+
+.plan-badge {
+  position: absolute;
+  top: -12px;
+  right: 24px;
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.plan-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.plan-icon {
+  font-size: 2.5rem;
+  color: #1e4d2b;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.plan-card:hover .plan-icon {
+  transform: scale(1.1);
+}
+
+.plan-header h3 {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.plan-content {
+  text-align: center;
+}
+
+.plan-price {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 0.75rem;
+  line-height: 1;
+}
+
+.plan-price span {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.plan-saving {
+  color: #16a34a;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  background: rgba(22, 163, 74, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+  text-align: left;
+}
+
+.plan-features li {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  color: #475569;
+  font-weight: 500;
+}
+
+.plan-features li i {
+  margin-right: 0.75rem;
+  font-size: 1rem;
+  width: 16px;
+  text-align: center;
+}
+
+.plan-features li i.pi-check {
+  color: #16a34a;
+}
+
+.plan-features li i.pi-times {
+  color: #dc2626;
+}
+
+/* Payment Information */
+.payment-note {
+  text-align: center;
+  color: #16a34a;
+  font-weight: 600;
+  font-style: italic;
+  margin-bottom: 2rem;
+  background: rgba(22, 163, 74, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 2px solid rgba(22, 163, 74, 0.2);
+}
+
+.payment-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.payment-row .form-field {
+  margin-bottom: 0;
+}
+
+.payment-summary {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-top: 2rem;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.payment-summary h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.summary-row.total {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #e2e8f0;
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 1.25rem;
+}
+
+/* Messages */
+:deep(.message-box) {
+  margin: 2rem 0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+:deep(.message-box .p-message-wrapper) {
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.message-icon {
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+}
+
+.message-text {
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Action Buttons */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-top: 2px solid #e2e8f0;
+  gap: 1rem;
+}
+
+:deep(.p-button) {
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.025em;
+}
+
+:deep(.p-button-primary) {
+  background: linear-gradient(135deg, #1e4d2b 0%, #2d6b3f 100%);
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(30, 77, 43, 0.3);
+}
+
+:deep(.p-button-primary:hover) {
+  background: linear-gradient(135deg, #2d6b3f 0%, #1e4d2b 100%);
+  border-color: transparent;
+  box-shadow: 0 8px 20px rgba(30, 77, 43, 0.4);
+  transform: translateY(-2px);
+}
+
+:deep(.p-button-outlined) {
+  color: #374151;
+  border-color: #d1d5db;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+:deep(.p-button-outlined:hover) {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+  color: #1f2937;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+:deep(.p-button .p-button-icon-left) {
+  margin-right: 0.75rem;
+}
+
+:deep(.p-button .p-button-icon-right) {
+  margin-left: 0.75rem;
+}
+
+/* Login prompt */
+.login-prompt {
+  margin-top: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 2rem 2rem;
+  gap: 1rem;
+}
+
+.login-prompt p {
+  color: #6b7280;
+  margin: 0;
+  font-weight: 500;
+}
+
+:deep(.login-link) {
+  color: #1e4d2b;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+:deep(.login-link:hover) {
+  background-color: rgba(30, 77, 43, 0.1);
+  color: #1e4d2b;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
   .register-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 100%;
   }
   
-  :deep(.register-card) {
-    border-radius: 1.5rem;
-    overflow: hidden;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    background-color: #ffffff;
-    border: none;
+  .plans-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
   
-  :deep(.register-card .p-card-header) {
-    background: linear-gradient(135deg, #1e4d2b 0%, #1e4d2b 100%);
-    padding: 2.5rem 2rem;
-    text-align: center;
-  }
-  
-  .card-header .title {
-    color: white;
-    font-size: 2.25rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.025em;
-  }
-  
-  .card-header .subtitle {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 1.1rem;
-    font-weight: 400;
-  }
-  
-  :deep(.register-card .p-card-content) {
-    padding: 0;
+  .step-content {
+    padding: 2rem;
+    min-height: 350px;
   }
   
   .steps-container {
-    padding: 1.5rem 2rem;
-    background-color: #f8fafc;
-    border-bottom: 1px solid #e2e8f0;
-  }
-  
-  :deep(.custom-steps) {
-    margin: 0;
-  }
-  
-  :deep(.custom-steps .p-steps-item) {
-    flex: 1;
-  }
-  
-  :deep(.custom-steps .p-steps-item .p-menuitem-link) {
-    background: transparent;
+    padding: 1.5rem;
   }
   
   :deep(.custom-steps .p-steps-item .p-steps-number) {
-    background-color: #e2e8f0;
-    color: #64748b;
-    border-radius: 50%;
     width: 2.5rem;
     height: 2.5rem;
     font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-  }
-  
-  :deep(.custom-steps .p-steps-item.p-highlight .p-steps-number) {
-    background: linear-gradient(135deg, #1e4d2b 0%, #1e4d2b 100%);
-    color: white;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-  }
-  
-  :deep(.custom-steps .p-steps-item .p-steps-title) {
-    color: #64748b;
-    font-weight: 500;
-    margin-top: 0.75rem;
-  }
-  
-  :deep(.custom-steps .p-steps-item.p-highlight .p-steps-title) {
-    color: #1e293b;
-    font-weight: 600;
-  }
-  
-  /* Steps Content */
-  .step-content {
-    padding: 2rem;
-    animation: fadeIn 0.5s ease;
-  }
-  /* Login prompt */
-  .login-prompt {
-    margin-top: 1.5rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 2rem 2rem;
-  }
-  
-  .login-prompt p {
-    color: #64748b;
-    margin-bottom: 0.5rem;
-  }
-  
-  :deep(.login-link) {
-    color: #1e4d2b;
-    font-weight: 600;
-  }
-  
-  :deep(.login-link:hover) {
-    background-color: rgba(30, 77, 43, 0.1);
-    color: #1e4d2b;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
   }
   
   .step-title {
     font-size: 1.5rem;
-    font-weight: 600;
-    color: #1e293b;
     margin-bottom: 1.5rem;
-    text-align: center;
-  }
-  
-  /* Form */
-  .form-field {
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-field label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #475569;
-    font-size: 0.95rem;
-  }
-  
-  :deep(.p-inputtext) {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid #cbd5e1;
-    background-color: #f8fafc;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-  }
-  
-  :deep(.p-inputtext:hover) {
-    border-color: #94a3b8;
-  }
-  
-  :deep(.p-inputtext:focus) {
-    border-color: #1e4d2b;
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
-    background-color: #ffffff;
-  }
-  
-  :deep(.p-password) {
-    width: 100%;
-  }
-  
-  :deep(.p-password-input) {
-    width: 100%;
-  }
-  
-  :deep(.p-input-icon-left) {
-    width: 100%;
-  }
-  
-  :deep(.p-input-icon-left i) {
-    color: #64748b;
-    left: 0.75rem;
-  }
-  
-  :deep(.p-input-icon-left input) {
-    padding-left: 2.5rem;
-  }
-  
-  /* Plan */
-  .plans-container {
-    display: flex;
-    gap: 1.5rem;
-    margin-top: 1rem;
-    flex-wrap: wrap;
   }
   
   .plan-card {
-    flex: 1;
-    min-width: 250px;
-    border: 2px solid #e2e8f0;
-    border-radius: 1rem;
     padding: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  }
-  
-  .plan-card:hover {
-    border-color: #cbd5e1;
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .plan-card.selected {
-    border-color: #6366f1;
-    background-color: #f5f7ff;
-    box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.25);
-  }
-  
-  .plan-badge {
-    position: absolute;
-    top: -10px;
-    right: 20px;
-    background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
-    color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.3);
-  }
-  
-  .plan-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 1rem;
-    text-align: center;
   }
   
   .plan-icon {
     font-size: 2rem;
-    color: #6366f1;
-    margin-bottom: 0.75rem;
-  }
-  
-  .plan-header h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #1e293b;
-    margin: 0;
-  }
-  
-  .plan-content {
-    text-align: center;
   }
   
   .plan-price {
     font-size: 2rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 0.5rem;
   }
   
-  .plan-price span {
+  .payment-row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .payment-summary {
+    padding: 1.5rem;
+  }
+  
+  .form-actions {
+    flex-direction: column-reverse;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  
+  :deep(.p-button) {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .register-wrapper {
+    padding: 1rem 0.5rem;
+  }
+  
+  :deep(.register-card .p-card-header) {
+    padding: 2.5rem 1.5rem;
+  }
+  
+  .card-header .title {
+    font-size: 2.25rem;
+  }
+  
+  .card-header .subtitle {
     font-size: 1rem;
-    font-weight: 500;
-    color: #64748b;
   }
   
-  .plan-saving {
-    color: #16a34a;
-    font-weight: 600;
+  .step-content {
+    padding: 1.5rem;
+    min-height: 300px;
+  }
+  
+  .steps-container {
+    padding: 1.25rem;
+  }
+  
+  :deep(.custom-steps .p-steps-item .p-steps-title) {
+    display: none;
+  }
+  
+  .step-title {
+    font-size: 1.375rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .form-field {
+    margin-bottom: 1.5rem;
+  }
+  
+  :deep(.p-inputtext) {
+    padding: 0.875rem 1rem;
     font-size: 0.95rem;
-    margin-bottom: 1rem;
   }
   
-  .plan-features {
-    list-style: none;
-    padding: 0;
-    margin: 1rem 0 0;
-    text-align: left;
+  :deep(.p-input-icon-left input) {
+    padding-left: 2.75rem;
+  }
+  
+  .plan-card {
+    padding: 1.25rem;
+  }
+  
+  .plan-header h3 {
+    font-size: 1.25rem;
+  }
+  
+  .plan-price {
+    font-size: 1.75rem;
   }
   
   .plan-features li {
     margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    color: #475569;
-  }
-  
-  .plan-features li i {
-    color: #16a34a;
-    margin-right: 0.5rem;
     font-size: 0.9rem;
   }
   
-  /* Payment Information */
-  .payment-note {
-    text-align: center;
-    color: #64748b;
-    font-style: italic;
-    margin-bottom: 1.5rem;
-  }
-  
-  .payment-row {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .payment-row .form-field {
-    flex: 1;
-    margin-bottom: 0;
-  }
-  
   .payment-summary {
-    background-color: #f8fafc;
-    border-radius: 0.75rem;
     padding: 1.25rem;
-    margin-top: 2rem;
-    border: 1px solid #e2e8f0;
-  }
-  
-  .payment-summary h3 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #1e293b;
-    margin-top: 0;
-    margin-bottom: 1rem;
-  }
-  
-  .summary-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.75rem;
-    color: #475569;
-  }
-  
-  .summary-row.total {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid #e2e8f0;
-    font-weight: 600;
-    color: #1e293b;
-    font-size: 1.1rem;
-  }
-  
-  /* Messages */
-  :deep(.message-box) {
-    margin: 1.5rem 0;
-    border-radius: 0.75rem;
-    display: flex;
-    align-items: center;
-  }
-  
-  :deep(.message-box .p-message-wrapper) {
-    padding: 1rem;
-  }
-  
-  .message-icon {
-    font-size: 1.25rem;
-    margin-right: 0.75rem;
-  }
-  
-  .message-text {
-    font-weight: 500;
-  }
-  
-  /* Action Buttons */
-  .form-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
-    padding: 1.5rem 2rem;
-    background-color: #f8fafc;
-    border-top: 1px solid #e2e8f0;
   }
   
   :deep(.p-button) {
-    border-radius: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :deep(.register-card .p-card-header) {
+    padding: 1.5rem 0.75rem;
   }
   
-  :deep(.p-button-primary) {
-    background: linear-gradient(135deg, #1e4d2b 0%, #1e4d2b 100%);
-    border-color: transparent;
+  .card-header .title {
+    font-size: 1.75rem;
   }
   
-  :deep(.p-button-primary:hover) {
-    background: linear-gradient(135deg, #1e4d2b 0%, #1e4d2b 100%);
-    border-color: transparent;
-    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-    transform: translateY(-2px);
+  .step-content {
+    padding: 1rem;
   }
   
-  :deep(.p-button-outlined) {
-    color: #000000;
-    border-color: #6366f1;
+  .steps-container {
+    padding: 0.75rem;
   }
   
-  :deep(.p-button-outlined:hover) {
-    background-color: #d2d3d8;
-    border-color: #4f46e5;
-    color: #4f46e5;
+  .step-title {
+    font-size: 1.25rem;
   }
   
-  :deep(.p-button .p-button-icon-left) {
-    margin-right: 0.5rem;
+  :deep(.p-inputtext) {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.9rem;
   }
   
-  :deep(.p-button .p-button-icon-right) {
-    margin-left: 0.5rem;
+  .plan-card {
+    padding: 1rem;
   }
   
-  /* Responsive */
-  @media (max-width: 768px) {
-    .register-wrapper {
-      padding: 1rem 0;
-    }
-    
-    .card-header .title {
-      font-size: 1.75rem;
-    }
-    
-    .plans-container {
-      flex-direction: column;
-    }
-    
-    .plan-card {
-      width: 100%;
-      margin-bottom: 1rem;
-    }
-    
-    .payment-row {
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    
-    .form-actions {
-      flex-direction: column-reverse;
-      gap: 1rem;
-    }
-    
-    :deep(.p-button) {
-      width: 100%;
-    }
+  .plan-price {
+    font-size: 1.5rem;
   }
   
-  @media (max-width: 576px) {
-    :deep(.register-card .p-card-header) {
-      padding: 1.5rem 1rem;
-    }
-    
-    .step-content {
-      padding: 1.5rem 1rem;
-    }
-    
-    :deep(.custom-steps .p-steps-item .p-steps-title) {
-      display: none;
-    }
+  .payment-summary {
+    padding: 1rem;
   }
   
-  .w-full {
-    width: 100%;
+  .form-actions {
+    padding: 1rem;
   }
+  
+  :deep(.p-button) {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+.w-full {
+  width: 100%;
+}
 </style>
