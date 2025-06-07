@@ -188,7 +188,7 @@ const responsiveOptions = ref([
 <style scoped>
 /* Container Styles */
 .reservation-container {
-  padding: 2rem;
+  padding: 1rem;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   min-height: 100vh;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -197,28 +197,35 @@ const responsiveOptions = ref([
 /* Header Styles */
 .header-section {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .main-title {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #1e293b;
   margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.75rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
 }
 
 .title-icon {
   color: #3b82f6;
-  font-size: 2.2rem;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.title-text {
+  text-align: center;
+  line-height: 1.2;
 }
 
 .title-underline {
-  width: 100px;
+  width: 80px;
   height: 4px;
   background: linear-gradient(90deg, #3b82f6, #8b5cf6);
   margin: 1rem auto;
@@ -231,31 +238,36 @@ const responsiveOptions = ref([
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 2rem;
+  padding: 2rem 1rem;
   background: white;
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 400px;
 }
 
 .loading-spinner {
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: #3b82f6;
   margin-bottom: 1rem;
 }
 
 .loading-text {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #64748b;
   margin: 0;
+  text-align: center;
 }
 
 /* Error Styles */
 .error-container {
   background: white;
   border-radius: 16px;
-  padding: 3rem;
+  padding: 2rem 1rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   border-left: 6px solid #ef4444;
+  margin: 0 auto;
+  max-width: 500px;
 }
 
 .error-content {
@@ -263,24 +275,26 @@ const responsiveOptions = ref([
 }
 
 .error-icon {
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: #ef4444;
   margin-bottom: 1rem;
 }
 
 .error-message {
   color: #dc2626;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin-bottom: 1.5rem;
+  line-height: 1.5;
 }
 
 .retry-button {
   background: #ef4444 !important;
   border: none !important;
-  padding: 0.75rem 2rem !important;
+  padding: 0.75rem 1.5rem !important;
   border-radius: 8px !important;
   font-weight: 600 !important;
   transition: all 0.3s ease !important;
+  font-size: 0.9rem !important;
 }
 
 .retry-button:hover {
@@ -293,9 +307,11 @@ const responsiveOptions = ref([
 .empty-container {
   background: white;
   border-radius: 16px;
-  padding: 4rem 2rem;
+  padding: 2rem 1rem;
   text-align: center;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 500px;
 }
 
 .empty-content {
@@ -304,22 +320,24 @@ const responsiveOptions = ref([
 }
 
 .empty-icon {
-  font-size: 4rem;
+  font-size: 3rem;
   color: #94a3b8;
   margin-bottom: 1.5rem;
 }
 
 .empty-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #475569;
   margin-bottom: 0.5rem;
+  line-height: 1.3;
 }
 
 .empty-description {
   color: #64748b;
   line-height: 1.6;
   margin: 0;
+  font-size: 0.95rem;
 }
 
 /* Carousel Styles */
@@ -328,7 +346,7 @@ const responsiveOptions = ref([
 }
 
 .card-wrapper {
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .reservation-card {
@@ -342,7 +360,7 @@ const responsiveOptions = ref([
 }
 
 .reservation-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-4px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   border-color: #3b82f6;
 }
@@ -352,15 +370,23 @@ const responsiveOptions = ref([
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #1e293b;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 .title-car-icon {
   color: #3b82f6;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.card-title-text {
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
 }
 
 /* Vehicle Info */
@@ -371,9 +397,10 @@ const responsiveOptions = ref([
 .info-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding: 0.5rem 0;
   border-bottom: 1px solid #f1f5f9;
+  gap: 0.5rem;
 }
 
 .info-row:last-child {
@@ -383,21 +410,26 @@ const responsiveOptions = ref([
 .info-label {
   font-weight: 600;
   color: #64748b;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  flex-shrink: 0;
 }
 
 .info-value {
   font-weight: 500;
   color: #1e293b;
+  text-align: right;
+  word-break: break-word;
+  font-size: 0.9rem;
 }
 
 .license-plate {
   background: #f1f5f9;
-  padding: 0.25rem 0.75rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 6px;
   font-family: 'Courier New', monospace;
   font-weight: 700;
   color: #475569;
+  font-size: 0.8rem;
 }
 
 /* Reservation Details */
@@ -419,8 +451,9 @@ const responsiveOptions = ref([
 
 .detail-icon {
   color: #3b82f6;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin-top: 0.1rem;
+  flex-shrink: 0;
 }
 
 .detail-content {
@@ -428,10 +461,11 @@ const responsiveOptions = ref([
   flex-direction: column;
   gap: 0.25rem;
   flex: 1;
+  min-width: 0;
 }
 
 .detail-label {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: #64748b;
   text-transform: uppercase;
@@ -441,10 +475,12 @@ const responsiveOptions = ref([
 .detail-value {
   font-weight: 500;
   color: #1e293b;
+  word-break: break-word;
+  font-size: 0.9rem;
 }
 
 .price {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #059669;
 }
@@ -454,9 +490,9 @@ const responsiveOptions = ref([
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 20px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
   text-transform: capitalize;
 }
@@ -468,7 +504,7 @@ const responsiveOptions = ref([
 }
 
 .status-icon {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 /* Accept Button */
@@ -476,10 +512,10 @@ const responsiveOptions = ref([
   width: 100% !important;
   background: linear-gradient(135deg, #10b981, #059669) !important;
   border: none !important;
-  padding: 1rem !important;
+  padding: 0.875rem !important;
   border-radius: 12px !important;
   font-weight: 600 !important;
-  font-size: 1rem !important;
+  font-size: 0.9rem !important;
   transition: all 0.3s ease !important;
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
 }
@@ -496,16 +532,16 @@ const responsiveOptions = ref([
 
 /* Carousel Customization */
 :deep(.p-carousel .p-carousel-content) {
-  padding: 1rem 0;
+  padding: 0.5rem 0;
 }
 
 :deep(.p-carousel .p-carousel-indicators) {
-  padding: 1.5rem 0;
+  padding: 1rem 0;
 }
 
 :deep(.p-carousel .p-carousel-indicators .p-carousel-indicator button) {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background-color: #cbd5e1;
   border: none;
@@ -523,8 +559,8 @@ const responsiveOptions = ref([
   color: #3b82f6 !important;
   border: 2px solid #e2e8f0 !important;
   border-radius: 50% !important;
-  width: 3rem !important;
-  height: 3rem !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
   transition: all 0.3s ease !important;
 }
@@ -538,50 +574,93 @@ const responsiveOptions = ref([
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (min-width: 576px) {
   .reservation-container {
     padding: 1.5rem;
   }
   
   .main-title {
-    font-size: 2rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .reservation-container {
-    padding: 1rem;
-  }
-  
-  .main-title {
     font-size: 1.75rem;
-    flex-direction: column;
-    gap: 0.5rem;
   }
   
   .card-wrapper {
-    padding: 0.5rem;
+    padding: 0.75rem;
   }
   
-  .detail-item {
-    padding: 0.75rem;
+  .loading-container,
+  .error-container {
+    padding: 2.5rem;
   }
 }
 
-@media (max-width: 480px) {
+@media (min-width: 768px) {
+  .reservation-container {
+    padding: 2rem;
+  }
+  
   .main-title {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    flex-wrap: nowrap;
+  }
+  
+  .header-section {
+    margin-bottom: 2.5rem;
+  }
+  
+  .card-wrapper {
+    padding: 1rem;
   }
   
   .info-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
+    align-items: center;
   }
   
   .detail-item {
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  
+  .loading-container,
+  .error-container,
+  .empty-container {
+    padding: 3rem;
+  }
+  
+  .title-underline {
+    width: 100px;
+  }
+}
+
+@media (min-width: 992px) {
+  .main-title {
+    font-size: 2.25rem;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+  }
+  
+  .detail-value {
+    font-size: 1rem;
+  }
+  
+  .accept-button {
+    font-size: 1rem !important;
+    padding: 1rem !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .reservation-container {
+    padding: 2.5rem;
+  }
+  
+  .main-title {
+    font-size: 2.5rem;
+  }
+  
+  .header-section {
+    margin-bottom: 3rem;
   }
 }
 
@@ -604,5 +683,25 @@ const responsiveOptions = ref([
 /* Smooth transitions for all interactive elements */
 * {
   transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .reservation-card {
+    border: 2px solid #000;
+  }
+  
+  .main-title {
+    color: #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 </style>
