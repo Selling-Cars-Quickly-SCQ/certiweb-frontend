@@ -48,6 +48,13 @@
       "password": "cherrypie",
       "plan": "Free",
       "id": 7
+    },
+    {
+      "name": "Eric Agama Espinoza",
+      "email": "u20221335866@upc.edu.pe",
+      "password": "ddd",
+      "plan": "Anual",
+      "id": 8
     }
   ],
   "reservations": [
