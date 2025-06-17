@@ -12,7 +12,9 @@ export const userService = {
       
       try {
         const response = await axios.get(`${environment.serverBasePath}/users/${sessionData.userId}`);
-        return response.data;
+        const userData = response.data;
+        userData.id = userData.id || sessionData.userId;
+        return userData;
       } catch (error) {
         
         if (sessionData.email) {
@@ -22,6 +24,7 @@ export const userService = {
     
             sessionData.userId = user.id;
             localStorage.setItem('currentSession', JSON.stringify(sessionData));
+            user.id = user.id || sessionData.userId;
             return user;
           }
         }
@@ -31,7 +34,8 @@ export const userService = {
       console.error("Error al obtener el usuario actual:", error.response ? error.response.data : error.message);
       
       const sessionData = JSON.parse(localStorage.getItem('currentSession') || '{}');
-      if (sessionData.name) {
+      if (sessionData.name && sessionData.userId) {
+        sessionData.id = sessionData.id || sessionData.userId;
         return sessionData;
       }
       
