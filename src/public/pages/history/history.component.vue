@@ -15,17 +15,25 @@ const { t } = useI18n();
 onMounted(async () => {
   try {
     const currentUser = await userService.getCurrentUser();
-    if (!currentUser || !currentUser.id) {
+    
+    console.log('Current user data:', currentUser);
+    
+    if (!currentUser || (!currentUser.id && !currentUser.userId)) {
       errorLoading.value = "No se pudo verificar el usuario. Por favor, inicie sesión.";
       loading.value = false;
       return;
     }
 
-    const userReservations = await historyService.getReservationsByUserId(currentUser.id);
+    const userId = currentUser.id || currentUser.userId;
+    console.log('Using userId for filtering:', userId);
+    
+    const userReservations = await historyService.getReservationsByUserId(userId);
+    
+    console.log('Filtered reservations:', userReservations);
     
     reservations.value = userReservations.map((item, index) => ({ 
       ...item, 
-      uniqueId: item.id || `reservation-${currentUser.id}-${index}` 
+      uniqueId: item.id || `reservation-${userId}-${index}` 
     }));
 
   } catch (err) {

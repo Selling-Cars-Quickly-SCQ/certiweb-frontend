@@ -26,7 +26,7 @@ const formatDateTime = (dateTimeString) => {
   }
 };
 
-const placeholderImage = 'https://via.placeholder.com/300x200.png?text=Vehiculo';
+const placeholderImage = 'https://static.vecteezy.com/system/resources/previews/005/720/408/non_2x/crossed-image-icon-picture-not-available-delete-picture-symbol-free-vector.jpg';
 const handleImageError = (event) => {
   event.target.src = placeholderImage;
 };
