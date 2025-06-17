@@ -68,12 +68,14 @@ watch(fechaHora, (newValue) => {
 
 const handleDateSelect = (event) => {
   try {
-    if (!event || !event.value) {
+    if (!event || (!event.value && !event)) {
       console.error("Error: Evento de selección de fecha sin valor válido");
       return;
     }
     
-    const selectedDate = new Date(event.value);
+    const dateValue = event.value || event;
+    const selectedDate = new Date(dateValue);
+    
     if (isNaN(selectedDate.getTime())) {
       throw new Error("Fecha inválida seleccionada");
     }
@@ -82,12 +84,15 @@ const handleDateSelect = (event) => {
     let minutes = 0;
     
     if (fechaHora.value instanceof Date && !isNaN(fechaHora.value.getTime())) {
-      hour = fechaHora.value.getHours();
-      minutes = fechaHora.value.getMinutes();
+      const currentHour = fechaHora.value.getHours();
+      
+      if ([9, 11, 13, 15, 17].includes(currentHour)) {
+        hour = currentHour;
+      }
+      minutes = 0;
     }
     
     selectedDate.setHours(hour, minutes, 0, 0);
-    
     fechaHora.value = selectedDate;
   } catch (error) {
     console.error("Error al procesar la fecha seleccionada:", error);
@@ -101,19 +106,29 @@ const handleDateSelect = (event) => {
 };
 
 const selectTimeSlot = (horario) => {
-  if (!fechaHora.value || !(fechaHora.value instanceof Date) || isNaN(fechaHora.value)) {
+  if (!fechaHora.value || !(fechaHora.value instanceof Date) || isNaN(fechaHora.value.getTime())) {
     const today = new Date();
-    if (today.getDay() === 0 || today.getDay() === 6) {
-      toast.add({ severity: 'info', summary: 'Información', detail: 'Por favor, seleccione primero una fecha válida (Lunes a Viernes).', life: 3000 });
-      return;
+    const dayOfWeek = today.getDay();
+    
+    if (dayOfWeek === 0) {
+      today.setDate(today.getDate() + 1);
+    } else if (dayOfWeek === 6) {
+      today.setDate(today.getDate() + 2); 
     }
     
-    const newDate = new Date(today);
-    newDate.setHours(horario.hour, 0, 0, 0);
-    fechaHora.value = newDate;
+    today.setHours(horario.hour, 0, 0, 0);
+    fechaHora.value = today;
+    
+    toast.add({ 
+      severity: 'info', 
+      summary: 'Información', 
+      detail: 'Se ha seleccionado la fecha actual con el horario elegido.', 
+      life: 3000 
+    });
   } else {
     try {
       const newDate = new Date(fechaHora.value);
+      
       newDate.setHours(horario.hour, 0, 0, 0);
       fechaHora.value = newDate;
     } catch (error) {
@@ -134,11 +149,19 @@ const handleConfirmReservation = async () => {
     return;
   }
 
-  const selectedHourComponent = fechaHora.value.getHours();
-  const isSpecificTimeSelected = horariosDisponibles.some(h => h.hour === selectedHourComponent);
-  if (!isSpecificTimeSelected || fechaHora.value.getMinutes() !== 0) {
-     toast.add({ severity: 'warn', summary: 'Advertencia', detail: 'Por favor, seleccione una hora válida de la lista.', life: 3000 });
-     return;
+  const selectedHour = fechaHora.value.getHours();
+  const selectedMinutes = fechaHora.value.getMinutes();
+  const selectedSeconds = fechaHora.value.getSeconds();
+  
+  const validHours = [9, 11, 13, 15, 17];
+  if (!validHours.includes(selectedHour) || selectedMinutes !== 0 || selectedSeconds !== 0) {
+    toast.add({ 
+      severity: 'warn', 
+      summary: 'Advertencia', 
+      detail: 'Por favor, seleccione una hora válida: 9:00 AM, 11:00 AM, 1:00 PM, 3:00 PM o 5:00 PM.', 
+      life: 3000 
+    });
+    return;
   }
 
   if (!props.vehicleData || !props.vehicleData.placa || !props.vehicleData.marca || !props.vehicleData.modelo) {
@@ -158,6 +181,14 @@ const handleConfirmReservation = async () => {
 
   try {
     const currentUser = await userService.getCurrentUser();
+    
+    const year = fechaHora.value.getFullYear();
+    const month = fechaHora.value.getMonth();
+    const day = fechaHora.value.getDate();
+    const hour = fechaHora.value.getHours();
+    
+    const inspectionDate = new Date(Date.UTC(year, month, day, hour, 0, 0, 0));
+    
     const reservationPayload = {
       userId: currentUser.id,
       reservationName: currentUser.name,
@@ -166,10 +197,16 @@ const handleConfirmReservation = async () => {
       brand: props.vehicleData.marca,
       model: props.vehicleData.modelo,
       licensePlate: props.vehicleData.placa,
-      inspectionDateTime: fechaHora.value.toISOString(),
+      inspectionDateTime: inspectionDate.toISOString(),
       price: props.vehicleData.precioVender,
       status: 'pending'
     };
+
+    console.log('Fecha original seleccionada:', fechaHora.value);
+    console.log('Hora local seleccionada:', selectedHour);
+    console.log('Fecha UTC creada:', inspectionDate);
+    console.log('Hora UTC en la fecha:', inspectionDate.getUTCHours());
+    console.log('ISO String enviado:', inspectionDate.toISOString());
 
     await reservationService.createReservation(reservationPayload);
     toast.add({ severity: 'success', summary: 'Reserva Confirmada', detail: 'Su inspección ha sido reservada exitosamente. Redirigiendo...', life: 3500 });

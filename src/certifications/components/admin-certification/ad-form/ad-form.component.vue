@@ -47,13 +47,18 @@ watch(formData, (newData) => {
 }, { deep: true });
 
 const isFormValid = computed(() => {
+  const currentYear = new Date().getFullYear();
+  const year = formData.value.year;
+  const licensePlate = formData.value.licensePlate;
+  
   return formData.value.title &&
          formData.value.owner &&
          formData.value.ownerEmail &&
-         formData.value.year !== null &&
+         year !== null && year >= 1900 && year <= currentYear + 1 &&
          formData.value.brand &&
          formData.value.model &&
-         formData.value.description;
+         formData.value.description &&
+         licensePlate && licensePlate.length >= 6 && licensePlate.length <= 10;
 });
 
 const formProgress = computed(() => {

@@ -309,6 +309,7 @@
   "registerPage": {
     "title": "Crea tu cuenta",
     "subtitle": "Completa el formulario para acceder a CertiWeb",
+    "success": "Registro Completado!",
     "steps": {
       "personalInfo": "Información Personal",
       "selectPlan": "Seleccionar Plan",
@@ -366,7 +367,10 @@
       "complete": "Completar Registro",
       "login": "Iniciar Sesión"
     },
-    "haveAccount": "¿Ya tienes una cuenta?"
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "errors": {
+      "missingPayment": "Se requiere información de pago para el plan seleccionado"
+    }
   }
 
 }

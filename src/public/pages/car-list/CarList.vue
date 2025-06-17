@@ -55,7 +55,16 @@ const fetchCars = async () => {
 };
 
 const navigateToCarDetail = (carId) => {
-  router.push(`/cars/${carId}`);
+  console.log('Navigating to car detail with ID:', carId, typeof carId);
+  
+  const id = String(carId);
+  
+  if (!id || id === 'undefined' || id === 'null') {
+    console.error('Invalid car ID for navigation:', carId);
+    return;
+  }
+  
+  router.push(`/car-detail/${id}`);
 };
 
 const getPhotoUrl = (car) => {

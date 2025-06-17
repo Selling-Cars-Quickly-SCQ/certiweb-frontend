@@ -15,9 +15,20 @@ export const historyService = {
       return [];
     }
     try {
-
+      console.log(`Fetching reservations for userId: ${userId}`);
+      console.log(`API URL: ${API_URL}?userId=${userId}`);
+      
       const response = await axios.get(`${API_URL}?userId=${userId}`);
-      return response.data;
+      
+      console.log('Raw API response:', response.data);
+      const filteredReservations = response.data.filter(reservation => {
+        console.log(`Checking reservation userId: ${reservation.userId} against target: ${userId}`);
+        return reservation.userId == userId;
+      });
+      
+      console.log('Filtered reservations:', filteredReservations);
+      
+      return filteredReservations;
     } catch (error) {
       console.error(`Error al obtener las reservaciones para el usuario ${userId}:`, error.response ? error.response.data : error.message);
       throw error;

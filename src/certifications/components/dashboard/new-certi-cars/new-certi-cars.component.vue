@@ -12,48 +12,48 @@ const certifiedCars = ref([
     name: 'BMW Serie 4',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYVcLx4pGvnOpKwlHUU49s8jkRkJDGVxaiDw&s',
     color: t('carColors.metallicBlue'),
-    price: 'S/2,700.00',
-    route: '/cars/4'
+    price: 'S/4,399.00',
+    route: '/car-detail/4'
   },
   {
     id: 2,
     name: 'Ford Mustang GT',
     image: 'https://www.vdm.ford.com/content/dam/na/ford/en_us/images/mustang/2025/jellybeans/Ford_Mustang_2025_200A_PJS_883_89W_13B_COU_64F_99H_44U_EBST_YZTAC_DEFAULT_EXT_4.png',
     color: t('carColors.gray'),
-    price: 'S/1,900.00',
-    route: '/cars/5'
+    price: 'S/4,599.00',
+    route: '/car-detail/5'
   },
   {
     id: 3,
     name: 'Kia Niro',
     image: 'https://cdn.motor1.com/images/mgl/ojyBzq/s3/kia-niro-2025.jpg',
     color: t('carColors.red'),
-    price: 'S/2,200.00',
-    route: '/cars/2'
+    price: 'S/3,900.00',
+    route: '/car-detail/2'
   },
   {
     id: 4,
     name: 'Kia Sportage',
     image: 'https://s3.amazonaws.com/kia-greccomotors/Sportage_blanca_01_9a1ad740c7.png',
     color: t('carColors.pearlWhite'),
-    price: 'S/2,450.00',
-    route: '/cars/3'
+    price: 'S/3,299.00',
+    route: '/car-detail/3'
   },
   {
     id: 5,
     name: 'Audi A5 Sportback',
     image: 'https://hips.hearstapps.com/hmg-prod/images/2025-audi-a5-137-669583e0eda6e.jpg?crop=0.638xw:0.479xh;0.207xw,0.312xh&resize=1200:*',
     color: t('carColors.quantumGray'),
-    price: 'S/2,300.00',
-    route: '/cars/6'
+    price: 'S/4,799.00',
+    route: '/car-detail/6'
   },
   {
     id: 6,
     name: 'Mercedes Clase C',
     image: 'https://images.coches.com/_vn_/mercedes/Clase-C/0b325a581bbefb9994d94efc91277ba9.jpg?w=1920&ar=16:9',
     color: t('carColors.iridiumSilver'),
-    price: 'S/2,500.00',
-    route: '/cars/7'
+    price: 'S/4,670.00',
+    route: '/car-detail/7'
   }
 ]);
 

@@ -317,6 +317,7 @@
   "registerPage": {
     "title": "Create your account",
     "subtitle": "Complete the form to access CertiWeb",
+    "success": "Registration successful!",
     "steps": {
       "personalInfo": "Personal Information",
       "selectPlan": "Select Plan",
@@ -374,6 +375,9 @@
       "complete": "Complete Registration",
       "login": "Log In"
     },
-    "haveAccount": "Already have an account?"
+    "haveAccount": "Already have an account?",
+    "errors": {
+      "missingPayment": "Payment information is required for the selected plan"
+    }
   }
 }

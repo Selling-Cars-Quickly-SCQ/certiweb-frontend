@@ -30,30 +30,101 @@ const handleSaveCarData = async (formData) => {
     alert(t('adminCertification.alertReservationNeeded'));
     return;
   }
-
+   
   isSavingCar.value = true;
-
+   
   try {
-    const carDataPayload = {
-      ...formData,
-      originalReservationId: acceptedReservationData.value.id,
-      pdfCertification: {},
-      price: acceptedReservationData.value.price,
-      imageUrl: acceptedReservationData.value.imageUrl || 'https://via.placeholder.com/300x200.png?text=Car+Image',
-      licensePlate: acceptedReservationData.value.licensePlate
+    if (!acceptedReservationData.value.brand || !acceptedReservationData.value.model) {
+      throw new Error('Marca y modelo son requeridos');
+    }
+ 
+    const brandMapping = {
+      'toyota': 1,
+      'nissan': 2,
+      'hyundai': 3,
+      'kia': 4,
+      'chevrolet': 5,
+      'suzuki': 6,
+      'mitsubishi': 7,
+      'honda': 8,
+      'volkswagen': 9,
+      'ford': 10,
+      'mercedes': 11,
+      'mercedes-benz': 11,
+      'audi': 12,
+      'bmw': 13
     };
+  
+    const brandName = acceptedReservationData.value.brand.toLowerCase().trim();
+    const correctBrandId = brandMapping[brandName];
+     
+    if (!correctBrandId) {
+      throw new Error(`Marca no reconocida: ${acceptedReservationData.value.brand}`);
+    }
 
+    const currentYear = new Date().getFullYear();
+    const year = parseInt(formData.year) || currentYear;
+    if (year < 1900 || year > currentYear + 1) {
+      throw new Error(`El año debe estar entre 1900 y ${currentYear + 1}`);
+    }
+
+    const licensePlate = acceptedReservationData.value.licensePlate;
+    if (!licensePlate || licensePlate.length < 6 || licensePlate.length > 10) {
+      throw new Error('La placa debe tener entre 6 y 10 caracteres');
+    }
+
+    const price = parseFloat(acceptedReservationData.value.price) || 0;
+    if (price < 0) {
+      throw new Error('El precio no puede ser negativo');
+    }
+    
+    let pdfCertification = null;
+    if (formData.pdfCertification && typeof formData.pdfCertification === 'string') {
+      
+      pdfCertification = formData.pdfCertification;
+      console.log('PDF con prefijo para crear auto:', pdfCertification.substring(0, 50));
+    } else {
+      pdfCertification = '';
+    }
+  
+    const carDataPayload = {
+      title: formData.title || `${acceptedReservationData.value.brand} ${acceptedReservationData.value.model}`,
+      owner: acceptedReservationData.value.reservationName,
+      ownerEmail: acceptedReservationData.value.reservationEmail,
+      year: year,
+      brandId: correctBrandId,
+      model: acceptedReservationData.value.model,
+      description: formData.description || '',
+      pdfCertification: pdfCertification,
+      imageUrl: acceptedReservationData.value.imageUrl || 'https://via.placeholder.com/300x200.png?text=Car+Image',
+      price: price,
+      licensePlate: licensePlate,
+      originalReservationId: parseInt(acceptedReservationData.value.id)
+    };
+ 
+    const requiredFields = ['title', 'owner', 'ownerEmail', 'year', 'brandId', 'model', 'licensePlate', 'originalReservationId'];
+    for (const field of requiredFields) {
+      if (!carDataPayload[field] && carDataPayload[field] !== 0) {
+        throw new Error(`Campo requerido faltante: ${field}`);
+      }
+    }
+   
     console.log('Guardando datos del auto:', carDataPayload);
-    
-    const newCar = await carService.createCar(carDataPayload);
-    createdCarId.value = newCar.id || newCar.data?.id;
-    
-    console.log('Auto creado exitosamente con ID:', createdCarId.value);
-    alert(t('adminCertification.alertCarSaved'));
-
+       
+    const response = await carService.createCar(carDataPayload);
+     
+    if (response && (response.id || response.data?.id)) {
+      createdCarId.value = response.id || response.data.id;
+      console.log('Auto creado exitosamente con ID:', createdCarId.value);
+      alert(t('adminCertification.alertCarSaved'));
+    } else {
+      throw new Error('Respuesta inválida del servidor');
+    }
+   
   } catch (error) {
     console.error('Error al guardar el auto:', error);
-    alert(t('adminCertification.alertSaveCarError') + error.message);
+    const errorMessage = error.response?.data?.message || error.message || 'Error desconocido';
+    alert(t('adminCertification.alertSaveCarError') + ': ' + errorMessage);
   } finally {
     isSavingCar.value = false;
   }
@@ -65,14 +136,20 @@ const handlePdfUploaded = async (payload) => {
     return;
   }
 
+  const pdfToSend = payload.pdfCertification;
+  
+  console.log('PDF a enviar - Longitud:', pdfToSend.length);
+  console.log('PDF a enviar - Primeros 50 chars:', pdfToSend.substring(0, 50));
+  console.log('Verificación de prefijo:', pdfToSend.startsWith('data:application/pdf;base64,') ? 'CORRECTO - TIENE PREFIJO' : 'ERROR - SIN PREFIJO');
+
   isUploadingPdfStatus.value = true;
   
   try {
-    await carService.updateCar(payload.carId, { 
-      pdfCertification: payload.pdfCertification 
+    await carService.updateCar(payload.carId, {
+      pdfCertification: pdfToSend 
     });
     
-    console.log(`PDF para el auto ${payload.carId} actualizado con éxito.`);
+    console.log(`PDF para el auto ${payload.carId} actualizado con éxito con prefijo completo.`);
     alert(t('adminCertification.alertPdfUploaded'));
     
   } catch (error) {

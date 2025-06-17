@@ -7,16 +7,37 @@ import { useI18n } from 'vue-i18n';
 const route = useRoute();
 const router = useRouter();
 const car = ref(null);
+const carPdf = ref(null);
 const loading = ref(true);
+const loadingPdf = ref(false);
 const error = ref(null);
 const { t } = useI18n();
 
-const carId = computed(() => route.params.id);
+const carId = computed(() => {
+  const params = route.params;
+  console.log('Full route params:', params);
+  console.log('Raw ID:', params.id, typeof params.id);
+  
+  if (params.id && typeof params.id === 'string') {
+    return params.id;
+  } else if (params.id && typeof params.id === 'object') {
+    return String(params.id.id || params.id.value || params.id);
+  } else {
+    console.error('No valid ID found in route params:', params);
+    return null;
+  }
+});
 
 const fetchCarDetails = async () => {
   try {
     loading.value = true;
     error.value = null;
+    
+    if (!carId.value || carId.value === 'null' || carId.value === 'undefined') {
+      throw new Error('ID de auto no válido');
+    }
+    
+    console.log('Fetching car with ID:', carId.value);
     
     const response = await carService.getCarById(carId.value);
     car.value = response.data || response; 
@@ -27,6 +48,32 @@ const fetchCarDetails = async () => {
     error.value = err;
   } finally {
     loading.value = false;
+  }
+};
+
+const fetchCarPdf = async () => {
+  if (!car.value?.hasPdfCertification) {
+    console.log('Car does not have PDF certification');
+    return;
+  }
+  
+  try {
+    loadingPdf.value = true;
+    const pdfResponse = await carService.getCarPdf(carId.value);
+    
+    let base64Data = pdfResponse.pdfCertification?.base64Data || pdfResponse.pdfCertification;
+    
+    if (base64Data && !base64Data.startsWith('data:')) {
+      carPdf.value = `data:application/pdf;base64,${base64Data}`;
+    } else {
+      carPdf.value = base64Data;
+    }
+    
+    console.log('PDF loaded successfully');
+  } catch (err) {
+    console.error('Error fetching car PDF:', err);
+  } finally {
+    loadingPdf.value = false;
   }
 };
 
@@ -86,8 +133,18 @@ const contactSeller = () => {
   }
 };
 
-onMounted(() => {
-  fetchCarDetails();
+onMounted(async () => {
+  console.log('=== DEBUGGING ROUTE ===');
+  console.log('Current route:', route);
+  console.log('Route params:', route.params);
+  console.log('Route path:', route.path);
+  console.log('Computed carId:', carId.value);
+  console.log('======================');
+  
+  await fetchCarDetails();
+  if (car.value?.hasPdfCertification) {
+    await fetchCarPdf();
+  }
 });
 </script>
 
@@ -148,26 +205,51 @@ onMounted(() => {
           <p class="car-full-description">{{ car.description || t('carDetail.noDescription') }}</p>
         </div>
 
-        <div class="section-block technical-report-section" v-if="car.pdfCertification">
+        <!-- PDF -->
+        <div class="section-block technical-report-section" v-if="car.hasPdfCertification">
           <h3 class="section-title"><i class="pi pi-file-pdf"></i> {{ t('carDetail.techCert') }}</h3>
-          <div class="pdf-actions">
-            <pv-button 
-              :label="t('carDetail.viewCert')"
-              icon="pi pi-eye"
-              @click="openReportInNewTab(car.pdfCertification)"
-              class="p-button-info p-mr-2" 
-            />
-            <pv-button 
-              :label="t('carDetail.downloadCert')"
-              icon="pi pi-download"
-              @click="downloadReport(car.pdfCertification)"
-              class="p-button-success" 
-            />
+          
+          <!-- Loading PDF -->
+          <div v-if="loadingPdf" class="pdf-loading">
+            <pv-progress-spinner size="small" />
+            <span>Cargando certificación PDF...</span>
           </div>
-          <div class="pdf-preview-container">
-            <iframe :src="car.pdfCertification" class="pdf-iframe" :title="t('carDetail.techCert')"></iframe>
+          
+          <!-- PDF Loaded -->
+          <div v-else-if="carPdf" class="pdf-content">
+            <div class="pdf-actions">
+              <pv-button 
+                :label="t('carDetail.viewCert')"
+                icon="pi pi-eye"
+                @click="openReportInNewTab(carPdf)"
+                class="p-button-info p-mr-2" 
+              />
+              <pv-button 
+                :label="t('carDetail.downloadCert')"
+                icon="pi pi-download"
+                @click="downloadReport(carPdf)"
+                class="p-button-success" 
+              />
+            </div>
+            <div class="pdf-preview-container">
+              <iframe :src="carPdf" class="pdf-iframe" :title="t('carDetail.techCert')"></iframe>
+            </div>
+          </div>
+          
+          <!-- PDF Error -->
+          <div v-else class="pdf-error">
+            <i class="pi pi-exclamation-triangle"></i>
+            <span>Error al cargar la certificación PDF</span>
+            <pv-button 
+              label="Reintentar" 
+              icon="pi pi-refresh" 
+              @click="fetchCarPdf" 
+              class="p-button-outlined p-button-sm" 
+            />
           </div>
         </div>
+        
+        <!-- No PDF -->
         <div v-else class="section-block">
             <h3 class="section-title"><i class="pi pi-file-excel"></i> {{ t('carDetail.techCert') }}</h3>
             <p>{{ t('carDetail.noCert') }}</p>
@@ -192,6 +274,29 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.pdf-loading {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #dee2e6;
+  justify-content: center;
+}
+
+.pdf-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  background: #fff5f5;
+  border-radius: 8px;
+  border: 2px dashed #fecaca;
+  color: #dc2626;
+}
+
 .car-detail-container {
   max-width: 1400px;
   margin: 2rem auto;
