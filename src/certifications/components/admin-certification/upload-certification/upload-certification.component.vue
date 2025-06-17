@@ -76,13 +76,24 @@ const uploadPdfToDatabase = async () => {
   }
 
   try {
+    console.log('Archivo original:', selectedFile.value.name);
+    console.log('Tamaño del archivo:', selectedFile.value.size);
+    console.log('Tipo de archivo:', selectedFile.value.type);
+    console.log('Base64 original (primeros 100 chars):', base64Data.value.substring(0, 100));
+    
+    const pdfToSend = base64Data.value;
+    
+    console.log('PDF final a enviar (primeros 100 chars):', pdfToSend.substring(0, 100));
+    console.log('Longitud del PDF final:', pdfToSend.length);
+    console.log('Prefijo verificado:', pdfToSend.startsWith('data:application/pdf;base64,') ? 'SÍ TIENE PREFIJO' : 'NO TIENE PREFIJO');
+    
     emit('pdfUploaded', {
       carId: props.carId,
-      pdfCertification: base64Data.value,
+      pdfCertification: pdfToSend,
       fileName: selectedFile.value.name
     });
     
-    console.log(`PDF enviado para el auto ${props.carId}`);
+    console.log(`PDF enviado para el auto ${props.carId} con prefijo completo`);
   } catch (error) {
     console.error('Error al enviar PDF:', error);
   }
