@@ -309,6 +309,7 @@
   "registerPage": {
     "title": "Crea tu cuenta",
     "subtitle": "Completa el formulario para acceder a CertiWeb",
+    "success": "Registro Completado!",
     "steps": {
       "personalInfo": "Información Personal",
       "selectPlan": "Seleccionar Plan",

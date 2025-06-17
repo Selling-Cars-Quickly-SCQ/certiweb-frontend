@@ -317,6 +317,7 @@
   "registerPage": {
     "title": "Create your account",
     "subtitle": "Complete the form to access CertiWeb",
+    "success": "Registration successful!",
     "steps": {
       "personalInfo": "Personal Information",
       "selectPlan": "Select Plan",
