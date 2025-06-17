@@ -367,7 +367,10 @@
       "complete": "Completar Registro",
       "login": "Iniciar Sesión"
     },
-    "haveAccount": "¿Ya tienes una cuenta?"
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "errors": {
+      "missingPayment": "Se requiere información de pago para el plan seleccionado"
+    }
   }
 
 }
