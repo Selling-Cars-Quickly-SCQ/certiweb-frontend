@@ -202,7 +202,7 @@ const goToLogin = () => {
                       <h3>{{ t('registerPage.plans.free') }}</h3>
                     </div>
                     <div class="plan-content">
-                      <p class="plan-price">$0.00<span>/{{ t('registerPage.plans.forever') }}</span></p>
+                      <p class="plan-price">S/.0.00<span>/{{ t('registerPage.plans.forever') }}</span></p>
                       <ul class="plan-features">
                         <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.contactBuyers') }}</li>
                         <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.catalogView') }}</li>
@@ -222,7 +222,7 @@ const goToLogin = () => {
                       <h3>{{ t('registerPage.plans.monthly') }}</h3>
                     </div>
                     <div class="plan-content">
-                      <p class="plan-price">$19.99<span>/{{ t('registerPage.plans.month') }}</span></p>
+                      <p class="plan-price">S/.50<span>/{{ t('registerPage.plans.month') }}</span></p>
                       <ul class="plan-features">
                         <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.fullAccess30') }}</li>
                         <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.techSupport') }}</li>
@@ -242,7 +242,7 @@ const goToLogin = () => {
                       <h3>{{ t('registerPage.plans.yearly') }}</h3>
                     </div>
                     <div class="plan-content">
-                      <p class="plan-price">$199.99<span>/{{ t('registerPage.plans.year') }}</span></p>
+                      <p class="plan-price">S/.250.00<span>/{{ t('registerPage.plans.year') }}</span></p>
                       <p class="plan-saving">{{ t('registerPage.plans.save16') }}</p>
                       <ul class="plan-features">
                         <li><i class="pi pi-check"></i> {{ t('registerPage.planFeatures.fullAccess365') }}</li>
