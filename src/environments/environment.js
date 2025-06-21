@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    serverBasePath: "https://certiweb-fake-api.glitch.me/"
+    serverBasePath: "https://certiweb-backend.onrender.com/api/v1"
 };
