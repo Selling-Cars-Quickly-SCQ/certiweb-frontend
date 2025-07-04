@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { registerService } from '@/public/services/register.service.js';
 import { useI18n } from 'vue-i18n';
 import LanguageSwitcherComponent from '@/public/components/language-switcher/language-switcher.component.vue';
+import { authService } from '@/public/services/auth.service';
 
 const router = useRouter();
 const { t } = useI18n();
@@ -103,34 +103,44 @@ const handleRegistration = async () => {
   };
 
   try {
-    await registerService.registerUser(userData);
+    // Use the new auth service register method
+    const result = await authService.register(userData);
     
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    
-    if (users.some(user => user.email === userData.email)) {
-      const updatedUsers = users.map(user => 
-        user.email === userData.email ? { ...user, ...userData, id: user.id } : user
-      );
-      localStorage.setItem('users', JSON.stringify(updatedUsers));
+    if (result.success) {
+      // Update localStorage for backward compatibility
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      
+      if (users.some(user => user.email === userData.email)) {
+        const updatedUsers = users.map(user => 
+          user.email === userData.email ? { ...user, ...userData, id: result.user.id } : user
+        );
+        localStorage.setItem('users', JSON.stringify(updatedUsers));
+      } else {
+        const newUser = { ...userData, id: result.user.id };
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+      
+      successMessage.value = t('registerPage.success');
+      
+      // Clear form
+      name.value = '';
+      email.value = '';
+      password.value = '';
+      selectedPlan.value = null;
+      cardNumber.value = '';
+      expiryDate.value = '';
+      cvv.value = '';
+      currentStep.value = 0;
+      
+      setTimeout(() => {
+        router.push('/login'); 
+      }, 3000);
     } else {
-      const newUser = { ...userData, id: Date.now() };
-      users.push(newUser);
-      localStorage.setItem('users', JSON.stringify(users));
+      errorMessage.value = result.message || t('registerPage.errors.registrationFailed');
     }
-    
-    successMessage.value = t('registerPage.success');
-    name.value = '';
-    email.value = '';
-    password.value = '';
-    selectedPlan.value = null;
-    cardNumber.value = '';
-    expiryDate.value = '';
-    cvv.value = '';
-    currentStep.value = 0;
-    setTimeout(() => {
-      router.push('/login'); 
-    }, 3000);
   } catch (error) {
+    console.error('Error en registro:', error);
     errorMessage.value = t('registerPage.errors.registrationFailed');
   }
 };
