@@ -310,9 +310,13 @@ const clearHoveredBrand = () => {
   transform: scaleX(1);
 }
 
-/* Back Home Button */
+/* Back Home Button - FIXED */
 .back-home {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 2rem;
 }
 
 .home-button {
@@ -327,7 +331,6 @@ const clearHoveredBrand = () => {
   display: flex !important;
   align-items: center !important;
   gap: 0.5rem !important;
-  margin-left: 500px;
 }
 
 .home-button:hover {
@@ -413,6 +416,7 @@ const clearHoveredBrand = () => {
 :deep(.p-card-body) {
   padding: 0 !important;
 }
+
 @media (max-width: 639px) {
   .brand-search-section {
     padding: 2rem 0.75rem;
@@ -449,6 +453,7 @@ const clearHoveredBrand = () => {
   padding: 0 !important;
   height: 100%;
 }
+
 /* Responsive Design */
 @media (min-width: 640px) {
   .brands-grid {
@@ -532,6 +537,7 @@ const clearHoveredBrand = () => {
     font-size: 0.875rem;
   }
 }
+
 /* Accessibility improvements */
 @media (prefers-reduced-motion: reduce) {
   .brand-card,
