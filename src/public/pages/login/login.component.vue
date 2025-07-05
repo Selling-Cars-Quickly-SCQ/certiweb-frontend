@@ -1,8 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
-import { environment } from '@/environments/environment.development';
+import { authService } from '@/public/services/auth.service';
 import { useI18n } from 'vue-i18n';
 import LanguageSwitcherComponent from '@/public/components/language-switcher/language-switcher.component.vue';
 
@@ -14,51 +13,7 @@ const password = ref('');
 const errorMessage = ref('');
 const successMessage = ref('');
 const rememberMe = ref(false);
-
-const loadUsersFromDB = async () => {
-  try {
-    const responseUsers = await axios.get(`${environment.serverBasePath}/users`);
-    const responseAdminUsers = await axios.get(`${environment.serverBasePath}/admin_user`);
-    const dbUsers = responseUsers.data;
-    const dbAdminUsers = responseAdminUsers.data;
-    
-    const localUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    const localAdminUsers = JSON.parse(localStorage.getItem('admin_users') || '[]');
-    
-    const emails = new Set(localUsers.map(user => user.email));
-    const combinedUsers = [...localUsers];
-    
-    dbUsers.forEach(dbUser => {
-      if (!emails.has(dbUser.email)) {
-        combinedUsers.push(dbUser);
-        emails.add(dbUser.email);
-      }
-    });
-    localStorage.setItem('users', JSON.stringify(combinedUsers));
-
-    const adminEmails = new Set(localAdminUsers.map(user => user.email));
-    const combinedAdminUsers = [...localAdminUsers];
-    dbAdminUsers.forEach(dbAdminUser => {
-      if (!adminEmails.has(dbAdminUser.email)) {
-        combinedAdminUsers.push(dbAdminUser);
-        adminEmails.add(dbAdminUser.email);
-      }
-    });
-    localStorage.setItem('admin_users', JSON.stringify(combinedAdminUsers));
-    
-    return { users: combinedUsers, admins: combinedAdminUsers };
-  } catch (error) {
-    console.error('Error al cargar usuarios desde db.json:', error);
-    return {
-      users: JSON.parse(localStorage.getItem('users') || '[]'),
-      admins: JSON.parse(localStorage.getItem('admin_users') || '[]')
-    };
-  }
-};
-
-onMounted(async () => {
-  await loadUsersFromDB();
-});
+const isLoading = ref(false);
 
 const validateForm = () => {
   if (!email.value || !password.value) {
@@ -84,27 +39,38 @@ const handleLogin = async () => {
     return;
   }
   
-  const { users, admins } = await loadUsersFromDB();
+  isLoading.value = true;
   
-  let user = users.find(u => u.email === email.value);
-  let isAdmin = false;
-
-  if (user && user.password === password.value) {
-    isAdmin = false;
-  } else {
-    user = admins.find(u => u.email === email.value);
-    if (user && user.password === password.value) {
-      isAdmin = true;
-    } else {
-      errorMessage.value = 'Credenciales incorrectas. Por favor, verifica tu correo y contraseña.';
+  try {
+    const userResult = await authService.login(email.value, password.value);
+    
+    if (userResult.success) {
+      await handleSuccessfulLogin(userResult.user, false);
       return;
     }
+    
+    const adminResult = await authService.loginAdmin(email.value, password.value);
+    
+    if (adminResult.success) {
+      await handleSuccessfulLogin(adminResult.user, true);
+      return;
+    }
+    
+    errorMessage.value = 'Credenciales incorrectas. Por favor, verifica tu correo y contraseña.';
+    
+  } catch (error) {
+    console.error('Error durante el login:', error);
+    errorMessage.value = 'Error de conexión. Por favor, intenta de nuevo.';
+  } finally {
+    isLoading.value = false;
   }
-  
+};
+
+const handleSuccessfulLogin = async (user, isAdmin) => {
   successMessage.value = '¡Inicio de sesión exitoso! Redirigiendo...';
   
   const sessionData = {
-    userId: user.id || Date.now(),
+    userId: user.id,
     email: user.email,
     name: user.name,
     plan: user.plan,
@@ -200,9 +166,11 @@ const goToRegister = () => {
             <div class="form-actions">
               <pv-button 
                 type="submit" 
-                :label="t('loginPage.loginButton')" 
+                :label="isLoading ? 'Iniciando sesión...' : t('loginPage.loginButton')" 
                 icon="pi pi-sign-in" 
-                class="p-button-primary login-button" 
+                class="p-button-primary login-button"
+                :loading="isLoading"
+                :disabled="isLoading"
               />
             </div>
             
