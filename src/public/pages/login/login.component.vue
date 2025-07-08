@@ -20,13 +20,13 @@ const validateForm = () => {
     errorMessage.value = 'Por favor, completa todos los campos.';
     return false;
   }
-  
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email.value)) {
     errorMessage.value = 'Por favor, introduce un correo electrónico válido.';
     return false;
   }
-  
+
   errorMessage.value = '';
   return true;
 };
@@ -34,30 +34,30 @@ const validateForm = () => {
 const handleLogin = async () => {
   errorMessage.value = '';
   successMessage.value = '';
-  
+
   if (!validateForm()) {
     return;
   }
-  
+
   isLoading.value = true;
-  
+
   try {
     const userResult = await authService.login(email.value, password.value);
-    
+
     if (userResult.success) {
       await handleSuccessfulLogin(userResult.user, false);
       return;
     }
-    
+
     const adminResult = await authService.loginAdmin(email.value, password.value);
-    
+
     if (adminResult.success) {
       await handleSuccessfulLogin(adminResult.user, true);
       return;
     }
-    
+
     errorMessage.value = 'Credenciales incorrectas. Por favor, verifica tu correo y contraseña.';
-    
+
   } catch (error) {
     console.error('Error durante el login:', error);
     errorMessage.value = 'Error de conexión. Por favor, intenta de nuevo.';
@@ -68,7 +68,7 @@ const handleLogin = async () => {
 
 const handleSuccessfulLogin = async (user, isAdmin) => {
   successMessage.value = '¡Inicio de sesión exitoso! Redirigiendo...';
-  
+
   const sessionData = {
     userId: user.id,
     email: user.email,
@@ -78,9 +78,9 @@ const handleSuccessfulLogin = async (user, isAdmin) => {
     isAdmin: isAdmin,
     lastLogin: new Date().toISOString()
   };
-  
+
   localStorage.setItem('currentSession', JSON.stringify(sessionData));
-  
+
   setTimeout(() => {
     if (isAdmin) {
       router.push('/admin-certification');
@@ -96,7 +96,7 @@ const goToRegister = () => {
 </script>
 
 <template>
-  <LanguageSwitcherComponent/>
+  <LanguageSwitcherComponent />
   <div class="login-wrapper">
     <div class="login-container">
       <pv-card class="login-card">
@@ -106,82 +106,56 @@ const goToRegister = () => {
             <p class="subtitle">{{ t('loginPage.subtitle') }}</p>
           </div>
         </template>
-        
+
         <template #content>
           <form @submit.prevent="handleLogin" class="login-form">
             <div class="form-field">
               <label for="email">{{ t('loginPage.emailLabel') }}</label>
               <span class="p-input-icon-left w-full">
                 <i class="pi pi-envelope"></i>
-                <pv-inputText 
-                  id="email" 
-                  v-model="email" 
-                  type="email" 
-                  class="w-full" 
-                  :placeholder="t('loginPage.emailPlaceholder')" 
-                />
+                <pv-inputText id="email" v-model="email" type="email" class="w-full"
+                  :placeholder="t('loginPage.emailPlaceholder')" />
               </span>
             </div>
-            
+
             <div class="form-field">
               <label for="password">{{ t('loginPage.passwordLabel') }}</label>
               <span class="p-input-icon-left w-full">
                 <i class="pi pi-lock"></i>
-                <pv-password 
-                  id="password" 
-                  v-model="password" 
-                  toggleMask 
-                  :feedback="false" 
-                  class="w-full" 
-                  :placeholder="t('loginPage.passwordPlaceholder')" 
-                />
+                <pv-password id="password" v-model="password" toggleMask :feedback="false" class="w-full"
+                  :placeholder="t('loginPage.passwordPlaceholder')" />
               </span>
             </div>
-            
+
             <div class="form-options">
               <div class="remember-me">
-                <pv-checkbox 
-                  id="rememberMe" 
-                  v-model="rememberMe" 
-                  :binary="true" 
-                  class="remember-checkbox"
-                />
+                <pv-checkbox id="rememberMe" v-model="rememberMe" :binary="true" class="remember-checkbox" />
                 <label for="rememberMe" class="remember-label">{{ t('loginPage.rememberMe') }}</label>
               </div>
-              
+
               <a href="#" class="forgot-password">{{ t('loginPage.forgotPassword') }}</a>
             </div>
-            
+
             <!-- Message Error or Success -->
             <pv-message v-if="errorMessage" severity="error" :closable="false" class="message-box">
               <i class="pi pi-exclamation-circle message-icon"></i>
               <span class="message-text">{{ errorMessage }}</span>
             </pv-message>
-            
+
             <pv-message v-if="successMessage" severity="success" :closable="false" class="message-box">
               <i class="pi pi-check-circle message-icon"></i>
               <span class="message-text">{{ successMessage }}</span>
             </pv-message>
-            
+
             <div class="form-actions">
-              <pv-button 
-                type="submit" 
-                :label="isLoading ? 'Iniciando sesión...' : t('loginPage.loginButton')" 
-                icon="pi pi-sign-in" 
-                class="p-button-primary login-button"
-                :loading="isLoading"
-                :disabled="isLoading"
-              />
+              <pv-button type="submit" :label="isLoading ? 'Iniciando sesión...' : t('loginPage.loginButton')"
+                icon="pi pi-sign-in" class="p-button-primary login-button" :loading="isLoading" :disabled="isLoading" />
             </div>
-            
+
             <div class="register-prompt">
               <p>{{ t('loginPage.noAccountPrompt') }}</p>
-              <pv-button 
-                type="button" 
-                :label="t('loginPage.registerButton')" 
-                class="p-button-text register-link" 
-                @click="goToRegister"
-              />
+              <pv-button type="button" :label="t('loginPage.registerButton')" class="p-button-text register-link"
+                @click="goToRegister" />
             </div>
           </form>
         </template>
@@ -321,14 +295,24 @@ const goToRegister = () => {
   width: 100%;
 }
 
+:deep(.p-password-toggle-mask-icon) {
+  position: absolute;
+  top: 40%;
+  right: 1rem;
+}
+
 :deep(.p-input-icon-left) {
   width: 100%;
+  position: relative;
 }
 
 :deep(.p-input-icon-left i) {
   color: #6b7280;
+  position: absolute;
+  top: 0rem;
   left: 1rem;
   font-size: 1.1rem;
+  z-index: 1;
 }
 
 :deep(.p-input-icon-left input) {
@@ -464,27 +448,27 @@ const goToRegister = () => {
   .login-wrapper {
     padding: 1rem 0.5rem;
   }
-  
+
   .login-container {
     max-width: 100%;
   }
-  
+
   :deep(.login-card .p-card-header) {
     padding: 2.5rem 1.5rem;
   }
-  
+
   .card-header .title {
     font-size: 2.25rem;
   }
-  
+
   .card-header .subtitle {
     font-size: 1rem;
   }
-  
+
   .login-form {
     padding: 2rem 1.5rem;
   }
-  
+
   .form-options {
     flex-direction: column;
     align-items: flex-start;
@@ -496,40 +480,40 @@ const goToRegister = () => {
   .login-wrapper {
     padding: 0.5rem;
   }
-  
+
   :deep(.login-card) {
     border-radius: 16px;
   }
-  
+
   :deep(.login-card .p-card-header) {
     padding: 2rem 1rem;
   }
-  
+
   .card-header .title {
     font-size: 2rem;
   }
-  
+
   .card-header .subtitle {
     font-size: 0.95rem;
   }
-  
+
   .login-form {
     padding: 1.5rem 1rem;
   }
-  
+
   .form-field {
     margin-bottom: 1.5rem;
   }
-  
+
   :deep(.p-inputtext) {
     padding: 0.875rem 1rem;
     font-size: 0.95rem;
   }
-  
+
   :deep(.p-input-icon-left input) {
     padding-left: 2.75rem;
   }
-  
+
   :deep(.login-button) {
     padding: 0.875rem 1.25rem;
     font-size: 1rem;
@@ -540,20 +524,20 @@ const goToRegister = () => {
   :deep(.login-card .p-card-header) {
     padding: 1.5rem 0.75rem;
   }
-  
+
   .card-header .title {
     font-size: 1.75rem;
   }
-  
+
   .login-form {
     padding: 1.25rem 0.75rem;
   }
-  
+
   :deep(.p-inputtext) {
     padding: 0.75rem 0.875rem;
     font-size: 0.9rem;
   }
-  
+
   .remember-label,
   .forgot-password {
     font-size: 0.85rem;

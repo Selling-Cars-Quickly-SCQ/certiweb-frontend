@@ -577,14 +577,24 @@ const goToLogin = () => {
   width: 100%;
 }
 
+:deep(.p-password-toggle-mask-icon) {
+  position: absolute;
+  top: 40%;
+  right: 1rem;
+}
+
 :deep(.p-input-icon-left) {
   width: 100%;
+  position: relative;
 }
 
 :deep(.p-input-icon-left i) {
   color: #6b7280;
+  position: absolute;
+  top: 0rem;
   left: 1rem;
   font-size: 1.1rem;
+  z-index: 1;
 }
 
 :deep(.p-input-icon-left input) {
